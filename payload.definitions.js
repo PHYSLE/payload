@@ -1,6 +1,6 @@
 /* ---------------------------
 
-Copyright © PHYSLE
+Copyright Â© PHYSLE
 All rights reserved.
 
 --------------------------- */
@@ -12,9 +12,9 @@ Sim.define({
 	radius:17,
 	width:34,
 	height:34,
-	mass:.8,
+	mass:16,
 	friction:1,
-	elastic:.4,
+	elastic:.2,
 	fixed:false
 });
 
@@ -22,9 +22,9 @@ Sim.define({
 	name:"chasis",
 	type:"active",
 	shape:"polygon",
-	mass:.5,
+	mass:40,
 	friction:1,
-	elastic:.2,
+	elastic:.1,
 	fixed:false,
 	width:85,
 	height:40,
@@ -36,7 +36,7 @@ Sim.define({
 	name:"nuke",
 	type:"active",
 	shape:"rectangle",
-	mass:.1,
+	mass:8,
 	friction:.8,
 	elastic:.1,
 	fixed:false,
@@ -225,4 +225,14 @@ Sim.define({
 	height:150
 });
 
+Sim.define({
+	name:"blockwb",
+	shape:"rectangle",
+	type:"static", //active
+	mass:Infinity, // todo
+	elastic:0,
+	friction:1,
+	width:230,
+	height:100
+});
 
