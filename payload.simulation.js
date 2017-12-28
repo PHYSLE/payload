@@ -6,7 +6,7 @@ All rights reserved.
 --------------------------- */
 
 // http://www.box2dflash.org/docs/2.1a/reference/
-
+// http://buildnewgames.com/box2dweb/
 
 // const
 var KEY_LEFT = 37,
@@ -22,14 +22,17 @@ MOVING_UP = false,
 MOVING_DOWN = false,
 RAD_MULT = 57.2958;
 
+var v2 = Box2D.Common.Math.b2Vec2;
 
 Sim = {
+	paused:false,
 	scale:10, // number of pixels per box2d "unit"
 	debug:true,
+	startTime:new Date().getTime(),
 	stage:new createjs.Stage("canvas"),
 	screen:new createjs.Container(),
 	world:new Box2D.Dynamics.b2World(
-	   new Box2D.Common.Math.b2Vec2(0, 12) 
+	   new v2(0, 13) //12
 	   ,true  //allow sleep
    ),
 	models:{},
@@ -51,7 +54,7 @@ Sim = {
 					MOVING_DOWN = true;
 					break;
 				case KEY_SPACE: 
-
+					Sim.paused = !Sim.paused;				
 					break;
 				case KEY_ESCAPE: 
 
@@ -99,6 +102,11 @@ Sim = {
 			model.fixture.density = properties.mass;
 			model.fixture.friction = properties.friction;
 			model.fixture.restitution = properties.elastic;
+			if (properties.type == "sensor") {
+				model.fixture.isSensor = true;
+			}
+			
+			
 			model.body = new Box2D.Dynamics.b2BodyDef;
 			model.body.userData = properties;
 			
@@ -106,16 +114,18 @@ Sim = {
 				model.body.fixedRotation = true;
 			}
 			else {
-				
-				model.body.angularDamping = 2.4;
+				model.body.angularDamping = 2.6;
 				model.body.fixedRotation = false;
 			}
 			
-			if (properties.type == "static") {
+			if (properties.type == "static" || properties.type == "sensor") {
 				model.body.type = Box2D.Dynamics.b2Body.b2_staticBody;
 			}
+			else if (properties.type == "kinematic") {
+				model.body.type = Box2D.Dynamics.b2Body.b2_kinematicBody
+			}
 			else {
-				model.body.linearDamping = .1;
+				model.body.linearDamping = .2;
 				model.body.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 			}
 			
@@ -130,7 +140,7 @@ Sim = {
 				else {
 					var b2Verts = [];
 					for (var i = 0; i < properties.verts.length; i+=2) {
-						var v = new Box2D.Common.Math.b2Vec2(properties.verts[i]/this.scale, properties.verts[i+1]/this.scale);
+						var v = new v2(properties.verts[i]/this.scale, properties.verts[i+1]/this.scale);
 						b2Verts.push(v);
 					}
 
@@ -140,6 +150,7 @@ Sim = {
 			
 		}
 		
+
 
 		model.sheet = new createjs.SpriteSheet({
 			images: ["images/"+properties.name+ ".png"],
@@ -167,7 +178,26 @@ Sim = {
 		sprite.regX = model.properties.width / 2;
 		sprite.regY = model.properties.height / 2;
 
-		sprite.userData = obj; 
+		sprite.userData = {}
+		sprite.userData.body = obj; 
+		
+		
+		if (model.properties.type == "kinematic" && model.properties.waypoints) {
+			var wp = model.properties.waypoints;
+			sprite.userData.waypoints = [];
+			for (var i = 0; i < wp.length; i+=2) {
+				var v = new v2((x+ wp[i]) /this.scale , (y + wp[i+1]) /this.scale );
+				sprite.userData.waypoints.push(v);
+			}
+			sprite.userData.waypointTarget = 0;
+			if (model.properties.velocity) {
+				sprite.userData.velocity = model.properties.velocity;
+			}
+			else {
+				sprite.userData.velocity = 5;				
+			}
+		}
+		
 		Sim.screen.addChild(sprite); // todo screen
 
 		return obj;
@@ -192,14 +222,18 @@ Sim = {
 		jDef.bodyA = bodyA;
 		jDef.bodyB = bodyB;
 		
-		jDef.localAnchorA = new Box2D.Common.Math.b2Vec2(xA/this.scale, yA/this.scale); 
-		jDef.localAnchorB = new Box2D.Common.Math.b2Vec2(xB/this.scale, yB/this.scale); 
+		jDef.localAnchorA = new v2(xA/this.scale, yA/this.scale); 
+		jDef.localAnchorB = new v2(xB/this.scale, yB/this.scale); 
 				
 		jDef.collideConnected = collide;
 		return Sim.world.CreateJoint(jDef);
 		
 	},
 	update:function() {
+		if (Sim.paused)
+			return;
+		
+		// "this" does not refer to Sim when update is called
 		if (MOVING_LEFT) {
 			Player.move(MOVING_LEFT);
 		}
@@ -207,60 +241,110 @@ Sim = {
 			Player.move(MOVING_RIGHT);
 		}
 			
-		Sim.world.Step(1 / 60, 1000, 1000);
+		//Sim.world.Step(1 / 60, 1000, 1000);
+		Sim.world.Step(1 / 40, 1000, 1000);
 		
 		if (!Player.exploded) {
 			var cl = Player.nuke.GetContactList();
 			while (cl) {
-				if (cl.other != Player.chasis && cl.other.GetUserData().name != "tire" && cl.contact.IsTouching()) {
+				var name = cl.other.GetUserData().name;
+				/*
+				if (cl.other != Player.chasis && name != "tire" && cl.contact.IsTouching()) {
 					console.log("nuke touched " + cl.other.GetUserData().name);
 					Player.explode();
+				}
+				*/
+				if (cl.contact.IsTouching()) {
+					if (!Player.touchables.includes(name)) {
+						Player.explode();
+					}
+					else if (name == "depot") {
+						Player.win();
+					}
 				}
 				cl = cl.next;
 			}			
 		}
-		Sim.world.ClearForces();
 		if (!Player.exploded) {
 			var playerPos = Player.chasis.GetPosition();
 			Sim.screen.x = -playerPos.x * Sim.scale + 500  // canvas.width/2 
+			Sim.screen.y = -playerPos.y * Sim.scale + 400  
 		}
+		
+		var pos, a;
+		for(var i=0; i<Sim.screen.children.length; i++) {
+			var child = Sim.screen.children[i];
+			if (child.userData && child.userData != undefined && child.userData.body) {
+				pos = child.userData.body.GetPosition();
+				a = child.userData.body.GetAngle();
+				if (pos) {
+					child.x = pos.x * Sim.scale;
+					child.y = pos.y * Sim.scale;
+					child.rotation = a * RAD_MULT;
+				}
+				if (child.userData.waypoints && child.userData.waypoints.length > 0 ) {
+					var vel = 5; // @todo
+					var t = child.userData.waypointTarget % child.userData.waypoints.length;	
+						
+					
+					var xd = Math.abs(pos.x - child.userData.waypoints[t].x);
+					var yd = Math.abs(pos.y - child.userData.waypoints[t].y);
+
+					if (xd <= .1 && yd <= .1) {
+						// arrived
+						//child.x = child.waypoints[t].x;
+						//child.y = child.waypoints[t].y;
+						child.userData.waypointTarget++;
+						child.userData.body.SetLinearVelocity(new v2(0,0));
+						//console.log('arrived at ' + t);
+					}
+					else {
+						if (pos.x < child.userData.waypoints[t].x) {
+							child.userData.body.SetLinearVelocity(new v2(vel,0));
+						}
+						else if (pos.x > child.userData.waypoints[t].x) {
+							child.userData.body.SetLinearVelocity(new v2(-vel,0));
+						}
+					
+						if (pos.y < child.userData.waypoints[t].y) {
+							//child.userData.body.SetLinearVelocity(new v2(0,vel));
+						}
+						else if (pos.y > child.userData.waypoints[t].y) {
+							//child.userData.body.SetLinearVelocity(new v2(0,-vel));
+						}			
+					}
+				}
+			}
+
+		} 
+		
+		
+		Sim.world.ClearForces();
+		
 		if (Sim.debug) {
 			Sim.world.DrawDebugData();
 		}
-		else {
-
-			var pos, a;
-			for(var i=0; i<Sim.screen.children.length; i++) {
-				var child = Sim.screen.children[i];
-				if (child.userData && child.userData != undefined) {
-					pos = child.userData.GetPosition();
-					a = child.userData.GetAngle();
-					if (pos) {
-						child.x = pos.x * Sim.scale;
-						child.y = pos.y * Sim.scale;
-						child.rotation = a * RAD_MULT;
-					}
-				}
-
-			} 
-		
-		
+		//else {
 			Sim.stage.update();
-		}
+		//}
+		
+		
+		var t = (new Date().getTime() - Sim.startTime) / 1000;
+		$('#timer').html(60 - t.toFixed(0));
 	}
 }
 
 var Player = {
 	//http://www.emanueleferonato.com/2011/08/22/step-by-step-creation-of-a-box2d-cartruck-with-motors-and-shocks/
-	force:16000, // movement force
-	maxtorque:4000, //4000
+	force:20000, // 20000 movement force
+	maxtorque:4600, //4000
 	chasis:null,
 	nuke:null,
 	tire1:null,
 	tire2:null,
 	joints:[],
 	exploded:false,
-	motorVsForce:false,
+	touchables:["tire","chasis","depot"],
 	put:function(x,y) {
 		this.nuke=Sim.put("nuke",x-20,y-32);
 		this.chasis=Sim.put("chasis",x,y);
@@ -291,70 +375,66 @@ var Player = {
 		var p1 = this.tire1.GetPosition();
 		p1.x += (Math.random() * 10 - 5);
 		p1.y += 10
-		this.tire1.ApplyImpulse(new Box2D.Common.Math.b2Vec2(Math.random()*f , Math.random()*f), p1);
+		this.tire1.ApplyImpulse(new v2(Math.random()*f , Math.random()*f), p1);
 		
 		var p2 = this.tire2.GetPosition();
 		p2.x += (Math.random() * 10 - 5);
 		p2.y += 10
-		this.tire2.ApplyImpulse(new Box2D.Common.Math.b2Vec2(Math.random()*f , Math.random()*f), p2);
+		this.tire2.ApplyImpulse(new v2(Math.random()*f , Math.random()*f), p2);
 		
 		var p3 = this.nuke.GetPosition();
 		p3.x += (Math.random() * 10 - 5);
 		p3.y += 10
-		this.nuke.ApplyImpulse(new Box2D.Common.Math.b2Vec2(Math.random()*f, Math.random()*f), p3);
+		this.nuke.ApplyImpulse(new v2(Math.random()*f, Math.random()*f), p3);
 
 		var p4 = this.chasis.GetPosition();
 		p4.x += (Math.random() * 10 - 5);
 		p4.y += 10
-		this.chasis.ApplyImpulse(new Box2D.Common.Math.b2Vec2(Math.random()*f, Math.random()*f), p4);	
+		this.chasis.ApplyImpulse(new v2(Math.random()*f, Math.random()*f), p4);	
 		this.exploded = true;
 
 		setTimeout(function(){ location='payload.html'}, 5000);	
 	
 	},
 	move:function(key) {
-		if (this.motorVsForce) {
-			this.speed += (key == MOVING_LEFT)?-this.acceleration:this.acceleration;
-			if (this.joints.length > 1) {
-				this.joints[0].SetMotorSpeed(this.speed);
-				this.joints[1].SetMotorSpeed(this.speed);
-			}
+		if (this.exploded) {
+			return;
 		}
-		else {
-			if (this.exploded) {
-				return;
-			}
+	
+		var v = new v2(key == MOVING_LEFT?-this.force:this.force, 0);
 		
-			var v = new Box2D.Common.Math.b2Vec2(key == MOVING_LEFT?-this.force:this.force, 0);
-			
-			// tire 1
-			var cl = Player.tire1.GetContactList();
-			var touches = false;
-			while (cl) {
-				if (cl.contact.IsTouching()) {
-					touches = true;
-				}
-				cl = cl.next;
+		// tire 1
+		var cl = Player.tire1.GetContactList();
+		var touches = false;
+		while (cl) {
+			if (cl.contact.IsTouching()) {
+				touches = true;
 			}
-
-			if (touches) {
-				Player.tire1.ApplyForce(v, Player.tire1.GetPosition());
-			}
-
-			// tire 2
-			cl = Player.tire2.GetContactList();
-			touches = false;
-			while (cl) {
-				if (cl.contact.IsTouching()) {
-					touches = true;
-				}
-				cl = cl.next;
-			}	
-
-			if (touches) {
-				Player.tire2.ApplyForce(v, Player.tire2.GetPosition());
-			}
+			cl = cl.next;
 		}
+
+		if (touches) {
+			Player.tire1.ApplyForce(v, Player.tire1.GetPosition());
+		}
+
+		// tire 2
+		cl = Player.tire2.GetContactList();
+		touches = false;
+		while (cl) {
+			if (cl.contact.IsTouching()) {
+				touches = true;
+			}
+			cl = cl.next;
+		}	
+
+		if (touches) {
+			Player.tire2.ApplyForce(v, Player.tire2.GetPosition());
+		}
+
+	},
+	win:function() {
+		alert('OK!');
+		location='payload.html';
 	}
 };
 
