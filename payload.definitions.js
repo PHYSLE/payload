@@ -1,6 +1,6 @@
 /* ---------------------------
 
-Copyright Â© PHYSLE
+Copyright © PHYSLE
 All rights reserved.
 
 --------------------------- */
@@ -12,9 +12,9 @@ Sim.define({
 	radius:17,
 	width:34,
 	height:34,
-	mass:16,
+	mass:30, //16
 	friction:1,
-	elastic:.2,
+	elastic:.1,
 	fixed:false
 });
 
@@ -22,7 +22,7 @@ Sim.define({
 	name:"chasis",
 	type:"active",
 	shape:"polygon",
-	mass:40,
+	mass:38,
 	friction:1,
 	elastic:.1,
 	fixed:false,
@@ -218,6 +218,15 @@ Sim.define({
 	height:200
 });
 
+
+Sim.define({
+	name:"wall2",
+	shape:"rect",
+	type:"passive",
+	width:200,
+	height:200
+});
+
 Sim.define({
 	name:"floor5",
 	parent:"floor1",
@@ -228,11 +237,22 @@ Sim.define({
 Sim.define({
 	name:"blockwb",
 	shape:"rectangle",
-	type:"static", //active
-	mass:Infinity, // todo
+	type:"kinematic",
+	mass:10,
 	elastic:0,
 	friction:1,
 	width:230,
-	height:100
+	height:100,
+	waypoints:[200,0,0,0],
+	velocity:5
 });
 
+
+Sim.define({
+	name:"depot",
+	type:"sensor",
+	shape:"polygon",
+	verts:[-50,-50,50,-50,50,50,-50,50],
+	width:250,
+	height:150
+});
