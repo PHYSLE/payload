@@ -1,21 +1,26 @@
+<!DOCTYPE HTML>
 <html>
-<!---------------------------
+<!-- 
 
 Copyright © 2007 - 2017 PHYSLE
 All rights reserved.
 
---------------------------->
+-->
 
    <head>
       <title>Test</title>
+	  <meta charset="utf-8">
    </head>
    <body onload="init();">
    	<div id="header"><a href="index.html" style="font:sansserif"><img src="http://physle.com/images/logo-100.png"/></a></div>
+	<div id="timer"></div>
     <canvas id="canvas" width="1000" height="600" style="background-color:#333333;" ></canvas>
+	<canvas id="debug-canvas" width="1000" height="200" style="background-color:#333333;" ></canvas>
    </body>
     <style type="text/css">
 	 a {font-family: 'Marvel', sans-serif;  }
 	 body {background-color:#000;}
+	 #timer {position:absolute; left:920px; top:60px; color:white;}
  	</style>
 
 	<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
@@ -35,8 +40,8 @@ All rights reserved.
    function init() {
 
 		var debugDraw = new Box2D.Dynamics.b2DebugDraw();
-		debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
-		debugDraw.SetDrawScale(1);
+		debugDraw.SetSprite(document.getElementById("debug-canvas").getContext("2d"));
+		debugDraw.SetDrawScale(.6);
 		debugDraw.SetFillAlpha(0.5);
 		debugDraw.SetLineThickness(1.0);
 		debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit);
@@ -51,7 +56,7 @@ Sim.put('wall1',1500,292)
 Sim.put('wall1',1300,292)
 Sim.put('wall1',1100,292)
 Sim.put('wall1',900,292)
-Sim.put('floor1',1200,487)
+Sim.put('floor1',1200,470)
 Sim.put('wall1',1301,592)
 Sim.put('wall1',1501,592)
 Sim.put('wall1',1101,592)
@@ -315,7 +320,6 @@ Sim.put('blockxsb',4139,587)
 Sim.put('blockxsb',7075,546)
 Sim.put('blockwb',3272,550)
 Sim.put('blockwb',10790,502)
-Sim.put('depot',15309,592)
 Sim.put('block4a',15484,617)
 Sim.put('block4a',15584,617)
 Sim.put('block4a',15684,617)
@@ -398,9 +402,10 @@ Sim.put('block4b',800,-149)
 Sim.put('block4b',900,-149)
 Sim.put('blocksb',926,-74)
 	   
-	   Player.put(440, 40);
+Player.put(400, 240);
 
-		
+Sim.put('depot',15309,592)
+
 		window.setInterval(Sim.update, 1000 / 60);
    }
    </script>
