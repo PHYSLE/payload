@@ -1,30 +1,25 @@
-/* ---------------------------
+function defineAll(sim) { 
 
-Copyright © PHYSLE
-All rights reserved.
-
---------------------------- */
-
-Sim.define({
+sim.define({
 	name:"tire",
 	type:"active",
 	shape:"circle",
 	radius:17,
 	width:34,
 	height:34,
-	mass:.8,
+	mass:16,
 	friction:1,
-	elastic:.4,
+	elastic:.1,
 	fixed:false
 });
 
-Sim.define({
+sim.define({
 	name:"chasis",
 	type:"active",
 	shape:"polygon",
-	mass:.5,
+	mass:10,//32,
 	friction:1,
-	elastic:.2,
+	elastic:.1,
 	fixed:false,
 	width:85,
 	height:40,
@@ -32,11 +27,11 @@ Sim.define({
 
 });
 
-Sim.define({
+sim.define({
 	name:"nuke",
 	type:"active",
 	shape:"rectangle",
-	mass:.1,
+	mass:4,
 	friction:.8,
 	elastic:.1,
 	fixed:false,
@@ -45,7 +40,7 @@ Sim.define({
 });
 
 
-Sim.define({
+sim.define({
 	name:"triangle",
 	type:"static",
 	shape:"polygon",
@@ -58,7 +53,7 @@ Sim.define({
 });		
 
 
-Sim.define({
+sim.define({
 	name:"block1a",
 	type:"static",
 	shape:"rectangle",
@@ -69,42 +64,42 @@ Sim.define({
 	friction:1
 });
 
-Sim.define({
+sim.define({
 	name:"block1b",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block2a",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block2b",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block3a",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block3b",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block4a",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block4b",
 	parent:"block1a"
 });
 
-Sim.define({
+sim.define({
 	name:"block5a",
 	type:"static",
 	shape:"polygon",
@@ -116,13 +111,13 @@ Sim.define({
 	friction:1
 })
 
-Sim.define({
+sim.define({
 	name:"block5b",
 	parent:"block5a"
 });
 
 
-Sim.define({
+sim.define({
 	name:"block6a",
 	type:"static",
 	shape:"polygon",
@@ -135,13 +130,13 @@ Sim.define({
 })
 
 
-Sim.define({
+sim.define({
 	name:"block6b",
 	parent:"block6a"
 });
 
 
-Sim.define({
+sim.define({
 	name:"blocksa",
 	parent:"block1a",
 	width:50,
@@ -149,12 +144,12 @@ Sim.define({
 });
 
 
-Sim.define({
+sim.define({
 	name:"blocksb",
 	parent:"blocksa"
 });
 
-Sim.define({
+sim.define({
 	name:"blockxsa",
 	type:"dynamic",
 	shape:"rectangle",
@@ -165,26 +160,26 @@ Sim.define({
 	friction:1
 })
 
-Sim.define({
+sim.define({
 	name:"blockxsb",
 	parent:"blockxsa"
 });
 
-Sim.define({
+sim.define({
 	name:"floor1",
 	parent:"block1a",
 	width:500,
 	height:200
 });
 
-Sim.define({
+sim.define({
 	name:"floor2",
 	parent:"block1a",
 	width:300,
 	height:300
 });
 
-Sim.define({
+sim.define({
 	name:"floor3",
 	type:"static",
 	shape:"polygon",
@@ -197,7 +192,7 @@ Sim.define({
 });
 
 
-Sim.define({
+sim.define({
 	name:"floor4",
 	type:"static",
 	shape:"polygon",
@@ -210,7 +205,7 @@ Sim.define({
 });
 
 
-Sim.define({
+sim.define({
 	name:"wall1",
 	shape:"rect",
 	type:"passive",
@@ -218,11 +213,45 @@ Sim.define({
 	height:200
 });
 
-Sim.define({
+
+sim.define({
+	name:"wall2",
+	shape:"rect",
+	type:"passive",
+	width:200,
+	height:200
+});
+
+sim.define({
 	name:"floor5",
 	parent:"floor1",
 	width:300,
 	height:150
 });
 
+sim.define({
+	name:"blockwb",
+	shape:"rectangle",
+	type:"kinematic",
+	mass:10,
+	elastic:0,
+	friction:1,
+	width:230,
+	height:100,
+	waypoints:[200,0,0,0],
+	velocity:5
+});
 
+
+sim.define({
+	name:"depot",
+	type:"sensor",
+	shape:"polygon",
+	verts:[-50,-50,50,-50,50,50,-50,50],
+	width:250,
+	height:150
+});
+
+}
+
+export default defineAll
