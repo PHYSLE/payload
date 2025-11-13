@@ -17,7 +17,7 @@ sim.define({
 	name:"chasis",
 	type:"active",
 	shape:"polygon",
-	mass:10,//32,
+	mass:16,
 	friction:1,
 	elastic:.1,
 	fixed:false,

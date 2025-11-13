@@ -28,7 +28,7 @@ function Model(properties) {
         model.body.fixedRotation = true;
     }
     else {
-        model.body.set_angularDamping(.2); //2.6;
+        model.body.set_angularDamping(2.6); //2.6;
         model.body.fixedRotation = false;
     }
     if (properties.type == "static" || properties.type == "sensor") {
@@ -87,6 +87,9 @@ function Sim(canvasId) {
         scale: 40,// pixelsPerMeter = 32;
         $canvas: $canvas,
         context: $canvas.getContext("2d"),
+        world: new Box2D.b2World(
+            new Box2D.b2Vec2(0, 12) //12 // gravity
+        ),
         models: {},
         kinematics:[],
         player: {
@@ -96,8 +99,9 @@ function Sim(canvasId) {
             tire2:null,
             joints:[],
             exploded: false,
+            diedHere:null,
             maxContacts: 12,
-            force: 250,
+            force: 260,
             applyForce(body, forceVec) {
                 let iterator = body.GetContactList();
                 let touches = false;
@@ -125,25 +129,62 @@ function Sim(canvasId) {
                 this.applyForce(this.tire1, forceVec)
                 this.applyForce(this.tire2, forceVec)
             },
+            update:function(world) {
+                var iterator = this.nuke.GetContactList();
+                let i = 0;
+
+                // Zu  = pointer aka memory location, 0 = null   
+                while (iterator.Zu > 0 && i < this.maxContacts) {
+                    if (iterator.contact.IsTouching()) {
+                        /*
+                        if (name == "depot") {
+                            this.win();
+                        }
+                        */
+                        if (iterator.other != this.chasis) {
+                            this.explode(world);
+                        }
+                    }
+                    iterator = iterator.get_next();
+                    i++
+                }
+            },
+            randForce() {
+                // maybe use random angle so it always hits hard!
+                var f = 400;
+                var x = Math.random()*f-f/2;
+                var y = Math.random()*f-f/2;
+                return new Box2D.b2Vec2(x,y)
+            },
+            explode:function(world) {
+                if (this.exploded) {
+                    return;
+                }
+                for(var i=0; i< this.joints.length; i++) {
+                    world.DestroyJoint(this.joints[i]);
+                }
+                
+                var p1 = this.tire1.GetPosition();
+                this.tire1.ApplyLinearImpulse(this.randForce(), p1, true);
+                
+                var p2 = this.tire2.GetPosition();
+                this.tire2.ApplyLinearImpulse(this.randForce(), p2, true);
+                
+                var p3 = this.nuke.GetPosition();
+                this.nuke.ApplyLinearImpulse(this.randForce(), p3, true);
+
+                var p4 = this.chasis.GetPosition();
+                this.chasis.ApplyLinearImpulse(this.randForce(), p4, true);	
+
+                this.diedHere = new Box2D.b2Vec2(p4.x, p4.y)
+                this.exploded = true;      
+                ;
+            }
         },
-        world: new Box2D.b2World(
-            new Box2D.b2Vec2(0, 13) //12 // gravity
-        ),
         updateKinematics: function() {
             if (this.kinematics.length > 0) {
                 for (const body of this.kinematics) {
                     let pos = body.GetPosition();
-				    //let a = body.GetAngle();
-
-                    //console.log(body.UserData)
-                    /*
-				if (pos) {
-					child.x = pos.x * Sim.scale;
-					child.y = pos.y * Sim.scale;
-					child.rotation = a * RAD_MULT;
-				}
-                    */
-                ////////
                     if (body.UserData && body.UserData.waypoints && body.UserData.waypoints.length > 0 ) {
                         var vel = 2; // @todo
                         var t = body.UserData.waypointTarget % body.UserData.waypoints.length;	
@@ -176,7 +217,6 @@ function Sim(canvasId) {
                             }			
                         }
                     }
-                ///////////////
                 }
             }
         },
@@ -188,7 +228,11 @@ function Sim(canvasId) {
             this.context.save();
             this.context.scale(this.scale, this.scale);
             let p = this.player.chasis.GetPosition()
-            this.context.translate(0, 0)
+            //this.context.translate(0, 0)
+            if (this.player.exploded) {
+                p = this.player.diedHere;
+            }
+
             this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
             this.context.lineWidth /= this.scale;
 
@@ -226,6 +270,8 @@ function Sim(canvasId) {
             this.player.chasis = this.put("chasis",x,y);
             this.player.tire1 = this.put("tire",x-26,y+15);
             this.player.tire2 = this.put("tire",x+24,y+15);
+
+            console.log(this.player.tire1)
 
             this.player.joints.push(this.join(this.player.chasis,-26,26, this.player.tire1, 0, 0, false));
             this.player.joints.push(this.join(this.player.chasis,24,26, this.player.tire2, 0, 0, false));
@@ -285,28 +331,12 @@ function Sim(canvasId) {
 
         },
         join:function(bodyA, xA, yA, bodyB, xB, yB, collide) {
-            /*
-            bodyA : b2Body - The first attached body.
-            bodyB : b2Body - The second attached body.
-            collideConnected : Boolean - Set this flag to true if the attached bodies should collide.
-            enableLimit : Boolean - A flag to enable joint limits.
-            enableMotor : Boolean - A flag to enable the joint motor.
-            localAnchorA : b2Vec2 - The local anchor point relative to bodyA's origin.
-            localAnchorB : b2Vec2 - The local anchor point relative to bodyB's origin.
-            lowerAngle : Number - The lower angle for the joint limit (radians).
-            maxMotorTorque : Number - The maximum motor torque used to achieve the desired motor speed.
-            motorSpeed : Number - The desired motor speed.
-            referenceAngle : Number - The bodyB angle minus bodyA angle in the reference state (radians).
-            upperAngle : Number - The upper angle for the joint limit (radians).		
-            */
-
             var jDef = new Box2D.b2RevoluteJointDef();
             jDef.set_bodyA(bodyA);
             jDef.set_bodyB(bodyB);
 
             jDef.set_localAnchorA(new Box2D.b2Vec2(xA/this.scale, yA/this.scale))
             jDef.set_localAnchorB(new Box2D.b2Vec2(xB/this.scale, yB/this.scale))
-
 
             jDef.set_collideConnected(collide)     
             let j = this.world.CreateJoint(jDef)
@@ -317,13 +347,10 @@ function Sim(canvasId) {
 
     }
 
-
     const debugDraw = makeDebugDraw(sim.context,sim.scale, Box2D);
     sim.world.SetDebugDraw(debugDraw);
 
-
     //console.log('Sim return')
-
     return sim;
 }
 
