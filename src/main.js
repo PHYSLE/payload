@@ -403,15 +403,16 @@ const step = (deltaMs) => {
 
 let handle;
 (function loop(prevMs) {
-     const nowMs = window.performance.now();
-     handle = requestAnimationFrame(loop.bind(null, nowMs));
-     const deltaMs = nowMs-prevMs;
-     step(deltaMs);
-     if (MOVING_LEFT) {
-          sim.player.move(-1);
-	}
-	if (MOVING_RIGHT) {
-          sim.player.move(1);
-	}
-     sim.drawCanvas();
+    const nowMs = window.performance.now();
+    handle = requestAnimationFrame(loop.bind(null, nowMs));
+    const deltaMs = nowMs-prevMs;
+    step(deltaMs);
+    if (MOVING_LEFT) {
+        sim.player.move(-1);
+    }
+    if (MOVING_RIGHT) {
+        sim.player.move(1);
+    }
+    sim.updateKinematics();
+    sim.drawCanvas();
 }(window.performance.now()));
