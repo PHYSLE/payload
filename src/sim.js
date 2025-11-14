@@ -1,5 +1,7 @@
 
 import Box2DFactory from 'box2d-wasm';
+import Model from './model.js';
+import Player from './player.js';
 import { makeDebugDraw } from './debugDraw.js';
 
 const Box2D = await Box2DFactory({
@@ -11,69 +13,6 @@ const Box2D = await Box2DFactory({
 })
 console.log(Box2D)
 const ZERO = new Box2D.b2Vec2(0, 0);
-
-function Model(properties) {
-    const scale =  properties.scale;
-    const model =  {
-        properties: properties,
-        body: new Box2D.b2BodyDef(),
-        shape: null
-    }
-    model.body.userData = properties;
-    if (properties.type == "passive") { 
-        return model;
-    }
-
-    if (properties.fixed) {
-        model.body.fixedRotation = true;
-    }
-    else {
-        model.body.set_angularDamping(2.6); //2.6;
-        model.body.fixedRotation = false;
-    }
-    if (properties.type == "static" || properties.type == "sensor") {
-        model.body.set_type(Box2D.b2_staticBody);
-    }
-    else if (properties.type == "kinematic") {
-        model.body.set_type(Box2D.b2_kinematicBody);
-    }
-    else {
-        model.body.set_linearDamping(.2);
-        model.body.set_type(Box2D.b2_dynamicBody);
-    }
-
-    if (properties.shape == "circle") {
-        model.shape = new Box2D.b2CircleShape();
-        model.shape.m_radius = properties.radius/scale;
-    }
-    else {
-        const shape = new Box2D.b2PolygonShape();
-        if (properties.shape == "rectangle") {
-            shape.SetAsBox(properties.width/scale/2, properties.height/scale/2);
-        }
-        else if (properties.verts) {
-            //console.log(shape)
-            var b2Verts= [];
-            for (var i = 0; i < properties.verts.length; i+=2) {
-                var v = new Box2D.b2Vec2(properties.verts[i]/scale, properties.verts[i+1]/scale);
-                b2Verts.push(v);
-            }
-
-            // https://github.com/Birch-san/box2d-wasm/discussions/29
-            const [vecArr, destroyVecArr] = Box2D.pointsToVec2Array(b2Verts);
-
-            shape.Set(vecArr, b2Verts.length);
-            destroyVecArr();
-        }
-        else {
-            console.error('b2PolygonShape mssing vertices');
-            return null;
-        }
-        model.shape = shape;
-    }
-    return model;
-
-}
 
 function Sim(canvasId) {
      const $canvas = document.getElementById(canvasId)
@@ -92,127 +31,39 @@ function Sim(canvasId) {
         ),
         models: {},
         kinematics:[],
-        player: {
-            chasis:null,
-            nuke:null,
-            tire1:null,
-            tire2:null,
-            joints:[],
-            exploded: false,
-            diedHere:null,
-            maxContacts: 12,
-            force: 260,
-            applyForce(body, forceVec) {
-                let iterator = body.GetContactList();
-                let touches = false;
-                let i = 0;
-
-                // Zu  = pointer aka memory location, 0 = null   
-                while (iterator.Zu > 0 && i < this.maxContacts) {
-                    if (iterator.contact.IsTouching()) {
-                        touches = true;
-                    }
-                    iterator = iterator.get_next();
-                    i++
-                }
-
-                if (touches) {
-                    body.SetAwake(true)
-                    body.ApplyForce(forceVec, this.tire1.GetPosition());
-                }
-            },
-            move:function(direction) {
-                if (this.exploded) {
-                    return;
-                }
-                let forceVec= new Box2D.b2Vec2(direction < 0 ?-this.force:this.force, 0);
-                this.applyForce(this.tire1, forceVec)
-                this.applyForce(this.tire2, forceVec)
-            },
-            update:function(world) {
-                var iterator = this.nuke.GetContactList();
-                let i = 0;
-
-                // Zu  = pointer aka memory location, 0 = null   
-                while (iterator.Zu > 0 && i < this.maxContacts) {
-                    if (iterator.contact.IsTouching()) {
-                        /*
-                        if (name == "depot") {
-                            this.win();
-                        }
-                        */
-                        if (iterator.other != this.chasis) {
-                            this.explode(world);
-                        }
-                    }
-                    iterator = iterator.get_next();
-                    i++
-                }
-            },
-            randForce() {
-                // maybe use random angle so it always hits hard!
-                var f = 400;
-                var x = Math.random()*f-f/2;
-                var y = Math.random()*f-f/2;
-                return new Box2D.b2Vec2(x,y)
-            },
-            explode:function(world) {
-                if (this.exploded) {
-                    return;
-                }
-                for(var i=0; i< this.joints.length; i++) {
-                    world.DestroyJoint(this.joints[i]);
-                }
-                
-                var p1 = this.tire1.GetPosition();
-                this.tire1.ApplyLinearImpulse(this.randForce(), p1, true);
-                
-                var p2 = this.tire2.GetPosition();
-                this.tire2.ApplyLinearImpulse(this.randForce(), p2, true);
-                
-                var p3 = this.nuke.GetPosition();
-                this.nuke.ApplyLinearImpulse(this.randForce(), p3, true);
-
-                var p4 = this.chasis.GetPosition();
-                this.chasis.ApplyLinearImpulse(this.randForce(), p4, true);	
-
-                this.diedHere = new Box2D.b2Vec2(p4.x, p4.y)
-                this.exploded = true;      
-                ;
-            }
-        },
+        player: new Player(Box2D),
         updateKinematics: function() {
             if (this.kinematics.length > 0) {
                 for (const body of this.kinematics) {
                     let pos = body.GetPosition();
                     if (body.UserData && body.UserData.waypoints && body.UserData.waypoints.length > 0 ) {
                         var vel = 2; // @todo
-                        var t = body.UserData.waypointTarget % body.UserData.waypoints.length;	
-                            
+                        var target = body.UserData.waypointTarget % body.UserData.waypoints.length;	
                         
-                        var xd = Math.abs(pos.x - body.UserData.waypoints[t].x);
-                        var yd = Math.abs(pos.y - body.UserData.waypoints[t].y);
+                        // distance
+                        var xd = Math.abs(pos.x - body.UserData.waypoints[target].x);
+                        var yd = Math.abs(pos.y - body.UserData.waypoints[target].y);
 
                         if (xd <= .1 && yd <= .1) {
                             // arrived
-                            //child.x = child.waypoints[t].x;
-                            //child.y = child.waypoints[t].y;
+                            //pos.x = body.UserData.waypoints[t].x;
+                            //pos.y = body.UserData.waypoints[t].y;
                             body.UserData.waypointTarget++;
                             body.SetLinearVelocity(new Box2D.b2Vec2(0,0));
                             //console.log('arrived at ' + t);
                         }
                         else {
-                            if (pos.x < body.UserData.waypoints[t].x) {
+                            if (pos.x < body.UserData.waypoints[target].x) {
                                 body.SetLinearVelocity(new Box2D.b2Vec2(vel,0));
                             }
-                            else if (pos.x > body.UserData.waypoints[t].x) {
+                            else if (pos.x > body.UserData.waypoints[target].x) {
                                 body.SetLinearVelocity(new Box2D.b2Vec2(-vel,0));
                             }
                         
-                            if (pos.y < body.UserData.waypoints[t].y) {
+                            if (pos.y < body.UserData.waypoints[target].y) {
                                 body.SetLinearVelocity(new Box2D.b2Vec2(0,vel));
                             }
-                            else if (pos.y > body.UserData.waypoints[t].y) {
+                            else if (pos.y > body.UserData.waypoints[target].y) {
                                 body.SetLinearVelocity(new Box2D.b2Vec2(0,-vel));
                             }			
                         }
@@ -221,14 +72,13 @@ function Sim(canvasId) {
             }
         },
         drawCanvas: function() {
-
-            this.context.fillStyle = 'rgb(0,0,0)';
+            //this.context.fillStyle = 'rgb(0,0,0)';
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
 
             this.context.save();
             this.context.scale(this.scale, this.scale);
             let p = this.player.chasis.GetPosition()
-            //this.context.translate(0, 0)
+ 
             if (this.player.exploded) {
                 p = this.player.diedHere;
             }
@@ -236,7 +86,7 @@ function Sim(canvasId) {
             this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
             this.context.lineWidth /= this.scale;
 
-            this.context.fillStyle = 'rgb(255,255,0)';
+            //this.context.fillStyle = 'rgb(255,255,0)';
             this.world.DebugDraw();
 
             this.context.restore();
@@ -254,7 +104,7 @@ function Sim(canvasId) {
             }
             properties.scale = this.scale;
             
-            var model = new Model(properties);
+            var model = new Model(properties, Box2D);
             /* @todo
             model.sheet = new createjs.SpriteSheet({
                 images: ["images/"+properties.name+ ".png"],
@@ -265,6 +115,7 @@ function Sim(canvasId) {
             this.models[properties.name] = model;
         },
         putPlayer: function(x, y) {
+            this.player.startHere = new Box2D.b2Vec2(x/this.scale,y/this.scale)
             this.player.joints = [];
         	this.player.nuke = this.put("nuke",x-20,y-32);
             this.player.chasis = this.put("chasis",x,y);
@@ -281,8 +132,10 @@ function Sim(canvasId) {
             if (name == 'player') {
                 return this.putPlayer(x,y);
             }
-
-
+            let my = (y/this.scale)-(this.$canvas.height/2/this.scale);
+            if (this.player.maxY == Infinity || this.player.maxY < my) {
+                this.player.maxY = my;
+            }
             let model = this.models[name];
             if (!model) {
                 console.error("Missing definition for " + name);
@@ -344,7 +197,6 @@ function Sim(canvasId) {
             return j;
             
         }
-
     }
 
     const debugDraw = makeDebugDraw(sim.context,sim.scale, Box2D);
@@ -353,6 +205,5 @@ function Sim(canvasId) {
     //console.log('Sim return')
     return sim;
 }
-
 
 export default Sim;

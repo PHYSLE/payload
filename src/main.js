@@ -414,6 +414,6 @@ let handle;
         sim.player.move(1);
     }
     sim.updateKinematics();
-    sim.player.update(sim.world) 
+    sim.player.update() 
     sim.drawCanvas();
 }(window.performance.now()));
