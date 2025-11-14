@@ -1,3 +1,5 @@
+import Bindable from './bindable.js'
+
 function Player(Box2D) {
     const player =  {
         chasis:null,
@@ -5,9 +7,9 @@ function Player(Box2D) {
         tire1:null,
         tire2:null,
         joints:[],
-        exploded: false,
+        exploded: new Bindable(false),
+        finished: new Bindable(false),
         diedHere: null, // exploded position 
-        startHere: null, // set by level
         maxY: Infinity, //set by level
         force: 260,
         explodeForce: 400,
@@ -31,7 +33,7 @@ function Player(Box2D) {
             }
         },
         move:function(direction) {
-            if (this.exploded) {
+            if (this.exploded.value) {
                 return;
             }
             let forceVec= new Box2D.b2Vec2(direction < 0 ?-this.force:this.force, 0);
@@ -53,7 +55,7 @@ function Player(Box2D) {
                 if (iterator.contact.IsTouching()) {
                     /*
                     if (name == "depot") {
-                        this.win();
+                        this.finished = true;
                     }
                     */
                     if (iterator.other != this.chasis) {
@@ -73,7 +75,8 @@ function Player(Box2D) {
         },
         explode:function() {
             let world = this.chasis.GetWorld();
-            if (this.exploded) {
+            
+            if (this.exploded.value) {
                 return;
             }
             for(var i=0; i< this.joints.length; i++) {
@@ -86,8 +89,13 @@ function Player(Box2D) {
 
             let pos = this.chasis.GetPosition()
             this.diedHere = new Box2D.b2Vec2(pos.x, pos.y)
-            this.exploded = true;      
+            this.exploded.value = true;      
             ;
+        },
+        dispose: function(world) {
+            for(const body of [this.tire1, this.tire2, this.nuke, this.chasis]) {
+                world.DestroyBody(body)
+            }
         }
     }
     return player;

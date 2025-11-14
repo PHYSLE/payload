@@ -6,6 +6,7 @@ const sim = new Sim('canvas')
 //const Box2D = sim.engine;
 defineAll(sim);
 
+
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
 
@@ -392,6 +393,16 @@ document.onkeyup = function (event) {
   }
 }
 
+
+sim.player.exploded.addEventListener('change', () => {
+    if (sim.player.exploded.value) {
+        // @todo - get start location from player.startHere
+        setTimeout(() => {
+            sim.player.dispose(sim.world);
+            sim.put('player',400, 240);
+        }, 2000);
+    }
+})
 
 
 // calculate no more than a 60th of a second during one world.Step() call 

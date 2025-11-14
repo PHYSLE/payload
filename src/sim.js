@@ -79,7 +79,7 @@ function Sim(canvasId) {
             this.context.scale(this.scale, this.scale);
             let p = this.player.chasis.GetPosition()
  
-            if (this.player.exploded) {
+            if (this.player.exploded.value) {
                 p = this.player.diedHere;
             }
 
@@ -115,6 +115,7 @@ function Sim(canvasId) {
             this.models[properties.name] = model;
         },
         putPlayer: function(x, y) {
+            this.player.exploded.value = false;
             this.player.startHere = new Box2D.b2Vec2(x/this.scale,y/this.scale)
             this.player.joints = [];
         	this.player.nuke = this.put("nuke",x-20,y-32);
