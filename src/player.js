@@ -9,9 +9,10 @@ function Player(Box2D) {
         joints:[],
         exploded: new Bindable(false),
         finished: new Bindable(false),
+        timer: new Bindable(0),
         diedHere: null, // exploded position 
         maxY: Infinity, //set by level
-        force: 260,
+        force: 330,//260,
         explodeForce: 400,
         maxContacts: 12,
         applyForce(body, forceVec) {
@@ -50,15 +51,18 @@ function Player(Box2D) {
                 this.explode();
             }
 
+            if (this.timer.value > 60000) {
+                this.explode();
+            }
+
             // Zu  = pointer aka memory location, 0 = null   
             while (iterator.Zu > 0 && i < this.maxContacts) {
                 if (iterator.contact.IsTouching()) {
-                    /*
-                    if (name == "depot") {
-                        this.finished = true;
+
+                    if (iterator.other.UserData.name == "depot") {
+                        this.finished.value = true;
                     }
-                    */
-                    if (iterator.other != this.chasis) {
+                    else if (iterator.other != this.chasis) {
                         this.explode();
                     }
                 }

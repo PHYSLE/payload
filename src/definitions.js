@@ -7,9 +7,9 @@ sim.define({
 	radius:17,
 	width:34,
 	height:34,
-	mass:16,
+	mass:20,//16,
 	friction:1,
-	elastic:.1,
+	elastic:0,
 	fixed:false
 });
 
@@ -17,9 +17,9 @@ sim.define({
 	name:"chasis",
 	type:"active",
 	shape:"polygon",
-	mass:16,
+	mass:4,
 	friction:1,
-	elastic:.1,
+	elastic:0,
 	fixed:false,
 	width:85,
 	height:40,
@@ -31,9 +31,9 @@ sim.define({
 	name:"nuke",
 	type:"active",
 	shape:"rectangle",
-	mass:4,
+	mass:1, //4,
 	friction:.8,
-	elastic:.1,
+	elastic:0,
 	fixed:false,
 	width:32,
 	height:20
@@ -249,7 +249,8 @@ sim.define({
 	shape:"polygon",
 	verts:[-50,-50,50,-50,50,50,-50,50],
 	width:250,
-	height:150
+	height:150,
+	mass:Infinity
 });
 
 }

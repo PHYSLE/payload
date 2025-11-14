@@ -268,17 +268,24 @@ sim.put('block4b',10507,1130)
 sim.put('block4b',2852,850)
 sim.put('blocksb',2778,873)
 sim.put('blocksb',2926,775)
+/*
 sim.put('blockxsb',4104,587)
 sim.put('blockxsb',4113,562)
 sim.put('blockxsb',4109,537)
-sim.put('blockxsb',4110,512)
-sim.put('blockxsb',4102,488)
+*/
+//sim.put('player',4000, 400)
+sim.put('blockxsb',4060,448)
+
+sim.put('blockxsb',4082,448)
+/*
 sim.put('blockxsb',4104,463)
 sim.put('blockxsb',4204,587)
 sim.put('blockxsb',4179,587)
 sim.put('blockxsb',4204,562)
 sim.put('blockxsb',4139,587)
+*/
 sim.put('blockxsb',7075,546)
+
 sim.put('blockwb',3272,550)
 sim.put('blockwb',10790,502)
 sim.put('block4a',15484,617)
@@ -364,11 +371,12 @@ sim.put('block4b',900,-149)
 sim.put('blocksb',926,-74)
 	   
 sim.put('player',400, 240);
+//sim.put('player',15000, 440);
 
-//sim.put('depot',15309,592)
+sim.put('depot',15309,592)
 
 
-document.onkeydown = function (event) {
+document.addEventListener('keydown', (event) => {
   switch(event.code) {
     case "ArrowLeft":	
       MOVING_LEFT = true;
@@ -376,13 +384,14 @@ document.onkeydown = function (event) {
     case "ArrowRight": 
       MOVING_RIGHT = true;
       break;
-    case "Space": 
+    case "Escape": 
       sim.paused = !sim.paused;				
+      console.log('sim.paused ', sim.paused )
       break;
   }
-}
+})
 
-document.onkeyup = function (event) {
+document.addEventListener('keyup', (event) => {
   switch(event.code) {
     case "ArrowLeft":	
       MOVING_LEFT = false;
@@ -391,12 +400,21 @@ document.onkeyup = function (event) {
       MOVING_RIGHT = false;
       break;
   }
-}
+})
 
 
 sim.player.exploded.addEventListener('change', () => {
     if (sim.player.exploded.value) {
-        // @todo - get start location from player.startHere
+        // @todo - reload level
+        setTimeout(() => {
+            sim.player.dispose(sim.world);
+            sim.put('player',400, 240);
+        }, 2000);
+    }
+})
+
+sim.player.finished.addEventListener('change', () => {
+    if (sim.player.finished.value) {
         setTimeout(() => {
             sim.player.dispose(sim.world);
             sim.put('player',400, 240);
@@ -405,26 +423,35 @@ sim.player.exploded.addEventListener('change', () => {
 })
 
 
+
 // calculate no more than a 60th of a second during one world.Step() call 
 const maxTimeStepMs = 1/60*1000;
 const step = (deltaMs) => {
      const clampedDeltaMs = Math.min(deltaMs, maxTimeStepMs);
      sim.world.Step(clampedDeltaMs/1000, 3, 2); };
 
+const $timer = document.getElementById('timer')
 
 let handle;
+let time = 0;
 (function loop(prevMs) {
     const nowMs = window.performance.now();
     handle = requestAnimationFrame(loop.bind(null, nowMs));
     const deltaMs = nowMs-prevMs;
-    step(deltaMs);
-    if (MOVING_LEFT) {
-        sim.player.move(-1);
-    }
-    if (MOVING_RIGHT) {
-        sim.player.move(1);
-    }
-    sim.updateKinematics();
-    sim.player.update() 
+
+    if (!sim.paused) {
+        sim.player.timer.value += deltaMs;
+        time = 60 - Math.round(sim.player.timer.value/1000);
+        $timer.innerText = time;
+        step(deltaMs);
+        if (MOVING_LEFT) {
+            sim.player.move(-1);
+        }
+        if (MOVING_RIGHT) {
+            sim.player.move(1);
+        }
+        sim.updateKinematics();
+        sim.player.update()
+    } 
     sim.drawCanvas();
 }(window.performance.now()));
