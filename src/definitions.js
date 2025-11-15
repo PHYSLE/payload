@@ -31,7 +31,7 @@ sim.define({
 	name:"nuke",
 	type:"active",
 	shape:"rectangle",
-	mass:1, //4,
+	mass:.1, //4,
 	friction:.8,
 	elastic:0,
 	fixed:false,
@@ -250,7 +250,7 @@ sim.define({
 	   150,-15,
 	   115,-50,
 		-115,-50
-      ],
+    ],
     joint: [0,0],
 	mass:10,
 	elastic:0,
@@ -291,6 +291,42 @@ sim.define({
 	height:150,
 	mass:Infinity
 });
+
+sim.define({
+    name: "snow6",
+    type:"static",
+    shape:"line",
+	mass:Infinity,
+    elastic:0,
+	friction:1,
+    verts: [
+        -250,-29,
+        -39,-30,
+        -1,-38,
+        21,-67,
+        48,-80,
+        166,-112,
+        184,-112,
+        207,-132,
+        241,-145,
+        249,-145
+    ]
+})
+
+sim.define({
+    name:"snow10",
+    parent:"snow6",
+    verts: [
+        0,-248,
+        20,-239,
+        47,-211,
+        81,-159,
+        98,-137,
+        154,-90,
+        184,-68,
+        225,-60
+    ]
+})
 
 }
 

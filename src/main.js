@@ -12,7 +12,9 @@ let MOVING_RIGHT = false;
 
 await sim.load(sim.level);
 
-//const init = [400, 200] // level 1 start
+console.log(sim.player.maxY*sim.scale)
+
+const init = [400, 200] // level 1 start
 // const init = [3900, 400] // level 1 blocks
 
 
@@ -20,8 +22,11 @@ await sim.load(sim.level);
 
 //const init = [5080, 400] // level 2 jump
 
-//const init = [4200, 400] // level 3 cave
-const init = [5000, 600] // level 3 cave2
+//const init = [3800, 200] // level 3 cave
+//const init = [5000, 600] // level 3 cave2
+
+//const init = [6800, 500] // level 3 snow
+
 
 sim.put('player',init[0],init[1]);
 

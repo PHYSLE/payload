@@ -83,7 +83,7 @@ function Sim(canvasId) {
 
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
             this.context.fillStyle = 'rgb(255, 255, 255)';
-            this.context.font = "18px courier";
+            this.context.font = "14px Tahoma";
             this.context.fillText(`player x:${p.x.toFixed()*sim.scale} y:${p.y.toFixed()*sim.scale}`, 15, 25);
             
             this.context.fillStyle = 'rgb(0,0,0)';
@@ -182,19 +182,30 @@ function Sim(canvasId) {
                             this.kinematics.push(body);
                         }
                     }
+                    else if (model.segments) {
+                        body.SetLinearVelocity(ZERO);
+                        body.SetEnabled(true);
+                        for(const segment of model.segments) {
+                            let fixture = body.CreateFixture(segment, model.properties.mass);                 
+                            fixture.SetDensity(1);//model.properties.mass);
+                            fixture.SetFriction(model.properties.friction);
+                            fixture.SetRestitution(model.properties.elastic); 
+                        }
+                    }
 
                     if (model.properties.joint) {
                         let anchor = this.put('anchor', x, y);
                         this.join(body, model.properties.joint[0], model.properties.joint[1], anchor, 0,0, false);
                     }
             
-                    let my = (y/this.scale)-(this.$canvas.height/2/this.scale);
+                    let my = (y/this.scale)-(200/this.scale);
                     if (this.player.maxY == Infinity || this.player.maxY < my) {
                         this.player.maxY = my;
                     }
                     
                     return body;
                 }
+
                 
             }
             catch(error) {
