@@ -21,7 +21,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 3,
+        level: 4,
         paused: false,
         engine: Box2D,
         scale: 42,// pixelsPerMeter = 32;
@@ -30,7 +30,7 @@ function Sim(canvasId) {
         //gravity: new Box2D.b2Vec2(0, 14), // not working
         //world: new Box2D.b2World(this.gravity), // not working
         world: new Box2D.b2World(
-           new Box2D.b2Vec2(0, 14) //12 // gravity
+           new Box2D.b2Vec2(0, 10) //12 // gravity
         ),
         models: {},
         kinematics:[],

@@ -8,7 +8,7 @@ sim.define({
 	width:34,
 	height:34,
 	mass:20,//16,
-	friction:1,
+	friction:2,
 	elastic:0,
 	fixed:false
 });
@@ -31,7 +31,7 @@ sim.define({
 	name:"nuke",
 	type:"active",
 	shape:"rectangle",
-	mass:.1, //4,
+	mass:1, //4,
 	friction:.8,
 	elastic:0,
 	fixed:false,
@@ -281,6 +281,11 @@ sim.define({
 	waypoints:[-200,0,0,0]
 });
 
+sim.define({
+	name:"blockw1a",
+	parent:"blockw_a",
+	waypoints:[0,-1500,0,0]
+});
 
 sim.define({
 	name:"depot",
@@ -293,12 +298,28 @@ sim.define({
 });
 
 sim.define({
-    name: "snow6",
+    name:"snow5",
     type:"static",
     shape:"line",
 	mass:Infinity,
     elastic:0,
 	friction:1,
+    verts: [
+        -250,-145,
+        -200,-106,
+        -168,-91,
+        113,5,
+        158,9,
+        214,2,
+        250,0
+    ]
+
+})
+
+
+sim.define({
+    name: "snow6",
+    parent:"snow5",
     verts: [
         -250,-29,
         -39,-30,
@@ -315,7 +336,7 @@ sim.define({
 
 sim.define({
     name:"snow10",
-    parent:"snow6",
+    parent:"snow5",
     verts: [
         0,-248,
         20,-239,
