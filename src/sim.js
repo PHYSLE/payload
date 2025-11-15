@@ -21,7 +21,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 1,
+        level: 2,
         paused: false,
         engine: Box2D,
         scale: 42,// pixelsPerMeter = 32;
