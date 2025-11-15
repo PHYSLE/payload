@@ -258,7 +258,7 @@ sim.define({
 })
 
 sim.define({
-	name:"blockw_b",
+	name:"blockw_a",
 	shape:"rectangle",
 	type:"kinematic",
 	mass:10,
@@ -268,6 +268,17 @@ sim.define({
 	height:100,
 	waypoints:[200,0,0,0],
 	velocity:5
+});
+
+sim.define({
+	name:"blockw_b",
+	parent:"blockw_a"
+});
+
+sim.define({
+	name:"block_wa",
+	parent:"blockw_a",
+	waypoints:[-200,0,0,0]
 });
 
 

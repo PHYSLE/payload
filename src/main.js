@@ -18,7 +18,11 @@ await sim.load(sim.level);
 
 //const init = [3100, 440] // level 2 rotate thing
 
-const init = [5080, 400] // level 2 jump
+//const init = [5080, 400] // level 2 jump
+
+//const init = [4200, 400] // level 3 cave
+const init = [5000, 600] // level 3 cave2
+
 sim.put('player',init[0],init[1]);
 
 document.addEventListener('keydown', (event) => {
