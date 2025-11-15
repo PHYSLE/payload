@@ -10,7 +10,7 @@ defineAll(sim);
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
 
-await sim.load(1);
+await sim.load(sim.level);
 /*
 sim.put('wall1',901,92)
 sim.put('floor2',800,17)
@@ -379,8 +379,8 @@ sim.put('blocksb',926,-74)
 
 */
 // {"name":"player","x":400, "y":240},
-sim.put('player',400, 240);
-//sim.put('player',15000, 440);
+//sim.put('player',400, 240);
+sim.put('player',15000, 440);
 
 //sim.put('depot',15309,592)
 
@@ -416,7 +416,7 @@ sim.player.exploded.addEventListener('change', () => {
     if (sim.player.exploded.value) {
         // @todo - reload level
         setTimeout(() => {
-            //sim.player.dispose(sim.world);
+
             sim.clear();
             sim.load(sim.level);
             sim.put('player',400, 240);
@@ -425,9 +425,13 @@ sim.player.exploded.addEventListener('change', () => {
 })
 
 sim.player.finished.addEventListener('change', () => {
+    console.log('finish chnaged to ', sim.player.finished.value)
     if (sim.player.finished.value) {
+        //sim.player.finished.value = false;
         setTimeout(() => {
-            sim.player.dispose(sim.world);
+            sim.clear();
+            sim.level++;
+            sim.load(sim.level);
             sim.put('player',400, 240);
         }, 2000);
     }
@@ -453,7 +457,7 @@ let time = 0;
     if (!sim.paused) {
         sim.player.timer.value += deltaMs;
         time = 60 - Math.round(sim.player.timer.value/1000);
-        $timer.innerText = time;
+        $timer.innerText = time > 0 ? time : 0;
         step(deltaMs);
         if (MOVING_LEFT) {
             sim.player.move(-1);

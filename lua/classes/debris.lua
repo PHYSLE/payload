@@ -1,0 +1,27 @@
+class('debris',{
+  char='real',
+  shape='poly',
+  mass=22.0000000,
+  inertia=230.0000000,
+  elastic=0.00000000,
+  friction=0.800000012,
+  chardata=0.00000000,
+  max_x=180,
+  max_y=180,
+  max_t=10,
+  verts={
+   [0]=-20.0000000,[1]=-12.00000000,
+   [2]=-25.0000000,[3]=12.00000000,
+   [4]=32.0000000,[5]=0.00000000
+  },
+  images={
+    [0]={
+      path='images/burning.png',
+      frames=1,
+      rate=0,
+      effects=EFX_FIRE+EFX_ROLL,
+      reverse=0,
+      loop=0
+    }
+  }
+})

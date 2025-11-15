@@ -115,19 +115,25 @@ function Sim(canvasId) {
             }
         },
         putPlayer: function(x, y) {
-            this.player.exploded.value = false;
-            this.player.timer.value = 0;
-            this.player.joints = [];
-        	this.player.nuke = this.put("nuke",x-20,y-32);
-            this.player.chasis = this.put("chasis",x,y);
-            this.player.tire1 = this.put("tire",x-26,y+15);
-            this.player.tire2 = this.put("tire",x+24,y+15);
+            try {
+                this.player.exploded.value = false;
+                this.player.finished.value = false;
+                this.player.timer.value = 0;
+                this.player.joints = [];
+                this.player.nuke = this.put("nuke",x-20,y-32);
+                this.player.chasis = this.put("chasis",x,y);
+                this.player.tire1 = this.put("tire",x-26,y+15);
+                this.player.tire2 = this.put("tire",x+24,y+15);
 
-            //console.log(this.player.tire1)
+                //console.log(this.player.tire1)
 
-            this.player.joints.push(this.join(this.player.chasis,-26,26, this.player.tire1, 0, 0, false));
-            this.player.joints.push(this.join(this.player.chasis,24,26, this.player.tire2, 0, 0, false));
-            this.player.joints.push(this.join(this.player.chasis,-6,-20, this.player.nuke,12, 5, true));	
+                this.player.joints.push(this.join(this.player.chasis,-26,26, this.player.tire1, 0, 0, false));
+                this.player.joints.push(this.join(this.player.chasis,24,26, this.player.tire2, 0, 0, false));
+                this.player.joints.push(this.join(this.player.chasis,-6,-20, this.player.nuke,12, 5, true));	
+            }
+            catch(error) {
+                console.error(error);
+            }
         },
         put: function(name, x, y) {
             try {
@@ -204,8 +210,26 @@ function Sim(canvasId) {
                 console.error(error);
             }
         },
-        clear() {
-            //Box2D.b2DestroyWorld(this.world.b2WorldId) // doesn't exist
+        clear:function() {
+            try {
+                // Destroy all bodies
+                let b = this.world.GetBodyList();
+                while (b && b.Zu > 0) {
+                    const nextB = b.GetNext();
+                    this.world.DestroyBody(b);
+                    b = nextB;
+                }
+
+                // clear tracked kinematics and player references
+                this.kinematics = [];
+                this.player.chasis = null;
+                this.player.tire1 = null;
+                this.player.tire2 = null;
+                this.player.nuke = null;
+            }
+            catch(error) {
+                console.error('Error clearing Box2D world', error);
+            }
         },
         load:async function(level) {
             await fetch(`../assets/levels/level${level}.json`)

@@ -230,6 +230,27 @@ sim.define({
 });
 
 sim.define({
+    name:"blockxwa",
+	type:"kinematic",
+	shape:"poly",
+	verts:[
+	   -150,-15,
+	   -150,15,
+	   115,50,
+	   115,50,
+	   150,15,
+	   150,-15,
+	   115,-50,
+		-115,-50
+      ],
+	mass:10,
+	//inertia=99999,
+	elastic:0,
+	friction:1
+	//max_t=.2,
+})
+
+sim.define({
 	name:"blockw_b",
 	shape:"rectangle",
 	type:"kinematic",

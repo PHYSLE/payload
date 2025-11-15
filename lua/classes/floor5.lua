@@ -1,0 +1,11 @@
+class("floor5",{
+	char="static",
+	shape="rect",
+	width=300,
+	height=150,
+	elastic=0,
+	friction=1,
+	images={
+		[0]={path="images/floor5.png"}
+	}
+})

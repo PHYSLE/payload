@@ -1,0 +1,9 @@
+class("wall1",{
+	shape="rect",
+	char="scenery",
+	width=200,
+	height=200,
+	images={
+		[0]={path="images/wall1.png"}
+	}
+})

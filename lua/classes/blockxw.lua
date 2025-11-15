@@ -1,0 +1,22 @@
+class("blockXW",{
+	char="real",
+	shape="poly",
+	  verts={
+	   [0]=-150,[1]=-15,
+	   [2]=-150,[3]=15,
+	   [4]=-115,[5]=50,
+	   [6]=115,[7]=50,
+	   [8]=150,[9]=15,
+	   [10]=150,[11]=-15,
+	   [12]=115,[13]=-50,
+		[14]=-115,[15]=-50
+	  },
+	mass=99999,
+	inertia=99999,
+	elastic=.2,
+	friction=1,
+	max_t=.2,
+	images={
+		[0]={path="images/blockXW.png",effects=EFX_ROLL}
+	}
+})

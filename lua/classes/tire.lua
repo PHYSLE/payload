@@ -1,0 +1,39 @@
+
+class("tire",{
+	char="real",
+	shape="circle",
+	diam=34,
+	off_x=0,
+	off_y=0,
+	max_x=1000,
+	max_y=1000,
+	max_t=10,
+	mass=16,
+	inertia=800,
+	elastic=.8,
+	friction=10,
+	chardata=0,
+	images={
+		[0]={
+			path="images/tire.png",
+			frames=1,
+			off_x=0,
+			off_y=0,
+			effects=EFX_ROLL
+		},
+		[1]={
+			path="images/tire.png",
+			frames=1,
+			off_x=0,
+			off_y=0,
+			effects=EFX_ROLL+EFX_EXPLODE+EFX_FIRE+EFX_SMOKE
+		},
+		[2]={
+			path="images/tire.png",
+			frames=1,
+			off_x=0,
+			off_y=0,
+			effects=EFX_GLOW+EFX_ROLL
+		}
+	}
+})

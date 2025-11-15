@@ -1,0 +1,29 @@
+class("nuke",{
+	char="real",
+	shape="rect",
+	width=30,
+	height=15,
+	off_x=0,
+	off_y=0,
+	max_x=1000,
+	max_y=1000,
+	max_t=10,
+	mass=8,
+	inertia=20,
+	images={
+		[0]={
+			path="images/nuke.png",
+			frames=1,
+			off_x=0,
+			off_y=0,
+			effects=EFX_ROLL
+		},
+		[1]={
+			path="images/nuke.png",
+			frames=1,
+			off_x=0,
+			off_y=0,
+			effects=EFX_EXPLODE+EFX_SMOKE+EFX_FIRE+EFX_ROLL+EFX_NOVA
+		}
+	}
+})

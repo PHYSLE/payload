@@ -1,0 +1,13 @@
+class("block1",{
+	char="static",
+	shape="rect",
+	width=100,
+	height=100,
+	mass=9000,
+	inertia=9000,
+	elastic=0,
+	friction=1,
+	images={
+		[0]={path="images/block1a.png"}
+	}
+})

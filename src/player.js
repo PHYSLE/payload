@@ -60,7 +60,9 @@ function Player(Box2D) {
                 if (iterator.contact.IsTouching()) {
 
                     if (iterator.other.UserData.name == "depot") {
-                        this.finished.value = true;
+                        if (!this.finished.value) {
+                            this.finished.value = true;
+                        }
                     }
                     else if (iterator.other != this.chasis) {
                         this.explode();
@@ -94,16 +96,8 @@ function Player(Box2D) {
             let pos = this.chasis.GetPosition()
             this.diedHere = new Box2D.b2Vec2(pos.x, pos.y)
             this.exploded.value = true;      
-            ;
+
         }
-        /*
-        ,
-        dispose: function(world) {
-            for(const body of [this.tire1, this.tire2, this.nuke, this.chasis]) {
-                world.DestroyBody(body)
-            }
-        }
-            */
     }
     return player;
 }

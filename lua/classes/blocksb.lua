@@ -1,0 +1,13 @@
+class("blockSb",{
+	char="static",
+	shape="rect",
+	width=50,
+	height=50,
+	mass=9000,
+	inertia=9000,
+	elastic=0,
+	friction=1,
+	images={
+		[0]={path="images/blockSb.png"}
+	}
+})
