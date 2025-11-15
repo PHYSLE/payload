@@ -41,14 +41,22 @@ sim.define({
 
 
 sim.define({
+	name:"anchor",
+	type:"static",
+	shape:"circle",
+	mass:Infinity,
+	friction:1,
+	elastic:0,
+	radius:2
+});		
+
+sim.define({
 	name:"triangle",
 	type:"static",
 	shape:"polygon",
 	mass:Infinity,
 	friction:1,
 	elastic:0,
-	width:120,
-	height:60,
 	verts:[0,-30,60,30,-60,30]
 });		
 
@@ -231,23 +239,22 @@ sim.define({
 
 sim.define({
     name:"blockxwa",
-	type:"kinematic",
+	type:"active",
 	shape:"poly",
 	verts:[
 	   -150,-15,
 	   -150,15,
-	   115,50,
+	   -115,50,
 	   115,50,
 	   150,15,
 	   150,-15,
 	   115,-50,
 		-115,-50
       ],
+    joint: [0,0],
 	mass:10,
-	//inertia=99999,
 	elastic:0,
 	friction:1
-	//max_t=.2,
 })
 
 sim.define({

@@ -10,7 +10,7 @@ defineAll(sim);
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
 
-await sim.load(sim.level);
+await sim.load(2);
 /*
 sim.put('wall1',901,92)
 sim.put('floor2',800,17)
@@ -380,7 +380,9 @@ sim.put('blocksb',926,-74)
 */
 // {"name":"player","x":400, "y":240},
 //sim.put('player',400, 240);
-sim.put('player',15000, 440);
+
+const init = [3100, 440]
+sim.put('player',init[0],init[1]);
 
 //sim.put('depot',15309,592)
 
@@ -419,7 +421,7 @@ sim.player.exploded.addEventListener('change', () => {
 
             sim.clear();
             sim.load(sim.level);
-            sim.put('player',400, 240);
+            sim.put('player',init[0],init[1]);
         }, 2000);
     }
 })
@@ -432,7 +434,7 @@ sim.player.finished.addEventListener('change', () => {
             sim.clear();
             sim.level++;
             sim.load(sim.level);
-            sim.put('player',400, 240);
+            sim.put('player',init[0],init[1]);
         }, 2000);
     }
 })

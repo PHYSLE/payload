@@ -76,15 +76,19 @@ function Sim(canvasId) {
             }          
         },
         drawCanvas: function() {
-            this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
-
-            this.context.save();
-            this.context.scale(this.scale, this.scale);
             let p = this.player.chasis.GetPosition()
- 
             if (this.player.exploded.value) {
                 p = this.player.diedHere;
             }
+
+            this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+            this.context.fillStyle = 'rgb(255, 255, 255)';
+            this.context.font = "18px courier";
+            this.context.fillText(`player x:${p.x.toFixed()*sim.scale} y:${p.y.toFixed()*sim.scale}`, 15, 25);
+            
+            this.context.fillStyle = 'rgb(0,0,0)';
+            this.context.save();
+            this.context.scale(this.scale, this.scale);
 
             this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
             this.context.lineWidth /= this.scale;
@@ -177,6 +181,11 @@ function Sim(canvasId) {
                             }
                             this.kinematics.push(body);
                         }
+                    }
+
+                    if (model.properties.joint) {
+                        let anchor = this.put('anchor', x, y);
+                        this.join(body, model.properties.joint[0], model.properties.joint[1], anchor, 0,0, false);
                     }
             
                     let my = (y/this.scale)-(this.$canvas.height/2/this.scale);
