@@ -95,12 +95,15 @@ function Player(Box2D) {
             this.diedHere = new Box2D.b2Vec2(pos.x, pos.y)
             this.exploded.value = true;      
             ;
-        },
+        }
+        /*
+        ,
         dispose: function(world) {
             for(const body of [this.tire1, this.tire2, this.nuke, this.chasis]) {
                 world.DestroyBody(body)
             }
         }
+            */
     }
     return player;
 }

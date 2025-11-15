@@ -10,6 +10,8 @@ defineAll(sim);
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
 
+await sim.load(1);
+/*
 sim.put('wall1',901,92)
 sim.put('floor2',800,17)
 sim.put('wall1',1101,92)
@@ -268,26 +270,31 @@ sim.put('block4b',10507,1130)
 sim.put('block4b',2852,850)
 sim.put('blocksb',2778,873)
 sim.put('blocksb',2926,775)
-/*
-sim.put('blockxsb',4104,587)
-sim.put('blockxsb',4113,562)
-sim.put('blockxsb',4109,537)
-*/
+
+//sim.put('blockxsb',4104,587)
+//sim.put('blockxsb',4113,562)
+//sim.put('blockxsb',4109,537)
+
 //sim.put('player',4000, 400)
 sim.put('blockxsb',4060,448)
 
 sim.put('blockxsb',4082,448)
-/*
-sim.put('blockxsb',4104,463)
-sim.put('blockxsb',4204,587)
-sim.put('blockxsb',4179,587)
-sim.put('blockxsb',4204,562)
-sim.put('blockxsb',4139,587)
-*/
+
+//sim.put('blockxsb',4104,463)
+//sim.put('blockxsb',4204,587)
+//sim.put('blockxsb',4179,587)
+//sim.put('blockxsb',4204,562)
+//sim.put('blockxsb',4139,587)
+
 sim.put('blockxsb',7075,546)
 
 sim.put('blockwb',3272,550)
 sim.put('blockwb',10790,502)
+
+
+
+
+
 sim.put('block4a',15484,617)
 sim.put('block4a',15584,617)
 sim.put('block4a',15684,617)
@@ -369,11 +376,13 @@ sim.put('block4b',700,-149)
 sim.put('block4b',800,-149)
 sim.put('block4b',900,-149)
 sim.put('blocksb',926,-74)
-	   
+
+*/
+// {"name":"player","x":400, "y":240},
 sim.put('player',400, 240);
 //sim.put('player',15000, 440);
 
-sim.put('depot',15309,592)
+//sim.put('depot',15309,592)
 
 
 document.addEventListener('keydown', (event) => {
@@ -407,7 +416,9 @@ sim.player.exploded.addEventListener('change', () => {
     if (sim.player.exploded.value) {
         // @todo - reload level
         setTimeout(() => {
-            sim.player.dispose(sim.world);
+            //sim.player.dispose(sim.world);
+            sim.clear();
+            sim.load(sim.level);
             sim.put('player',400, 240);
         }, 2000);
     }

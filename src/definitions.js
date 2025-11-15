@@ -230,7 +230,7 @@ sim.define({
 });
 
 sim.define({
-	name:"blockwb",
+	name:"blockw_b",
 	shape:"rectangle",
 	type:"kinematic",
 	mass:10,

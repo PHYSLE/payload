@@ -21,55 +21,59 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
+        level: 1,
         paused: false,
         engine: Box2D,
         scale: 42,// pixelsPerMeter = 32;
         $canvas: $canvas,
         context: $canvas.getContext("2d"),
+        //gravity: new Box2D.b2Vec2(0, 14), // not working
+        //world: new Box2D.b2World(this.gravity), // not working
         world: new Box2D.b2World(
-            new Box2D.b2Vec2(0, 14) //12 // gravity
+           new Box2D.b2Vec2(0, 14) //12 // gravity
         ),
         models: {},
         kinematics:[],
         player: new Player(Box2D),
         updateKinematics: function() {
-            if (this.kinematics.length > 0) {
-                for (const body of this.kinematics) {
-                    let pos = body.GetPosition();
-                    if (body.UserData && body.UserData.waypoints && body.UserData.waypoints.length > 0 ) {
-                        var vel = 2; // @todo
-                        var target = body.UserData.waypointTarget % body.UserData.waypoints.length;	
-                        
-                        // distance
-                        var xd = Math.abs(pos.x - body.UserData.waypoints[target].x);
-                        var yd = Math.abs(pos.y - body.UserData.waypoints[target].y);
+            if (this.kinematics.length == 0) {
+                return;
+            }
+            for (const body of this.kinematics) {
+                let pos = body.GetPosition();
+                if (body.UserData && body.UserData.waypoints && body.UserData.waypoints.length > 0 ) {
+                    var vel = 2; // @todo
+                    var target = body.UserData.waypointTarget % body.UserData.waypoints.length;	
+                    
+                    // distance
+                    var xd = Math.abs(pos.x - body.UserData.waypoints[target].x);
+                    var yd = Math.abs(pos.y - body.UserData.waypoints[target].y);
 
-                        if (xd <= .1 && yd <= .1) {
-                            // arrived
-                            //pos.x = body.UserData.waypoints[t].x;
-                            //pos.y = body.UserData.waypoints[t].y;
-                            body.UserData.waypointTarget++;
-                            body.SetLinearVelocity(new Box2D.b2Vec2(0,0));
-                            //console.log('arrived at ' + t);
+                    if (xd <= .1 && yd <= .1) {
+                        // arrived
+                        //pos.x = body.UserData.waypoints[t].x;
+                        //pos.y = body.UserData.waypoints[t].y;
+                        body.UserData.waypointTarget++;
+                        body.SetLinearVelocity(new Box2D.b2Vec2(0,0));
+                        //console.log('arrived at ' + t);
+                    }
+                    else {
+                        if (pos.x < body.UserData.waypoints[target].x) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(vel,0));
                         }
-                        else {
-                            if (pos.x < body.UserData.waypoints[target].x) {
-                                body.SetLinearVelocity(new Box2D.b2Vec2(vel,0));
-                            }
-                            else if (pos.x > body.UserData.waypoints[target].x) {
-                                body.SetLinearVelocity(new Box2D.b2Vec2(-vel,0));
-                            }
-                        
-                            if (pos.y < body.UserData.waypoints[target].y) {
-                                body.SetLinearVelocity(new Box2D.b2Vec2(0,vel));
-                            }
-                            else if (pos.y > body.UserData.waypoints[target].y) {
-                                body.SetLinearVelocity(new Box2D.b2Vec2(0,-vel));
-                            }			
+                        else if (pos.x > body.UserData.waypoints[target].x) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(-vel,0));
                         }
+                    
+                        if (pos.y < body.UserData.waypoints[target].y) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(0,vel));
+                        }
+                        else if (pos.y > body.UserData.waypoints[target].y) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(0,-vel));
+                        }			
                     }
                 }
-            }
+            }          
         },
         drawCanvas: function() {
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
@@ -199,6 +203,21 @@ function Sim(canvasId) {
             catch(error) {
                 console.error(error);
             }
+        },
+        clear() {
+            //Box2D.b2DestroyWorld(this.world.b2WorldId) // doesn't exist
+        },
+        load:async function(level) {
+            await fetch(`../assets/levels/level${level}.json`)
+                .then((response) => response.json())
+                .then((json) => {
+
+                    this.level = level;
+                    json.map((obj) => {
+                        this.put(obj.name, obj.x, obj.y);
+                    })
+                })
+                .catch(error => console.error('Error loading level ' + level, error))
         }
     }
 
