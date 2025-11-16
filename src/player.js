@@ -12,7 +12,7 @@ function Player(Box2D) {
         timer: new Bindable(0),
         diedHere: null, // exploded position 
         maxY: Infinity, //set by level
-        force: 360,//260,
+        force: 400,//260,
         explodeForce: 400,
         maxContacts: 12,
         applyForce(body, forceVec) {
@@ -37,7 +37,13 @@ function Player(Box2D) {
             if (this.exploded.value) {
                 return;
             }
-            let forceVec= new Box2D.b2Vec2(direction < 0 ?-this.force:this.force, 0);
+            let a = this.chasis.GetAngle();
+
+            let x = this.force * Math.cos(a) * direction;
+            let y = this.force * Math.sin(a) * direction;
+
+            //let forceVec= new Box2D.b2Vec2(direction < 0 ?-this.force:this.force, 0);
+            let forceVec = new Box2D.b2Vec2(x,y)
             this.applyForce(this.tire1, forceVec)
             this.applyForce(this.tire2, forceVec)
         },

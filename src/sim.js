@@ -87,7 +87,7 @@ function Sim(canvasId) {
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
 
-            let map = true;
+            let map = false;
             if (map) {
                 this.context.scale(this.scale/3, this.scale/3);
                 this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
@@ -134,7 +134,7 @@ function Sim(canvasId) {
                 this.player.tire1 = this.put("tire",x-26,y+15);
                 this.player.tire2 = this.put("tire",x+24,y+15);
 
-                //console.log(this.player.tire1)
+                console.log(this.player.tire1)
 
                 this.player.joints.push(this.join(this.player.chasis,-26,26, this.player.tire1, 0, 0, false));
                 this.player.joints.push(this.join(this.player.chasis,24,26, this.player.tire2, 0, 0, false));

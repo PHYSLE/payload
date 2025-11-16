@@ -34,10 +34,10 @@ console.log(sim.player.maxY*sim.scale)
 //const init = [6800, 500] // level 3 snow
 
 
-//const init = [400, 1200] // level 4 start
+const init = [400, 1200] // level 4 start
 //const init = [5400, 1000] // level 4 snow
 
-const init = [5800, 1800] // level 4 elevator
+//const init = [5800, 1800] // level 4 elevator
 //const init = [6200, 1100] // level 4 more snow
 //const init = [8300, 1100] // level 4 elevator
 
