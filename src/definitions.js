@@ -163,9 +163,9 @@ sim.define({
 	shape:"rectangle",
 	width:25,
 	height:25,
-	mass:1,
+	mass:.5,
 	elastic:0,
-	friction:1
+	friction:.5
 })
 
 sim.define({

@@ -21,10 +21,10 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 4,
+        level: 5,
         paused: false,
         engine: Box2D,
-        scale: 38,// pixelsPerMeter = 32?;
+        scale: 40,// pixelsPerMeter = 32?;
         $canvas: $canvas,
         context: $canvas.getContext("2d"),
         world: new Box2D.b2World(
@@ -134,7 +134,7 @@ function Sim(canvasId) {
                 this.player.tire1 = this.put("tire",x-26,y+15);
                 this.player.tire2 = this.put("tire",x+24,y+15);
 
-                console.log(this.player.tire1)
+                //console.log(this.player.tire1)
 
                 this.player.joints.push(this.join(this.player.chasis,-26,26, this.player.tire1, 0, 0, false));
                 this.player.joints.push(this.join(this.player.chasis,24,26, this.player.tire2, 0, 0, false));
