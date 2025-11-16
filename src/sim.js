@@ -21,7 +21,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 3,
+        level: 4,
         paused: false,
         engine: Box2D,
         scale: 38,// pixelsPerMeter = 32?;
@@ -86,11 +86,16 @@ function Sim(canvasId) {
             
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
-            this.context.scale(this.scale, this.scale);
-            ///this.context.scale(this.scale/3, this.scale/3);
 
-            ///this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
-            this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
+            let map = true;
+            if (map) {
+                this.context.scale(this.scale/3, this.scale/3);
+                this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
+            }
+            else {
+                this.context.scale(this.scale, this.scale);
+                this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
+            }
             this.context.lineWidth /= this.scale;
             this.world.DebugDraw();
 

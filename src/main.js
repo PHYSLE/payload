@@ -14,7 +14,7 @@ await sim.load(sim.level);
 
 console.log(sim.player.maxY*sim.scale)
 
-const init = [400, 200] // level 1 start
+//const init = [400, 200] // level 1 start
 // const init = [3900, 400] // level 1 blocks
 //const init = [4200, 400] // level 1 pit
 // const init = [5300, 400] // level 1 bridge
@@ -36,7 +36,10 @@ const init = [400, 200] // level 1 start
 
 //const init = [400, 1200] // level 4 start
 //const init = [5400, 1000] // level 4 snow
-//const init = [6200, 1100] // level 4 elevator
+
+const init = [5800, 1800] // level 4 elevator
+//const init = [6200, 1100] // level 4 more snow
+//const init = [8300, 1100] // level 4 elevator
 
 //const init = [10500, 540] // level 4 top
 

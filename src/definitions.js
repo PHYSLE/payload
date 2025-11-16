@@ -284,7 +284,7 @@ sim.define({
 sim.define({
 	name:"blockw1a",
 	parent:"blockw_a",
-	waypoints:[0,-1500,0,0]
+	waypoints:[0,-600,0,0]
 });
 
 sim.define({
@@ -296,6 +296,27 @@ sim.define({
 	height:150,
 	mass:Infinity
 });
+
+sim.define({
+    name:"snow4",
+    type:"static",
+    shape:"line",
+	mass:Infinity,
+    elastic:0,
+	friction:1,
+    verts: [
+        -250,0,
+        -214,2,
+        -158,9,
+        -113,5,
+        
+        168,-91,
+        200,-106,
+        250,-145,
+    ]
+
+})
+
 
 sim.define({
     name:"snow5",
