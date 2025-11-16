@@ -282,9 +282,27 @@ sim.define({
 });
 
 sim.define({
+	name:"block_wb",
+	parent:"block_wa"
+});
+
+
+sim.define({
 	name:"blockw1a",
 	parent:"blockw_a",
 	waypoints:[0,-600,0,0]
+});
+
+
+sim.define({
+	name:"blockw1b",
+	parent:"blockw1a"
+});
+
+sim.define({
+	name:"blockwvb",
+	parent:"blockw1a",
+	waypoints:[0,600,0,0]
 });
 
 sim.define({

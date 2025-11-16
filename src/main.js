@@ -14,7 +14,7 @@ await sim.load(sim.level);
 
 console.log(sim.player.maxY*sim.scale)
 
-const init = [400, 200] // level 1 start
+//const init = [400, 200] // level 1 start
 // const init = [3900, 400] // level 1 blocks
 //const init = [4200, 400] // level 1 pit
 // const init = [5300, 400] // level 1 bridge
@@ -44,9 +44,13 @@ const init = [400, 200] // level 1 start
 //const init = [10500, 540] // level 4 top
 
 //const init = [2500, 450] // level 5 top
-//const init = [9400, 3400] // level 5 bridges
+//const init = [12400, 3200] // level 5 bridges
 //const init = [13650, 3400]
 
+const init = [400, 1200] // level 6 start
+//const init = [5120, 1200] // level 6 elevator
+
+//const init = [8000, 600] // level 6 depot
 
 sim.put('player',init[0],init[1]);
 
