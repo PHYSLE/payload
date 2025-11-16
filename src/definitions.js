@@ -31,7 +31,7 @@ sim.define({
 	name:"nuke",
 	type:"active",
 	shape:"rectangle",
-	mass:1, //4,
+	mass:.5, //4,
 	friction:.8,
 	elastic:0,
 	fixed:false,

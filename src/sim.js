@@ -21,16 +21,14 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 4,
+        level: 2,
         paused: false,
         engine: Box2D,
-        scale: 42,// pixelsPerMeter = 32;
+        scale: 38,// pixelsPerMeter = 32?;
         $canvas: $canvas,
         context: $canvas.getContext("2d"),
-        //gravity: new Box2D.b2Vec2(0, 14), // not working
-        //world: new Box2D.b2World(this.gravity), // not working
         world: new Box2D.b2World(
-           new Box2D.b2Vec2(0, 10) //12 // gravity
+           new Box2D.b2Vec2(0, 10) //12? // gravity
         ),
         models: {},
         kinematics:[],
@@ -89,7 +87,9 @@ function Sim(canvasId) {
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
             this.context.scale(this.scale, this.scale);
+            ///this.context.scale(this.scale/3, this.scale/3);
 
+            ///this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
             this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
             this.context.lineWidth /= this.scale;
             this.world.DebugDraw();

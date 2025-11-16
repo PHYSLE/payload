@@ -12,7 +12,7 @@ function Player(Box2D) {
         timer: new Bindable(0),
         diedHere: null, // exploded position 
         maxY: Infinity, //set by level
-        force: 340,//260,
+        force: 360,//260,
         explodeForce: 400,
         maxContacts: 12,
         applyForce(body, forceVec) {
