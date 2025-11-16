@@ -24,6 +24,7 @@ const init = [400, 200] // level 1 start
 //const init = [3100, 440] // level 2 rotate thing
 
 //const init = [5080, 400] // level 2 jump
+//const init = [5800, 400] // level 2 jump
 
 //const init = [8200, 600] // level 2 last bridge
 

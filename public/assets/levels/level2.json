@@ -171,8 +171,14 @@
 {"name":"block4b","x":5842,"y":1194},
 {"name":"block4a","x":5842,"y":794},
 
-{"name":"blockxwa","x":6101,"y":762},
-{"name":"blockxwa","x":6395,"y":704},
+{"name":"blockw_b","x":6010,"y":700},
+{"name":"blockw_b","x":6310,"y":700},
+
+{"name":"blockxwa","x":6101,"y":762000},
+{"name":"blockxwa","x":6395,"y":704000},
+
+
+
 {"name":"block5a","x":6675,"y":698},
 {"name":"block3b","x":6675,"y":898},
 {"name":"block3b","x":6675,"y":998},

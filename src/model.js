@@ -26,7 +26,7 @@ try {
         model.body.set_type(Box2D.b2_kinematicBody);
     }
     else {
-        model.body.set_linearDamping(.1);//.2
+        model.body.set_linearDamping(.2);//.2
         model.body.set_type(Box2D.b2_dynamicBody);
     }
 
