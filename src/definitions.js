@@ -161,8 +161,8 @@ sim.define({
 	name:"blockxsa",
 	type:"dynamic",
 	shape:"rectangle",
-	width:25,
-	height:25,
+	width:35,
+	height:35,
 	mass:.5,
 	elastic:0,
 	friction:.5

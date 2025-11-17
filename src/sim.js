@@ -21,7 +21,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 9,
+        level: 10,
         paused: false,
         engine: Box2D,
         scale: 40,// pixelsPerMeter = 32?;
@@ -131,8 +131,10 @@ function Sim(canvasId) {
                 this.player.joints = [];
                 this.player.nuke = this.put("nuke",x-20,y-32);
                 this.player.chasis = this.put("chasis",x,y);
-                this.player.tire1 = this.put("tire",x-26,y+15);
-                this.player.tire2 = this.put("tire",x+24,y+15);
+                this.player.tire1 = this.put("tire",x-28,y+15);
+                this.player.tire2 = this.put("tire",x+28,y+15);
+                //this.player.tire1 = this.put("tire",x-26,y+15);
+                //this.player.tire2 = this.put("tire",x+24,y+15);
 
                 //console.log(this.player.tire1)
 
@@ -161,6 +163,7 @@ function Sim(canvasId) {
                     var body = this.world.CreateBody(model.body);
                     body.SetTransform(pos, 0);
                     body.UserData = {name: name};
+
 
                     if (model.shape) { // not passive
                         body.SetLinearVelocity(ZERO);

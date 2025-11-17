@@ -65,11 +65,16 @@ console.log(sim.player.maxY*sim.scale)
 //const init = [5300, 600] // level 8 elevator
 
 
-const init = [900, 1200] // level 9 start
+// const init = [900, 1200] // level 9 start
 //const init = [5600, 1700] // level 9 elevator
 //const init = [6080, 1200] // level 9 top
 //const init = [7200, 1500] // level 9 ramp
 //const init = [12300, 1500] // level 9 depot
+
+const init = [400, 200] // level 10 start
+//const init = [1960, 700] // level 10 pit
+//const init = [5580, 1040] // level 10 island
+//const init = [7400, 1140] // level 10 depot
 
 sim.put('player',init[0],init[1]);
 
@@ -113,7 +118,6 @@ sim.player.exploded.addEventListener('change', () => {
 })
 
 sim.player.finished.addEventListener('change', () => {
-    console.log('finish chnaged to ', sim.player.finished.value)
     if (sim.player.finished.value) {
         //sim.player.finished.value = false;
         setTimeout(() => {
