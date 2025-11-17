@@ -47,10 +47,17 @@ console.log(sim.player.maxY*sim.scale)
 //const init = [12400, 3200] // level 5 bridges
 //const init = [13650, 3400]
 
-const init = [400, 1200] // level 6 start
+//const init = [400, 1200] // level 6 start
 //const init = [5120, 1200] // level 6 elevator
 
 //const init = [8000, 600] // level 6 depot
+
+
+const init = [400, 200] // level 7 start
+//const init = [2000, 200] // level 7 island 1
+//const init = [3800, 200] // level 7 island 2
+//const init = [5200, 200] // level 7 island 3
+//const init = [7600, 200] // level 7 bridge
 
 sim.put('player',init[0],init[1]);
 
