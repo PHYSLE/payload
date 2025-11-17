@@ -333,6 +333,11 @@ sim.define({
     ]
 })
 
+sim.define({
+    name:"cliff2",
+	parent:"cliff"
+})
+
 
 sim.define({
 	name:"depot",

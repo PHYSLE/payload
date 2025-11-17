@@ -61,7 +61,15 @@ console.log(sim.player.maxY*sim.scale)
 
 
 //const init = [400, 800] // level 8 start
-const init = [4000, 1000] // level 8 elevator
+//const init = [4000, 1000] // level 8 elevator
+//const init = [5300, 600] // level 8 elevator
+
+
+const init = [900, 1200] // level 9 start
+//const init = [5600, 1700] // level 9 elevator
+//const init = [6080, 1200] // level 9 top
+//const init = [7200, 1500] // level 9 ramp
+//const init = [12300, 1500] // level 9 depot
 
 sim.put('player',init[0],init[1]);
 
