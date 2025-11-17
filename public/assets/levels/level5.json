@@ -13,6 +13,10 @@
 {"name":"block6a","x":200,"y":150},
 {"name":"blocksa","x":225,"y":225},
 {"name":"floor2","x":300,"y":500},
+
+
+{"name":"player","x":400,"y":250},
+
 {"name":"floor2","x":600,"y":500},
 {"name":"floor2","x":900,"y":500},
 {"name":"blocksb","x":1075,"y":575},

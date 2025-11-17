@@ -3,7 +3,7 @@ import Sim from './sim.js'
 import defineAll from './definitions.js'
 
 const sim = new Sim('canvas')
-//const Box2D = sim.engine;
+
 defineAll(sim);
 
 
@@ -71,12 +71,12 @@ console.log(sim.player.maxY*sim.scale)
 //const init = [7200, 1500] // level 9 ramp
 //const init = [12300, 1500] // level 9 depot
 
-const init = [400, 200] // level 10 start
+//const init = [400, 200] // level 10 start
 //const init = [1960, 700] // level 10 pit
 //const init = [5580, 1040] // level 10 island
 //const init = [7400, 1140] // level 10 depot
 
-sim.put('player',init[0],init[1]);
+//sim.put('player',init[0],init[1]);
 
 document.addEventListener('keydown', (event) => {
   switch(event.code) {

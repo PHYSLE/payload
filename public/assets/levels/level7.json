@@ -11,6 +11,10 @@
 {"name":"floor2","x":300,"y":450},
 
 {"name":"floor2","x":301,"y":718},
+
+{"name":"player","x":400,"y":200},
+
+
 {"name":"block4b","x":401,"y":550},
 {"name":"block4b","x":500,"y":918},
 {"name":"block4b","x":501,"y":550},

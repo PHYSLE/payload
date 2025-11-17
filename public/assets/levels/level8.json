@@ -8,6 +8,10 @@
 {"name":"block3b","x":250,"y":1276},
 {"name":"block4b","x":251,"y":1176},
 {"name":"floor1","x":351,"y":1167},
+
+{"name":"player","x":400,"y":1030},
+
+
 {"name":"block5b","x":650,"y":1077},
 {"name":"block4b","x":650,"y":1177},
 {"name":"block3b","x":651,"y":1277},
@@ -177,10 +181,7 @@
 {"name":"floor3","x":6133,"y":1117},
 {"name":"blocksb","x":6133,"y":1255},
 {"name":"blocksb","x":6183,"y":1255},
-{"name":"blockxsb","x":6227,"y":968},
-{"name":"blockxsb","x":6240,"y":918},
-{"name":"blockxsb","x":6244,"y":943},
-{"name":"blockxsb","x":6255,"y":968},
+
 {"name":"block6b","x":6258,"y":1031},
 {"name":"block3b","x":6258,"y":1131},
 {"name":"block3b","x":6258,"y":1231},
@@ -192,7 +193,7 @@
 {"name":"cliff","x":6433,"y":1321},
 {"name":"block4b","x":6508,"y":1676},
 {"name":"block4b","x":6508,"y":1776},
-{"name":"blockxsb","x":6646,"y":1333},
+
 {"name":"cliff","x":6683,"y":1586},
 {"name":"block6b","x":6760,"y":1463},
 {"name":"block3b","x":6760,"y":1563},

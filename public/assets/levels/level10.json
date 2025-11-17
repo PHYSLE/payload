@@ -23,6 +23,9 @@
 {"name":"block6b","x":200,"y":150},
 {"name":"blocksb","x":225,"y":225},
 {"name":"floor2","x":300,"y":500},
+
+{"name":"player","x":400,"y":200},
+
 {"name":"floor2","x":600,"y":500},
 {"name":"block5b","x":601,"y":149},
 {"name":"blocksb","x":626,"y":74},

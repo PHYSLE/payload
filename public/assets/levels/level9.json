@@ -11,6 +11,10 @@
 {"name":"block4b","x":784,"y":1454},
 {"name":"block4b","x":784,"y":1554},
 {"name":"floor2","x":984,"y":1487},
+
+
+{"name":"player","x":1000,"y":1250},
+
 {"name":"floor2","x":1111,"y":1488},
 {"name":"block5b","x":1211,"y":1349},
 {"name":"block4b","x":1211,"y":1549},
