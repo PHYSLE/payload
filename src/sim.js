@@ -21,7 +21,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 7,
+        level: 8,
         paused: false,
         engine: Box2D,
         scale: 40,// pixelsPerMeter = 32?;
@@ -87,7 +87,7 @@ function Sim(canvasId) {
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
 
-            let map = false;
+            let map = true;
             if (map) {
                 this.context.scale(this.scale/3, this.scale/3);
                 this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);

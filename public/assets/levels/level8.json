@@ -97,9 +97,13 @@
 {"name":"blocksb","x":4092,"y":1425},
 {"name":"blocksb","x":4092,"y":1275},
 {"name":"blocksb","x":4092,"y":1575},
+
+
 {"name":"blockw_b","x":4253,"y":1199},
 {"name":"blockw1b","x":4681,"y":1276},
-{"name":"blocksb","x":4836,"y":410},
+
+
+{"name":"blocksb","x":4836,"y":410,"note":"add 400 y from here on"},
 {"name":"block5b","x":4861,"y":335},
 {"name":"blocksb","x":4886,"y":410},
 {"name":"blocksb","x":4935,"y":475},

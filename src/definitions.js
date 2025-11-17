@@ -306,6 +306,35 @@ sim.define({
 });
 
 sim.define({
+    name:"cliff",
+    type:"static",
+    shape:"line",
+	mass:Infinity,
+    elastic:0,
+	friction:1,
+    verts:[
+        125,-38,
+        107,-55,
+        103,-104,
+        90,-131,
+        77,-141,
+        54,-152,
+        43,-162,
+        27,-174,
+        21,-214,
+        10,-230,
+        3,-236,
+        -20,-240,
+        -48,-240,
+        -92,-269,
+        -99,-286,
+        -118,-296,
+        -125,-304
+    ]
+})
+
+
+sim.define({
 	name:"depot",
 	type:"sensor",
 	shape:"polygon",
@@ -387,6 +416,29 @@ sim.define({
         225,-60
     ]
 })
+
+sim.define({
+    name:'boulder',
+	type:"active",
+	shape:"polygon",
+    mass:7,
+    elastic:0,
+    friction:.85,
+    verts:
+        [128,-36,
+        -137,-31,
+        -154,-9,
+        -146,19,
+        -110,32,
+        146,28,
+        163,-1,
+        164,-19,
+        144,-34
+        ]
+})
+
+
+
 
 }
 
