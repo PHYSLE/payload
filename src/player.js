@@ -34,7 +34,7 @@ function Player(Box2D) {
             }
         },
         move:function(direction) {
-            if (this.exploded.value) {
+            if (this.exploded.value || this.finished.value) {
                 return;
             }
             let a = this.chasis.GetAngle();
@@ -66,7 +66,7 @@ function Player(Box2D) {
                 if (iterator.contact.IsTouching()) {
 
                     if (iterator.other.UserData.name == "depot") {
-                        if (!this.finished.value) {
+                        if (!this.finished.value && !this.exploded.value) {
                             this.finished.value = true;
                         }
                     }

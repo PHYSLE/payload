@@ -34,7 +34,7 @@
 {"name":"block4b","x":1199,"y":501},
 {"name":"block4b","x":1199,"y":600},
 {"name":"block4b","x":1199,"y":700},
-{"name":"blockxsb","x":1199,"y":313},
+{"name":"blockxsb","x":1199,"y":330},
 {"name":"block3b","x":1200,"y":800},
 {"name":"block3b","x":1200,"y":800},
 {"name":"block3b","x":1200,"y":900},
@@ -178,8 +178,6 @@
 {"name":"blockw_b","x":6310,"y":700},
 
 
-
-
 {"name":"block5a","x":6675,"y":698},
 {"name":"block3b","x":6675,"y":898},
 {"name":"block3b","x":6675,"y":998},
@@ -194,13 +192,13 @@
 {"name":"blocksb","x":6900,"y":923},
 {"name":"blocksb","x":6950,"y":923},
 {"name":"blocksb","x":7000,"y":923},
-{"name":"blockxsb","x":7074,"y":610},
+{"name":"blockxsb","x":7074,"y":595},
 {"name":"block6b","x":7075,"y":698},
 {"name":"block1b","x":7075,"y":798},
 {"name":"block3b","x":7075,"y":898},
 {"name":"block3b","x":7075,"y":998},
-{"name":"blockxsb","x":7080,"y":635},
-{"name":"blockxsb","x":7083,"y":585},
+{"name":"blockxsb","x":7080,"y":630},
+{"name":"blockxsb","x":7083,"y":560},
 {"name":"floor2","x":7275,"y":898},
 {"name":"floor2","x":7574,"y":898},
 {"name":"block5b","x":7774,"y":760},

@@ -108,7 +108,6 @@
 
 
 {"name":"block6b","x":4075,"y":1186},
-{"name":"blockxsb","x":4083,"y":1122},
 {"name":"blocksb","x":4100,"y":1261},
 {"name":"blocksb","x":4100,"y":1311},
 {"name":"blocksb","x":4100,"y":1359},
@@ -130,21 +129,20 @@
 {"name":"block4b","x":4424,"y":1576},
 {"name":"block2b","x":4424,"y":1676},
 {"name":"block2b","x":4424,"y":1776},
-{"name":"blockxsb","x":4427,"y":1313},
-{"name":"blockxsb","x":4441,"y":1288},
-{"name":"blockxsb","x":4451,"y":1313},
-{"name":"blockxsb","x":4453,"y":1263},
-{"name":"blockxsb","x":4459,"y":1214},
-{"name":"blockxsb","x":4463,"y":1239},
-{"name":"blockxsb","x":4465,"y":1188},
-{"name":"blockxsb","x":4472,"y":1288},
+
+{"name":"blockxsb","x":4435,"y":1310},
+
+{"name":"blockxsb","x":4450,"y":1275},
+{"name":"blockxsb","x":4454,"y":1240},
+
+
+{"name":"blockxsb","x":4470,"y":1310},
 {"name":"block6b","x":4473,"y":1376},
 {"name":"block1b","x":4473,"y":1476},
 {"name":"block3b","x":4474,"y":1876},
 {"name":"block3b","x":4474,"y":1976},
 {"name":"block3b","x":4474,"y":2076},
-{"name":"blockxsb","x":4478,"y":1313},
-{"name":"blockxsb","x":4478,"y":1263},
+
 {"name":"blocksb","x":4499,"y":1551},
 {"name":"blocksb","x":4499,"y":1601},
 {"name":"blocksb","x":4499,"y":1651},

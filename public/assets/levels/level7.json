@@ -15,6 +15,7 @@
 {"name":"player","x":400,"y":200},
 
 
+
 {"name":"block4b","x":401,"y":550},
 {"name":"block4b","x":500,"y":918},
 {"name":"block4b","x":501,"y":550},
@@ -152,10 +153,9 @@
 {"name":"block3b","x":3898,"y":663},
 {"name":"block6b","x":3944,"y":463},
 {"name":"block4b","x":3944,"y":563},
-{"name":"blockxsa","x":3944,"y":375},
+{"name":"blockxsa","x":3944,"y":360},
 {"name":"blockxsa","x":3947,"y":325},
-{"name":"blockxsa","x":3949,"y":400},
-{"name":"blockxsa","x":3950,"y":350},
+{"name":"blockxsa","x":3949,"y":415},
 
 
 {"name":"blockxwa","x":4300,"y":552},
@@ -211,11 +211,11 @@
 
 {"name":"blocksb","x":5369,"y":688},
 {"name":"block3b","x":5398,"y":763},
+{"name":"blockxsa","x":5440,"y":490},
 {"name":"block6b","x":5444,"y":563},
 {"name":"block4b","x":5444,"y":663},
 
-{"name":"blockxsa","x":5444,"y":470},
-{"name":"blockxsa","x":5447,"y":490},
+{"name":"blockxsa","x":5444,"y":455},
 
 
 
