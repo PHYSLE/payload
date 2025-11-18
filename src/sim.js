@@ -83,7 +83,7 @@ function Sim(canvasId) {
             this.context.fillStyle = 'rgb(255, 255, 255)';
             this.context.font = "14px Tahoma";
             this.context.fillText(`player x:${p.x.toFixed()*sim.scale} y:${p.y.toFixed()*sim.scale}`, 15, 25);
-            
+            this.context.fillText(`level: ${this.level}`, 15, 40);
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
 
