@@ -11,8 +11,10 @@ const Box2D = await Box2DFactory({
      return "assets/" + path;
    }
 })
+
 console.log(Box2D)
 const ZERO = new Box2D.b2Vec2(0, 0);
+
 
 function Sim(canvasId) {
      const $canvas = document.getElementById(canvasId)
@@ -23,6 +25,7 @@ function Sim(canvasId) {
      const sim = {
         level: 10,
         paused: false,
+        debug: false,
         engine: Box2D,
         scale: 40,// pixelsPerMeter = 32?;
         $canvas: $canvas,
@@ -86,18 +89,50 @@ function Sim(canvasId) {
             this.context.fillText(`level: ${this.level}`, 15, 40);
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
-
-            let map = false;
-            if (map) {
-                this.context.scale(this.scale/3, this.scale/3);
-                this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
+            if (this.debug) {
+                let map = false;
+                if (map) {
+                    this.context.scale(this.scale/3, this.scale/3);
+                    this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
+                }
+                else {
+                    this.context.scale(this.scale, this.scale);
+                    this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
+                }
+                this.context.lineWidth /= this.scale;
+                this.world.DebugDraw();
             }
             else {
-                this.context.scale(this.scale, this.scale);
-                this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
+                let b = this.world.GetBodyList();
+                let c = 0;
+
+                while (b && b.Zu > 0) {
+                    const nextB = b.GetNext();
+                    
+                    const model = this.models[b.UserData.name]
+                    let p = b.GetPosition();
+                    let a  = b.GetAngle();
+
+                    this.context.scale(this.scale, this.scale);
+                    this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
+
+                    this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
+                    if (a != 0)
+                        this.context.rotate(a)
+                    if (model.image.width) {
+                        this.context.drawImage(model.image, -model.image.width/2, -model.image.height/2)
+                        //this.context.drawImage(model.image, 0, 0)
+                    }
+                    this.context.setTransform(1,0,0,1,0,0); 
+
+                  
+
+                    b = nextB;
+                    c++
+                }
+                //console.log(c)
+          
             }
-            this.context.lineWidth /= this.scale;
-            this.world.DebugDraw();
 
             this.context.restore();
         },

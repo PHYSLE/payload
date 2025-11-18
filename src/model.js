@@ -1,3 +1,4 @@
+
 function Model(properties, Box2D) {
 try {
     const scale =  properties.scale;
@@ -5,8 +6,10 @@ try {
         properties: properties,
         body: new Box2D.b2BodyDef(),
         shape: null,
-        segments: []
+        segments: [],
+        image: new Image()
     }
+    model.image.src = 'assets/images/' + properties.name + '.png';
     model.body.userData = properties;
     if (properties.type == "passive") { 
         return model;

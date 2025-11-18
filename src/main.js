@@ -112,7 +112,7 @@ sim.player.exploded.addEventListener('change', () => {
 
             sim.clear();
             sim.load(sim.level);
-            sim.put('player',init[0],init[1]);
+
         }, 2000);
     }
 })
@@ -124,7 +124,7 @@ sim.player.finished.addEventListener('change', () => {
             sim.clear();
             sim.level++;
             sim.load(sim.level);
-            sim.put('player',init[0],init[1]);
+
         }, 2000);
     }
 })
