@@ -9,7 +9,8 @@ try {
         segments: [],
         image: new Image()
     }
-    model.image.src = 'assets/images/' + properties.name + '.png';
+    model.image.src = 'assets/images/' + properties.name.replace('_','') + '.png';
+
     model.body.userData = properties;
     if (properties.type == "passive") { 
         return model;

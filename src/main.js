@@ -79,6 +79,7 @@ console.log(sim.player.maxY*sim.scale)
 //sim.put('player',init[0],init[1]);
 
 document.addEventListener('keydown', (event) => {
+
   switch(event.code) {
     case "ArrowLeft":	
       MOVING_LEFT = true;
@@ -88,8 +89,10 @@ document.addEventListener('keydown', (event) => {
       break;
     case "Escape": 
       sim.paused = !sim.paused;				
-      console.log('sim.paused ', sim.paused )
       break;
+    case "Backquote":
+      sim.debug = !sim.debug;	
+
   }
 })
 

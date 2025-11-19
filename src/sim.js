@@ -23,7 +23,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 10,
+        level: 1,
         paused: false,
         debug: false,
         engine: Box2D,
@@ -77,15 +77,15 @@ function Sim(canvasId) {
             }          
         },
         drawCanvas: function() {
-            let p = this.player.chasis.GetPosition()
+            let player = this.player.chasis.GetPosition()
             if (this.player.exploded.value) {
-                p = this.player.diedHere;
+                player = this.player.diedHere;
             }
 
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
             this.context.fillStyle = 'rgb(255, 255, 255)';
             this.context.font = "14px Tahoma";
-            this.context.fillText(`player x:${p.x.toFixed()*sim.scale} y:${p.y.toFixed()*sim.scale}`, 15, 25);
+            this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
             this.context.fillText(`level: ${this.level}`, 15, 40);
             this.context.fillStyle = 'rgb(0,0,0)';
             this.context.save();
@@ -93,45 +93,39 @@ function Sim(canvasId) {
                 let map = false;
                 if (map) {
                     this.context.scale(this.scale/3, this.scale/3);
-                    this.context.translate(-(p.x - (450 / this.scale))+40, -(p.y - (300 / this.scale))+20);
+                    this.context.translate(-(player.x - (450 / this.scale))+40, -(player.y - (300 / this.scale))+20);
                 }
                 else {
                     this.context.scale(this.scale, this.scale);
-                    this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
+                    this.context.translate(-(player.x - (450 / this.scale)), -(player.y - (300 / this.scale)));
                 }
                 this.context.lineWidth /= this.scale;
                 this.world.DebugDraw();
             }
             else {
                 let b = this.world.GetBodyList();
-                let c = 0;
-
                 while (b && b.Zu > 0) {
-                    const nextB = b.GetNext();
+                    //const nextB = b.GetNext();
                     
                     const model = this.models[b.UserData.name]
                     let p = b.GetPosition();
                     let a  = b.GetAngle();
 
-                    this.context.scale(this.scale, this.scale);
-                    this.context.translate(-(p.x - (450 / this.scale)), -(p.y - (300 / this.scale)));
-
                     this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
-                    if (a != 0)
-                        this.context.rotate(a)
+                    
                     if (model.image.width) {
+                        this.context.translate(-(player.x * this.scale  -450), -(player.y * this.scale - 450));
+                        if (a != 0) {
+                            this.context.rotate(a)
+                        }
+ 
                         this.context.drawImage(model.image, -model.image.width/2, -model.image.height/2)
-                        //this.context.drawImage(model.image, 0, 0)
+
                     }
                     this.context.setTransform(1,0,0,1,0,0); 
 
-                  
-
-                    b = nextB;
-                    c++
-                }
-                //console.log(c)
-          
+                    b =  b.GetNext(); //nextB;
+                }          
             }
 
             this.context.restore();
