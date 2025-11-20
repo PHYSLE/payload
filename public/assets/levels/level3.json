@@ -73,20 +73,23 @@
 {"name":"blocksb","x":2710,"y":634},
 {"name":"blocksb","x":2710,"y":935},
 {"name":"block3b","x":2735,"y":1010},
-{"name":"block1b","x":2785,"y":395},
-{"name":"block4b","x":2785,"y":495},
-{"name":"floor1","x":3085,"y":445},
-{"name":"block1b","x":3385,"y":395},
-{"name":"block4b","x":3385,"y":495},
+
+{"name":"block1b","x":2785,"y":400},
+{"name":"block4b","x":2785,"y":500},
+
+{"name":"floor1","x":3085,"y":450},
+{"name":"block1b","x":3385,"y":400},
+{"name":"block4b","x":3385,"y":500},
 
 
 {"name":"block3b","x":3635,"y":579},
 {"name":"floor4","x":3660,"y":718},
-{"name":"floor1","x":3684,"y":445},
+
+{"name":"floor1","x":3684,"y":450},
 {"name":"block3b","x":3735,"y":579},
+{"name":"floor4","x":3810,"y":489},
 {"name":"floor4","x":3810,"y":692},
 
-{"name":"floor4","x":3810,"y":490},
 
 {"name":"block3b","x":3835,"y":579},
 {"name":"blocksb","x":3909,"y":3},
@@ -97,34 +100,41 @@
 
 {"name":"block4b","x":3934,"y":479},
 {"name":"block1b","x":3935,"y":78},
+
 {"name":"block3b","x":3935,"y":579},
 {"name":"block3b","x":3935,"y":679},
 {"name":"block3b","x":3935,"y":779},
-
-
-{"name":"block1b","x":4035,"y":78},
+{"name":"block2b","x":4035,"y":78},
 {"name":"block3b","x":4035,"y":579},
 {"name":"block3b","x":4035,"y":679},
 {"name":"block3b","x":4035,"y":779},
 {"name":"wall1","x":4036,"y":228},
+{"name":"wall1","x":4036,"y":428},
+
 {"name":"floor2","x":4084,"y":-122},
 {"name":"block2b","x":4133,"y":840},
-{"name":"wall1","x":4135,"y":228},
-{"name":"wall1","x":4135,"y":428},
-{"name":"block1b","x":4135,"y":78},
+{"name":"wall1","x":4236,"y":228},
+{"name":"wall1","x":4236,"y":428},
+
+{"name":"block2b","x":4135,"y":78},
 
 {"name":"floor2","x":4233,"y":979},
 {"name":"block2b","x":4233,"y":840},
 {"name":"floor2","x":4234,"y":677},
-{"name":"block1b","x":4235,"y":78},
+{"name":"block2b","x":4235,"y":78},
 
 
-{"name":"wall1","x":4335,"y":428},
+{"name":"wall1","x":4436,"y":228},
+{"name":"wall1","x":4436,"y":428},
+
 {"name":"block3b","x":4335,"y":78},
 {"name":"floor2","x":4384,"y":-121},
 {"name":"blocksb","x":4409,"y":402},
 {"name":"block2b","x":4433,"y":840},
-{"name":"block4b","x":4434,"y":327},
+{"name":"block1b","x":4434,"y":327},
+
+{"name":"block1b","x":4434,"y":227},
+
 {"name":"block4b","x":4435,"y":79},
 
 {"name":"blocksb","x":4459,"y":402},
@@ -133,7 +143,7 @@
 {"name":"floor2","x":4533,"y":979},
 {"name":"block2b","x":4533,"y":840},
 {"name":"block4b","x":4534,"y":327},
-{"name":"wall1","x":4535,"y":428},
+
 {"name":"block4b","x":4535,"y":79},
 {"name":"blocksb","x":4559,"y":402},
 {"name":"blocksb","x":4609,"y":402},
@@ -142,6 +152,7 @@
 {"name":"floor1","x":4634,"y":228},
 {"name":"block4b","x":4634,"y":327},
 {"name":"block4b","x":4635,"y":79},
+{"name":"wall1","x":4636,"y":428},
 
 {"name":"blocksb","x":4659,"y":402},
 {"name":"floor2","x":4683,"y":-121},
@@ -153,9 +164,8 @@
 {"name":"block3b","x":4733,"y":777},
 
 {"name":"block4b","x":4734,"y":327},
-{"name":"wall1","x":4735,"y":428},
-{"name":"wall1","x":4735,"y":628},
-{"name":"wall1","x":4735,"y":828},
+
+
 {"name":"block4b","x":4735,"y":79},
 
 {"name":"blocksb","x":4759,"y":402},
@@ -243,11 +253,11 @@
 {"name":"floor2","x":9698,"y":758},
 {"name":"depot","x":9923,"y":534},
 {"name":"floor2","x":9998,"y":758},
-{"name":"block1a","x":10098,"y":558},
+{"name":"block2a","x":10098,"y":558},
 {"name":"block5b","x":10098,"y":458},
-{"name":"block1a","x":10198,"y":558},
+{"name":"block2a","x":10198,"y":558},
 {"name":"block3b","x":10198,"y":458},
 {"name":"floor2","x":10298,"y":758},
-{"name":"block1a","x":10298,"y":558},
+{"name":"block2a","x":10298,"y":558},
 {"name":"block6b","x":10298,"y":458},
 {"name":"floor2","x":10598,"y":758}]

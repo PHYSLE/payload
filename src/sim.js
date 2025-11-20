@@ -23,7 +23,8 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 3,
+        level: 4,
+        offset: {x:800, y:400},
         paused: false,
         debug: false,
         engine: Box2D,
@@ -82,28 +83,66 @@ function Sim(canvasId) {
             }          
         },
         render: function() {
+            let map = false;
             let player = this.player.chasis.GetPosition()
             if (this.player.exploded.value) {
                 player = this.player.diedHere;
             }
 
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
-            this.context.fillStyle = 'rgb(255, 255, 255)';
+            this.context.save();
   
             if (this.debug) {
-                let map = false;
+
+                this.context.scale(1,1);
+
+                this.context.fillStyle = 'rgb(255, 255, 255)';
+                this.context.font = "14px Tahoma";
+                this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
+                this.context.fillText(`level: ${this.level}`, 15, 40);
+                this.context.fillText(`max y: ${this.player.maxY * this.scale} `, 15, 55);
+                this.context.fillStyle = 'rgb(0,0,0)';
+                
                 if (map) {
                     this.context.scale(this.scale/3, this.scale/3);
-                    this.context.translate(-(player.x - (450 / this.scale))+40, -(player.y - (300 / this.scale))+20);
+                    this.context.translate(-(player.x - (this.offset.x / this.scale))+40, -(player.y - (this.offset.y / this.scale))+20);
                 }
                 else {
                     this.context.scale(this.scale, this.scale);
-                    this.context.translate(-(player.x - (450 / this.scale)), -(player.y - (300 / this.scale)));
+                    this.context.translate(-(player.x - (this.offset.x / this.scale)), -(player.y - (this.offset.y / this.scale)));
                 }
                 this.context.lineWidth /= this.scale;
                 this.world.DebugDraw();
+
             }
             else {
+     
+                for(let z = 0, b = 0; z < 3; z++) {
+                    for(b = 0; b < this.layers[z].length; b++) {
+                        const img = this.models[this.layers[z][b].UserData.name].image;
+                        if (img.width) {
+                            let p = this.layers[z][b].GetPosition();  
+                            let visible = true;
+                            
+                            // todo - are we on screen?
+                            if (visible) {
+                                this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
+                                let a = this.layers[z][b].GetAngle();  
+                                this.context.translate(-(player.x * this.scale  -this.offset.x), -(player.y * this.scale - this.offset.y));
+                                if (a != 0) {
+                                    this.context.rotate(a)
+                                }
+                                this.context.drawImage(img, -img.width/2, -img.height/2)
+                                this.context.setTransform(1,0,0,1,0,0); 
+
+                            }
+                        }
+
+                    }
+                }
+
+
+                    /*         
                 let b = this.world.GetBodyList();
                 while (b && b.Zu > 0) {
                     //const nextB = b.GetNext();
@@ -126,16 +165,14 @@ function Sim(canvasId) {
                     this.context.setTransform(1,0,0,1,0,0); 
 
                     b =  b.GetNext(); //nextB;
-                }          
+                }    
+                    */
+   
             }
 
-            this.context.font = "14px Tahoma";
-            this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
-            this.context.fillText(`level: ${this.level}`, 15, 40);
-            this.context.fillText(`max y: ${this.player.maxY * this.scale} `, 15, 55);
-            this.context.fillStyle = 'rgb(0,0,0)';
-            this.context.save();
 
+            
+            
             this.context.restore();
         },
         define : function(properties) {
@@ -291,6 +328,7 @@ function Sim(canvasId) {
 
                 // clear tracked kinematics and player references
                 this.kinematics = [];
+                this.layers=[[],[],[]];
                 this.player.chasis = null;
                 this.player.tire1 = null;
                 this.player.tire2 = null;

@@ -63,7 +63,8 @@ sim.define({
 	mass:Infinity,
 	friction:1,
 	elastic:0,
-	radius:2
+	radius:2,
+    layer:0
 });		
 
 sim.define({
