@@ -14,6 +14,8 @@
 {"name":"player","x":400,"y":1250},
 
 
+
+
 {"name":"floor2","x":600,"y":1500},
 {"name":"block6b","x":800,"y":1400},
 {"name":"block4b","x":800,"y":1500},
@@ -99,19 +101,22 @@
 {"name":"block5a","x":3576,"y":1358},
 {"name":"block4a","x":3576,"y":1458},
 {"name":"block4a","x":3576,"y":1558},
-{"name":"blockxsa","x":3576,"y":1253},
-{"name":"blockxsa","x":3578,"y":1288},
+
 {"name":"snow6","x":3876,"y":1337},
 {"name":"snow5","x":4376,"y":1336},
 {"name":"snow6","x":4376,"y":1650},
 
-{"name":"block5a","x":4642,"y":1782},
+
 {"name":"blocksa","x":4650,"y":1563},
 {"name":"blocksa","x":4650,"y":1613},
 {"name":"blocksa","x":4650,"y":1663},
+{"name":"blocksa","x":4650,"y":1713},
+{"name":"blocksa","x":4650,"y":1763},
+{"name":"blocksa","x":4650,"y":1813},
+{"name":"blocksa","x":4650,"y":1863},
 
 {"name":"snow10","x":4736,"y":1585},
-{"name":"block6a","x":4742,"y":1782},
+
 {"name":"block5a","x":4901,"y":1540},
 {"name":"block2a","x":4901,"y":1640},
 {"name":"block4a","x":4901,"y":1740},
@@ -121,10 +126,11 @@
 {"name":"blocksa","x":5277,"y":1715},
 {"name":"blocksa","x":5327,"y":1715},
 {"name":"blocksa","x":5377,"y":1715},
+{"name":"floor2","x":5400,"y":1640},
 {"name":"floor2","x":5400,"y":1840},
 {"name":"block3b","x":5400,"y":2041},
 {"name":"block3b","x":5400,"y":2141},
-{"name":"floor2","x":5401,"y":1640},
+
 {"name":"blocksa","x":5427,"y":1715},
 {"name":"blocksa","x":5477,"y":1715},
 {"name":"block3b","x":5500,"y":2041},
@@ -254,13 +260,13 @@
 
 {"name":"depot","x":8623,"y":680},
 
+{"name":"block2a","x":8800,"y":705},
+{"name":"block4a","x":8800,"y":605},
+
 {"name":"block5b","x":8743,"y":1200},
 {"name":"block4b","x":8743,"y":1300},
 {"name":"block4b","x":8743,"y":1400},
-{"name":"blockxsb","x":8815,"y":730},
-{"name":"blockxsb","x":8834,"y":695},
-{"name":"blockxsb","x":8838,"y":625},
-{"name":"blockxsb","x":8841,"y":660},
+
 {"name":"block6b","x":8843,"y":800},
 {"name":"block3b","x":8843,"y":900},
 {"name":"block3b","x":8843,"y":1000},
@@ -268,7 +274,7 @@
 {"name":"block3b","x":8843,"y":1200},
 {"name":"block3b","x":8843,"y":1300},
 {"name":"block3b","x":8843,"y":1400},
-{"name":"blockxsb","x":8850,"y":730},
+
 
 {"name":"block6b","x":8943,"y":1000},
 {"name":"block4b","x":8943,"y":1100},

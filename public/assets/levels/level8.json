@@ -7,9 +7,10 @@
 {"name":"block6b","x":250,"y":1077},
 {"name":"block3b","x":250,"y":1276},
 {"name":"block4b","x":251,"y":1176},
-{"name":"floor1","x":351,"y":1167},
+{"name":"floor1","x":450,"y":1167},
 
 {"name":"player","x":400,"y":1030},
+
 
 
 {"name":"block5b","x":650,"y":1077},
@@ -104,7 +105,7 @@
 
 
 {"name":"blockw_b","x":4253,"y":1200},
-{"name":"blockw1b","x":4681,"y":1320},
+{"name":"blockwvb","x":4681,"y":720},
 
 {"name":"blocksb","x":4836,"y":810},
 {"name":"block5b","x":4861,"y":735},

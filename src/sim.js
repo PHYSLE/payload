@@ -23,7 +23,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 4,
+        level: 10,
         offset: {x:800, y:400},
         paused: false,
         debug: false,
