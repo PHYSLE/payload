@@ -114,7 +114,7 @@ function Sim(canvasId) {
                     this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
                     
                     if (model.image.width) {
-                        this.context.translate(-(player.x * this.scale  -450), -(player.y * this.scale - 450));
+                        this.context.translate(-(player.x * this.scale  -450), -(player.y * this.scale - 300));
                         if (a != 0) {
                             this.context.rotate(a)
                         }
