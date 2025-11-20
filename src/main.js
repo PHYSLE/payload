@@ -163,5 +163,5 @@ let time = 0;
         sim.updateKinematics();
         sim.player.update()
     } 
-    sim.drawCanvas();
+    sim.render();
 }(window.performance.now()));

@@ -23,7 +23,7 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 1,
+        level: 3,
         paused: false,
         debug: false,
         engine: Box2D,
@@ -34,6 +34,11 @@ function Sim(canvasId) {
            new Box2D.b2Vec2(0, 10) //12? // gravity
         ),
         models: {},
+        layers: [
+            [], // background
+            [], // ground
+            [], // foreground
+        ],
         kinematics:[],
         player: new Player(Box2D),
         updateKinematics: function() {
@@ -76,7 +81,7 @@ function Sim(canvasId) {
                 }
             }          
         },
-        drawCanvas: function() {
+        render: function() {
             let player = this.player.chasis.GetPosition()
             if (this.player.exploded.value) {
                 player = this.player.diedHere;
@@ -84,11 +89,7 @@ function Sim(canvasId) {
 
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
             this.context.fillStyle = 'rgb(255, 255, 255)';
-            this.context.font = "14px Tahoma";
-            this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
-            this.context.fillText(`level: ${this.level}`, 15, 40);
-            this.context.fillStyle = 'rgb(0,0,0)';
-            this.context.save();
+  
             if (this.debug) {
                 let map = false;
                 if (map) {
@@ -127,6 +128,13 @@ function Sim(canvasId) {
                     b =  b.GetNext(); //nextB;
                 }          
             }
+
+            this.context.font = "14px Tahoma";
+            this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
+            this.context.fillText(`level: ${this.level}`, 15, 40);
+            this.context.fillText(`max y: ${this.player.maxY * this.scale} `, 15, 55);
+            this.context.fillStyle = 'rgb(0,0,0)';
+            this.context.save();
 
             this.context.restore();
         },
@@ -192,6 +200,10 @@ function Sim(canvasId) {
                     var body = this.world.CreateBody(model.body);
                     body.SetTransform(pos, 0);
                     body.UserData = {name: name};
+                    let n = Number(model.properties.layer);
+                    if (n != NaN) {
+                        this.layers[n].push(body);
+                    }
 
 
                     if (model.shape) { // not passive

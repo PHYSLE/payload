@@ -10,7 +10,8 @@ sim.define({
 	mass:20,//16,
 	friction:2,
 	elastic:0,
-	fixed:false
+	fixed:false,
+    layer:2
 });
 
 sim.define({
@@ -23,7 +24,8 @@ sim.define({
 	fixed:false,
 	width:85,
 	height:40,
-	verts:[27,-10, 43, 1, 38,  7, -42, 7, -42, 2,-33, -10]
+	verts:[27,-10, 43, 1, 38,  7, -42, 7, -42, 2,-33, -10],
+    layer:2
 
 });
 
@@ -36,9 +38,23 @@ sim.define({
 	elastic:0,
 	fixed:false,
 	width:32,
-	height:20
+	height:20,
+    layer:2
 });
 
+
+
+
+sim.define({
+	name:"depot",
+	type:"sensor",
+	shape:"polygon",
+	verts:[-50,-50,50,-50,50,50,-50,50],
+	width:250,
+	height:150,
+	mass:Infinity,
+    layer:2
+});
 
 sim.define({
 	name:"anchor",
@@ -69,7 +85,8 @@ sim.define({
 	height:100,
 	mass:Infinity,
 	elastic:0,
-	friction:1
+	friction:1,
+    layer:2
 });
 
 sim.define({
@@ -116,7 +133,8 @@ sim.define({
 	height:100,
 	mass:Infinity,
 	elastic:0,
-	friction:1
+	friction:1,
+    layer:2
 })
 
 sim.define({
@@ -134,7 +152,8 @@ sim.define({
 	height:100,
 	mass:Infinity,
 	elastic:0,
-	friction:1
+	friction:1,
+    layer:2
 })
 
 
@@ -165,7 +184,8 @@ sim.define({
 	height:35,
 	mass:.5,
 	elastic:0,
-	friction:.5
+	friction:.5,
+    layer:2
 })
 
 sim.define({
@@ -173,69 +193,6 @@ sim.define({
 	parent:"blockxsa"
 });
 
-sim.define({
-	name:"floor1",
-	parent:"block1a",
-	width:500,
-	height:200
-});
-
-sim.define({
-	name:"floor2",
-	parent:"block1a",
-	width:300,
-	height:300
-});
-
-sim.define({
-	name:"floor3",
-	type:"static",
-	shape:"polygon",
-	verts:[75, -137,  75, 162,  -75,  137, -75, -162],
-	mass:Infinity,
-	elastic:0,
-	friction:1,
-	width:150,
-	height:325
-});
-
-
-sim.define({
-	name:"floor4",
-	type:"static",
-	shape:"polygon",
-	verts:[75, -162,  75, 137,  -75,  162, -75, -137],
-	mass:Infinity,
-	elastic:0,
-	friction:1,
-	width:150,
-	height:325
-});
-
-
-sim.define({
-	name:"wall1",
-	shape:"rect",
-	type:"passive",
-	width:200,
-	height:200
-});
-
-
-sim.define({
-	name:"wall2",
-	shape:"rect",
-	type:"passive",
-	width:200,
-	height:200
-});
-
-sim.define({
-	name:"floor5",
-	parent:"floor1",
-	width:300,
-	height:150
-});
 
 sim.define({
     name:"blockxwa",
@@ -254,7 +211,8 @@ sim.define({
     joint: [0,0],
 	mass:10,
 	elastic:0,
-	friction:1
+	friction:1,
+    layer:2
 })
 
 sim.define({
@@ -267,7 +225,8 @@ sim.define({
 	width:230,
 	height:100,
 	waypoints:[200,0,0,0],
-	velocity:5
+	velocity:5,
+    layer:2
 });
 
 sim.define({
@@ -305,6 +264,62 @@ sim.define({
 	waypoints:[0,600,0,0]
 });
 
+
+
+sim.define({
+	name:"floor1",
+	parent:"block1a",
+	width:500,
+	height:200,
+    layer:1
+});
+
+sim.define({
+	name:"floor2",
+	parent:"block1a",
+	width:300,
+	height:300,
+    layer:1
+});
+
+sim.define({
+	name:"floor3",
+	type:"static",
+	shape:"polygon",
+	verts:[75, -137,  75, 162,  -75,  137, -75, -162],
+	mass:Infinity,
+	elastic:0,
+	friction:1,
+	width:150,
+	height:325,
+    layer:1
+});
+
+
+sim.define({
+	name:"floor4",
+	type:"static",
+	shape:"polygon",
+	verts:[75, -162,  75, 137,  -75,  162, -75, -137],
+	mass:Infinity,
+	elastic:0,
+	friction:1,
+	width:150,
+	height:325,
+    layer:1
+});
+
+
+
+sim.define({
+	name:"floor5",
+	parent:"floor1",
+	width:300,
+	height:150,
+    layer:1
+});
+
+
 sim.define({
     name:"cliff",
     type:"static",
@@ -312,6 +327,7 @@ sim.define({
 	mass:Infinity,
     elastic:0,
 	friction:1,
+    layer:1,
     verts:[
         125,-38,
         107,-55,
@@ -340,22 +356,13 @@ sim.define({
 
 
 sim.define({
-	name:"depot",
-	type:"sensor",
-	shape:"polygon",
-	verts:[-50,-50,50,-50,50,50,-50,50],
-	width:250,
-	height:150,
-	mass:Infinity
-});
-
-sim.define({
     name:"snow4",
     type:"static",
     shape:"line",
 	mass:Infinity,
     elastic:0,
 	friction:1,
+    layer:1,
     verts: [
         -250,0,
         -214,2,
@@ -377,6 +384,7 @@ sim.define({
 	mass:Infinity,
     elastic:0,
 	friction:1,
+    layer:1,
     verts: [
         -250,-145,
         -200,-106,
@@ -430,6 +438,7 @@ sim.define({
     mass:7,
     elastic:0,
     friction:.85,
+    layer:2,
     verts:
         [128,-36,
         -137,-31,
@@ -444,6 +453,24 @@ sim.define({
 })
 
 
+sim.define({
+	name:"wall1",
+	shape:"rect",
+	type:"passive",
+	width:200,
+	height:200,
+    layer:0
+});
+
+
+sim.define({
+	name:"wall2",
+	shape:"rect",
+	type:"passive",
+	width:200,
+	height:200,
+    layer:0
+});
 
 
 }
