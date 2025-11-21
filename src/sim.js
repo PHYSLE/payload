@@ -23,8 +23,8 @@ function Sim(canvasId) {
         return null;
      }
      const sim = {
-        level: 10,
-        offset: {x:800, y:400},
+        level: 1,
+        offset: {x:400, y:200},
         paused: false,
         debug: false,
         engine: Box2D,
@@ -84,9 +84,12 @@ function Sim(canvasId) {
         },
         render: function() {
             let map = false;
-            let player = this.player.chasis.GetPosition()
+            let player = null;
             if (this.player.exploded.value) {
                 player = this.player.diedHere;
+            }
+            else {
+                player = this.player.chasis.GetPosition()
             }
 
             this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
@@ -101,6 +104,7 @@ function Sim(canvasId) {
                 this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
                 this.context.fillText(`level: ${this.level}`, 15, 40);
                 this.context.fillText(`max y: ${this.player.maxY * this.scale} `, 15, 55);
+
                 this.context.fillStyle = 'rgb(0,0,0)';
                 
                 if (map) {
@@ -333,12 +337,14 @@ function Sim(canvasId) {
                 this.player.tire1 = null;
                 this.player.tire2 = null;
                 this.player.nuke = null;
+                this.player.maxY = Infinity; 
             }
             catch(error) {
                 console.error('Error clearing Box2D world', error);
             }
         },
         load:async function(level) {
+            this.level = level;
             await fetch(`../assets/levels/level${level}.json`)
                 .then((response) => response.json())
                 .then((json) => {

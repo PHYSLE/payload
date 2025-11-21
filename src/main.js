@@ -1,16 +1,33 @@
-
 import Sim from './sim.js'
+import Cookie from './cookie.js'
 import defineAll from './definitions.js'
 
+const cookieName = '_phy_pl';
 const sim = new Sim('canvas')
 
 defineAll(sim);
+
+let level = 1;
+let c = Cookie.getCookie(cookieName);
+
+if (c) {
+    try {
+        let state = JSON.parse(c);
+        //console.log('state', state)
+
+        level = state.level;
+    }
+    catch(e) {
+        console.error(e)
+    }
+}
+
 
 
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
 
-await sim.load(sim.level);
+await sim.load(level);
 
 console.log(sim.player.maxY*sim.scale)
 
@@ -110,9 +127,7 @@ document.addEventListener('keyup', (event) => {
 
 sim.player.exploded.addEventListener('change', () => {
     if (sim.player.exploded.value) {
-        // @todo - reload level
         setTimeout(() => {
-
             sim.clear();
             sim.load(sim.level);
 
@@ -122,10 +137,15 @@ sim.player.exploded.addEventListener('change', () => {
 
 sim.player.finished.addEventListener('change', () => {
     if (sim.player.finished.value) {
-        //sim.player.finished.value = false;
         setTimeout(() => {
             sim.clear();
-            sim.level++;
+            if (sim.level == 10) {
+                sim.level = 1
+            }
+            else {
+                sim.level++;
+            }
+            Cookie.setCookie(cookieName, JSON.stringify({level:  sim.level}))
             sim.load(sim.level);
 
         }, 2000);

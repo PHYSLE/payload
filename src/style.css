@@ -21,12 +21,18 @@ body {
     user-select: none;
 }
 
+#canvas {
+    overflow: hidden;
+    width: 100%;
+}
+
 #timer {
-    width:890px;
+    width:100%;
     font-family: "LED";
     font-size: 60px;
     color: white;
     position:absolute;
     top:5px;
+    right:10px;
     text-align: right;
 }

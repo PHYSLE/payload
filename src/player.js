@@ -48,6 +48,9 @@ function Player(Box2D) {
             this.applyForce(this.tire2, forceVec)
         },
         update:function() {
+            if (this.exploded.value || this.finished.value) {
+                return;
+            }
             let iterator = this.nuke.GetContactList();
             let i = 0;
             let pos = this.chasis.GetPosition();
@@ -77,6 +80,7 @@ function Player(Box2D) {
                 iterator = iterator.get_next();
                 i++
             }
+            
         },
         randForce:function() {
             // maybe use random angle so it always hits hard!
