@@ -7,109 +7,48 @@ const sim = new Sim('canvas')
 
 defineAll(sim);
 
-let level = 1;
-let c = Cookie.getCookie(cookieName);
+let MOVING_LEFT = false;
+let MOVING_RIGHT = false;
+let level = 9;
+let cookie = Cookie.getCookie(cookieName);
 
-if (c) {
+if (cookie) {
     try {
-        let state = JSON.parse(c);
+        let state = JSON.parse(cookie);
         //console.log('state', state)
 
-        level = state.level;
+        //level = state.level;
     }
     catch(e) {
         console.error(e)
     }
 }
 
-
-
-let MOVING_LEFT = false;
-let MOVING_RIGHT = false;
-
 await sim.load(level);
 
-console.log(sim.player.maxY*sim.scale)
-
-//const init = [400, 200] // level 1 start
-// const init = [3900, 400] // level 1 blocks
-//const init = [4200, 400] // level 1 pit
-// const init = [5300, 400] // level 1 bridge
-
-
-//const init = [2600, 400] // level 2 bridge
-//const init = [3100, 440] // level 2 rotate thing
-
-//const init = [5080, 400] // level 2 jump
-//const init = [5800, 400] // level 2 jump
-
-//const init = [8200, 600] // level 2 last bridge
-
-//const init = [3800, 200] // level 3 cave
-//const init = [5000, 600] // level 3 cave2
-
-//const init = [6800, 500] // level 3 snow
-
-
-//const init = [400, 1200] // level 4 start
-//const init = [5400, 1000] // level 4 snow
-
-//const init = [5800, 1800] // level 4 elevator
-//const init = [6200, 1100] // level 4 more snow
-//const init = [8300, 1100] // level 4 elevator
-
-//const init = [10500, 540] // level 4 top
-
-//const init = [2500, 450] // level 5 top
-//const init = [12400, 3200] // level 5 bridges
-//const init = [13650, 3400]
-
-//const init = [400, 1200] // level 6 start
-//const init = [5120, 1200] // level 6 elevator
-
-//const init = [8000, 600] // level 6 depot
-
-
-//const init = [400, 200] // level 7 start
-//const init = [2000, 200] // level 7 island 1
-//const init = [3800, 200] // level 7 island 2
-//const init = [5200, 200] // level 7 island 3
-//const init = [7600, 200] // level 7 bridge
-
-
-//const init = [400, 800] // level 8 start
-//const init = [4000, 1000] // level 8 elevator
-//const init = [5300, 600] // level 8 elevator
-
-
-// const init = [900, 1200] // level 9 start
-//const init = [5600, 1700] // level 9 elevator
-//const init = [6080, 1200] // level 9 top
-//const init = [7200, 1500] // level 9 ramp
-//const init = [12300, 1500] // level 9 depot
-
-//const init = [400, 200] // level 10 start
-//const init = [1960, 700] // level 10 pit
-//const init = [5580, 1040] // level 10 island
-//const init = [7400, 1140] // level 10 depot
-
-//sim.put('player',init[0],init[1]);
-
 document.addEventListener('keydown', (event) => {
-
   switch(event.code) {
     case "ArrowLeft":	
-      MOVING_LEFT = true;
-      break;
+        MOVING_LEFT = true;
+        break;
     case "ArrowRight": 
-      MOVING_RIGHT = true;
-      break;
+        MOVING_RIGHT = true;
+        break;
     case "Escape": 
-      sim.paused = !sim.paused;				
-      break;
+        sim.paused = !sim.paused;				
+        break;
     case "Backquote":
-      sim.debug = !sim.debug;	
-
+        if (sim.map) {
+            sim.debug = false;
+            sim.map = false;
+        }
+        else if (sim.debug) {
+            sim.map = true;
+        }
+        else {
+            sim.debug = true;
+            sim.map = false;
+        }
   }
 })
 

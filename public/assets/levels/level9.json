@@ -1,3 +1,5 @@
+{"background":"bg-clouds1",
+"objects":
 [{"name":"block2b","x":338,"y":1529},
 {"name":"block2b","x":338,"y":1429},
 {"name":"cliff2","x":360,"y":1075},
@@ -259,4 +261,4 @@
 {"name":"floor2","x":12999,"y":1862},
 {"name":"block6b","x":13075,"y":1562},
 {"name":"block4a","x":13076,"y":1662},
-{"name":"floor2","x":13299,"y":1862}]
+{"name":"floor2","x":13299,"y":1862}]}

@@ -1,3 +1,5 @@
+{"background":"bg-sunrise1",
+"objects":
 [{"name":"blocksa","x":-75,"y":1275},
 {"name":"blocksa","x":-75,"y":1325},
 {"name":"floor2","x":0,"y":1500},
@@ -405,7 +407,7 @@
 
 {"name":"wall1","x":10119,"y":1763},
 {"name":"wall1","x":10119,"y":1563},
-{"name":"wall1","x":10119,"y":1363}]
+{"name":"wall1","x":10119,"y":1363}]}
 
 
 

@@ -1,3 +1,5 @@
+{"background":"bg-night1",
+"objects":
 [{"name":"blocksb","x":-125,"y":325},
 {"name":"block2b","x":-100,"y":150},
 {"name":"block2b","x":-100,"y":250},
@@ -283,4 +285,4 @@
 {"name":"block1a","x":8987,"y":1152},
 {"name":"depot","x":8612,"y":1126},
 {"name":"floor2","x":8249,"y":1351},
-{"name":"floor2","x":9149,"y":1351}]
+{"name":"floor2","x":9149,"y":1351}]}

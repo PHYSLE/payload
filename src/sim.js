@@ -24,13 +24,15 @@ function Sim(canvasId) {
      }
      const sim = {
         level: 1,
-        offset: {x:400, y:200},
+        offset: {x:500, y:250},
         paused: false,
         debug: false,
+        map: false,
         engine: Box2D,
         scale: 40,// pixelsPerMeter = 32?;
         $canvas: $canvas,
         context: $canvas.getContext("2d"),
+        background: new Image(),
         world: new Box2D.b2World(
            new Box2D.b2Vec2(0, 10) //12? // gravity
         ),
@@ -42,142 +44,19 @@ function Sim(canvasId) {
         ],
         kinematics:[],
         player: new Player(Box2D),
-        updateKinematics: function() {
-            if (this.kinematics.length == 0) {
-                return;
-            }
-            for (const body of this.kinematics) {
-                let pos = body.GetPosition();
-                if (body.UserData && body.UserData.waypoints && body.UserData.waypoints.length > 0 ) {
-                    var vel = 2; // @todo
-                    var target = body.UserData.waypointTarget % body.UserData.waypoints.length;	
-                    
-                    // distance
-                    var xd = Math.abs(pos.x - body.UserData.waypoints[target].x);
-                    var yd = Math.abs(pos.y - body.UserData.waypoints[target].y);
-
-                    if (xd <= .1 && yd <= .1) {
-                        // arrived
-                        //pos.x = body.UserData.waypoints[t].x;
-                        //pos.y = body.UserData.waypoints[t].y;
-                        body.UserData.waypointTarget++;
-                        body.SetLinearVelocity(new Box2D.b2Vec2(0,0));
-                        //console.log('arrived at ' + t);
+        load:async function(level) {
+            await fetch(`../assets/levels/level${level}.json`)
+                .then((response) => response.json())
+                .then((json) => {
+                    this.level = level;
+                    if (json.background) {
+                        this.background.src = `../assets/images/${json.background}.jpg`;
                     }
-                    else {
-                        if (pos.x < body.UserData.waypoints[target].x) {
-                            body.SetLinearVelocity(new Box2D.b2Vec2(vel,0));
-                        }
-                        else if (pos.x > body.UserData.waypoints[target].x) {
-                            body.SetLinearVelocity(new Box2D.b2Vec2(-vel,0));
-                        }
-                    
-                        if (pos.y < body.UserData.waypoints[target].y) {
-                            body.SetLinearVelocity(new Box2D.b2Vec2(0,vel));
-                        }
-                        else if (pos.y > body.UserData.waypoints[target].y) {
-                            body.SetLinearVelocity(new Box2D.b2Vec2(0,-vel));
-                        }			
-                    }
-                }
-            }          
-        },
-        render: function() {
-            let map = false;
-            let player = null;
-            if (this.player.exploded.value) {
-                player = this.player.diedHere;
-            }
-            else {
-                player = this.player.chasis.GetPosition()
-            }
-
-            this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
-            this.context.save();
-  
-            if (this.debug) {
-
-                this.context.scale(1,1);
-
-                this.context.fillStyle = 'rgb(255, 255, 255)';
-                this.context.font = "14px Tahoma";
-                this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
-                this.context.fillText(`level: ${this.level}`, 15, 40);
-                this.context.fillText(`max y: ${this.player.maxY * this.scale} `, 15, 55);
-
-                this.context.fillStyle = 'rgb(0,0,0)';
-                
-                if (map) {
-                    this.context.scale(this.scale/3, this.scale/3);
-                    this.context.translate(-(player.x - (this.offset.x / this.scale))+40, -(player.y - (this.offset.y / this.scale))+20);
-                }
-                else {
-                    this.context.scale(this.scale, this.scale);
-                    this.context.translate(-(player.x - (this.offset.x / this.scale)), -(player.y - (this.offset.y / this.scale)));
-                }
-                this.context.lineWidth /= this.scale;
-                this.world.DebugDraw();
-
-            }
-            else {
-     
-                for(let z = 0, b = 0; z < 3; z++) {
-                    for(b = 0; b < this.layers[z].length; b++) {
-                        const img = this.models[this.layers[z][b].UserData.name].image;
-                        if (img.width) {
-                            let p = this.layers[z][b].GetPosition();  
-                            let visible = true;
-                            
-                            // todo - are we on screen?
-                            if (visible) {
-                                this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
-                                let a = this.layers[z][b].GetAngle();  
-                                this.context.translate(-(player.x * this.scale  -this.offset.x), -(player.y * this.scale - this.offset.y));
-                                if (a != 0) {
-                                    this.context.rotate(a)
-                                }
-                                this.context.drawImage(img, -img.width/2, -img.height/2)
-                                this.context.setTransform(1,0,0,1,0,0); 
-
-                            }
-                        }
-
-                    }
-                }
-
-
-                    /*         
-                let b = this.world.GetBodyList();
-                while (b && b.Zu > 0) {
-                    //const nextB = b.GetNext();
-                    
-                    const model = this.models[b.UserData.name]
-                    let p = b.GetPosition();
-                    let a  = b.GetAngle();
-
-                    this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
-                    
-                    if (model.image.width) {
-                        this.context.translate(-(player.x * this.scale  -450), -(player.y * this.scale - 300));
-                        if (a != 0) {
-                            this.context.rotate(a)
-                        }
- 
-                        this.context.drawImage(model.image, -model.image.width/2, -model.image.height/2)
-
-                    }
-                    this.context.setTransform(1,0,0,1,0,0); 
-
-                    b =  b.GetNext(); //nextB;
-                }    
-                    */
-   
-            }
-
-
-            
-            
-            this.context.restore();
+                    json.objects.map((obj) => {
+                        this.put(obj.name, obj.x, obj.y);
+                    })
+                })
+                .catch(error => console.error('Error loading level ' + level, error))
         },
         define : function(properties) {
             try {
@@ -199,6 +78,91 @@ function Sim(canvasId) {
             }
             catch(error) {
                 console.error(error);
+            }
+        },
+        put: function(name, x, y) {
+            try {
+                if (name == 'player') {
+                    return this.putPlayer(x,y);
+                }
+
+                let model = this.models[name];
+                if (!model) {
+                    throw(`Missing model for ${name} in sim.put`);
+                }
+    
+                if (!model.body) { // passive object with no physics
+                    return null;
+                }
+            
+                const pos = new Box2D.b2Vec2(x/this.scale, y/this.scale);
+                
+                var body = this.world.CreateBody(model.body);
+                body.SetTransform(pos, 0);
+                body.SetLinearVelocity(ZERO);
+                body.SetEnabled(true);
+
+                body.UserData = {name: name};
+
+                let n = Number(model.properties.layer);
+                if (n != NaN) {
+                    this.layers[n].push(body);
+                }
+
+
+                if (model.shape) { // not passive
+                    this.attachShape(body, model);
+                }
+                else if (model.segments) {
+                    this.attachLine(body, model);
+                }
+
+
+                if (model.body.type == Box2D.b2_kinematicBody && model.properties.waypoints) {
+
+                    let wp = model.properties.waypoints;
+                    body.UserData.waypointTarget = 0;
+                    body.UserData.waypoints = []
+
+                    for (var i = 0; i < wp.length; i+=2) {
+                        var v = new Box2D.b2Vec2((x+ wp[i]) /this.scale , (y + wp[i+1]) /this.scale );
+                        body.UserData.waypoints.push(v);
+                    }
+                    this.kinematics.push(body);
+                }
+
+
+                if (model.properties.joint) {
+                    let anchor = this.put('anchor', x, y);
+                    this.join(body, model.properties.joint[0], model.properties.joint[1], anchor, 0,0, false);
+                }
+        
+                let my = (y/this.scale)-(200/this.scale);
+                if (this.player.maxY == Infinity || this.player.maxY < my) {
+                    this.player.maxY = my;
+                }
+                
+                return body;
+            }
+            catch(error) {
+                console.error(error);
+            }
+        },
+        attachShape(body, model) {
+            let fixture = body.CreateFixture(model.shape, model.properties.mass);                 
+            fixture.SetDensity(1);
+            fixture.SetFriction(model.properties.friction);
+            fixture.SetRestitution(model.properties.elastic);
+            if (model.properties.type == "sensor") {
+                fixture.SetSensor(true);
+            }
+        },
+        attachLine(body, model)  {
+            for(const segment of model.segments) {
+                let fixture = body.CreateFixture(segment, model.properties.mass);                 
+                fixture.SetDensity(1);//model.properties.mass);
+                fixture.SetFriction(model.properties.friction);
+                fixture.SetRestitution(model.properties.elastic); 
             }
         },
         putPlayer: function(x, y) {
@@ -224,84 +188,6 @@ function Sim(canvasId) {
                 console.error(error);
             }
         },
-        put: function(name, x, y) {
-            try {
-                if (name == 'player') {
-                    return this.putPlayer(x,y);
-                }
-
-                let model = this.models[name];
-                if (!model) {
-                    throw(`Missing model for ${name} in sim.put`);
-                }
-    
-                if (model.body) {
-                    const pos = new Box2D.b2Vec2(x/this.scale, y/this.scale);
-                    
-                    var body = this.world.CreateBody(model.body);
-                    body.SetTransform(pos, 0);
-                    body.UserData = {name: name};
-                    let n = Number(model.properties.layer);
-                    if (n != NaN) {
-                        this.layers[n].push(body);
-                    }
-
-
-                    if (model.shape) { // not passive
-                        body.SetLinearVelocity(ZERO);
-                        body.SetEnabled(true);
-
-                        let fixture = body.CreateFixture(model.shape, model.properties.mass);                 
-                        fixture.SetDensity(1);//model.properties.mass);
-                        fixture.SetFriction(model.properties.friction);
-                        fixture.SetRestitution(model.properties.elastic);
-
-                        if (model.properties.type == "sensor") {
-                            fixture.SetSensor(true);
-                        }
-                        if (model.body.type == Box2D.b2_kinematicBody && model.properties.waypoints) {
-                            //console.log('b2_kinematicBody')
-                            let wp = model.properties.waypoints;
-                            body.UserData.waypointTarget = 0;
-                            body.UserData.waypoints = []
-
-                            for (var i = 0; i < wp.length; i+=2) {
-                                var v = new Box2D.b2Vec2((x+ wp[i]) /this.scale , (y + wp[i+1]) /this.scale );
-                                body.UserData.waypoints.push(v);
-                            }
-                            this.kinematics.push(body);
-                        }
-                    }
-                    else if (model.segments) {
-                        body.SetLinearVelocity(ZERO);
-                        body.SetEnabled(true);
-                        for(const segment of model.segments) {
-                            let fixture = body.CreateFixture(segment, model.properties.mass);                 
-                            fixture.SetDensity(1);//model.properties.mass);
-                            fixture.SetFriction(model.properties.friction);
-                            fixture.SetRestitution(model.properties.elastic); 
-                        }
-                    }
-
-                    if (model.properties.joint) {
-                        let anchor = this.put('anchor', x, y);
-                        this.join(body, model.properties.joint[0], model.properties.joint[1], anchor, 0,0, false);
-                    }
-            
-                    let my = (y/this.scale)-(200/this.scale);
-                    if (this.player.maxY == Infinity || this.player.maxY < my) {
-                        this.player.maxY = my;
-                    }
-                    
-                    return body;
-                }
-
-                
-            }
-            catch(error) {
-                console.error(error);
-            }
-        },
         join:function(bodyA, xA, yA, bodyB, xB, yB, collide) {
             try {
                 var jDef = new Box2D.b2RevoluteJointDef();
@@ -319,6 +205,111 @@ function Sim(canvasId) {
             catch(error) {
                 console.error(error);
             }
+        },
+        renderDebug: function(player) {
+            this.context.scale(1,1);
+
+            this.context.fillStyle = 'rgb(255, 255, 255)';
+            this.context.font = "14px Tahoma";
+            this.context.fillText(`player x:${player.x.toFixed()*sim.scale} y:${player.y.toFixed()*sim.scale}`, 15, 25);
+            this.context.fillText(`level: ${this.level}`, 15, 40);
+            this.context.fillText(`max y: ${this.player.maxY * this.scale} `, 15, 55);
+
+            this.context.fillStyle = 'rgb(0,0,0)';
+            
+            if (this.map) {
+                this.context.scale(this.scale/3, this.scale/3);
+                this.context.translate(-(player.x - (this.offset.x / this.scale))+40, -(player.y - (this.offset.y / this.scale))+20);
+            }
+            else {
+                this.context.scale(this.scale, this.scale);
+                this.context.translate(-(player.x - (this.offset.x / this.scale)), -(player.y - (this.offset.y / this.scale)));
+            }
+            this.context.lineWidth /= this.scale;
+            this.world.DebugDraw();
+        },
+        renderLayers: function(player) {
+            this.context.drawImage(this.background, 0-player.x,0 )
+            for(let z = 0, b = 0; z < 3; z++) {
+                for(b = 0; b < this.layers[z].length; b++) {
+                    const img = this.models[this.layers[z][b].UserData.name].image;
+                    if (img.width) {
+                        let p = this.layers[z][b].GetPosition();  
+                        let visible = true;
+                        
+                        // todo - are we on screen?
+                        if (visible) {
+                            this.context.setTransform(1, 0, 0, 1, p.x * this.scale, p.y * this.scale); 
+                            let a = this.layers[z][b].GetAngle();  
+                            this.context.translate(-(player.x * this.scale  -this.offset.x), -(player.y * this.scale - this.offset.y));
+                            if (a != 0) {
+                                this.context.rotate(a)
+                            }
+                            this.context.drawImage(img, -img.width/2, -img.height/2)
+                            this.context.setTransform(1,0,0,1,0,0); 
+
+                        }
+                    }
+
+                }
+            }
+        },
+        render: function() {
+            let player = null;
+            if (this.player.exploded.value) {
+                player = this.player.diedHere;
+            }
+            else {
+                player = this.player.chasis.GetPosition()
+            }
+
+            this.context.fillRect(0, 0, this.$canvas.width, this.$canvas.height);
+            this.context.save();
+  
+            if (this.debug) {
+                this.renderDebug(player);
+            }
+            else {
+                this.renderLayers(player);
+            }    
+            this.context.restore();
+        },
+        updateKinematics: function() {
+            if (this.kinematics.length == 0) {
+                return;
+            }
+            for (const body of this.kinematics) {
+                let pos = body.GetPosition();
+                if (body.UserData && body.UserData.waypoints && body.UserData.waypoints.length > 0 ) {
+                    var vel = 2; // @todo
+                    var target = body.UserData.waypointTarget % body.UserData.waypoints.length;	
+                    
+                    // distance
+                    var xd = Math.abs(pos.x - body.UserData.waypoints[target].x);
+                    var yd = Math.abs(pos.y - body.UserData.waypoints[target].y);
+
+                    if (xd <= .1 && yd <= .1) {
+                        // arrived
+                        body.UserData.waypointTarget++;
+                        body.SetLinearVelocity(new Box2D.b2Vec2(0,0));
+                    }
+                    else {
+                        if (pos.x < body.UserData.waypoints[target].x) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(vel,0));
+                        }
+                        else if (pos.x > body.UserData.waypoints[target].x) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(-vel,0));
+                        }
+                    
+                        if (pos.y < body.UserData.waypoints[target].y) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(0,vel));
+                        }
+                        else if (pos.y > body.UserData.waypoints[target].y) {
+                            body.SetLinearVelocity(new Box2D.b2Vec2(0,-vel));
+                        }			
+                    }
+                }
+            }          
         },
         clear:function() {
             try {
@@ -342,19 +333,6 @@ function Sim(canvasId) {
             catch(error) {
                 console.error('Error clearing Box2D world', error);
             }
-        },
-        load:async function(level) {
-            this.level = level;
-            await fetch(`../assets/levels/level${level}.json`)
-                .then((response) => response.json())
-                .then((json) => {
-
-                    this.level = level;
-                    json.map((obj) => {
-                        this.put(obj.name, obj.x, obj.y);
-                    })
-                })
-                .catch(error => console.error('Error loading level ' + level, error))
         }
     }
 
