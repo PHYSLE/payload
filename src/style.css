@@ -21,6 +21,10 @@ body {
     user-select: none;
 }
 
+a {
+    cursor: pointer;
+}
+
 #canvas {
     overflow: hidden;
     width: 100%;
@@ -35,4 +39,57 @@ body {
     top:5px;
     right:10px;
     text-align: right;
+}
+
+#menu {
+	margin: 0px auto;
+	padding:20px;
+	width:180px;
+
+	background-color:rgba(70, 70, 70, 0.7); 
+	border:1px rgba(255, 255, 255, 0.5) solid;
+	position:absolute;
+	top:50px;
+	left:calc(50% - 100px);
+	text-align:center;
+	font-size:10px;
+	font-family:verdana;
+
+    
+}
+
+#menu img {
+	padding-bottom:10px;
+}
+
+.hidden {
+    display:none;
+}
+
+.button{
+	margin: 0px auto;
+	color:#FFFFFF;
+	display:block;
+	background-image:url("../assets/images/button1.png");
+	background-size: 100% 100%;
+	width:100px;
+	text-decoration:none;
+	height:20px;
+	font-size:10px;
+	font-family:verdana;
+	padding-top:4px;
+	margin-bottom:14px;
+	background-color:#646464;
+	text-align:center;
+}
+
+a.button:active:not(.inactive) {
+	background-image:url("../assets/images/button2.png");
+	padding-top:4px;
+	height:20px;
+}
+
+a.inactive {
+	cursor:pointer;
+	color:#646464;
 }

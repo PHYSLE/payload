@@ -4,12 +4,14 @@ import defineAll from './definitions.js'
 
 const cookieName = '_phy_pl';
 const sim = new Sim('canvas')
+const $menu = document.getElementById('menu');
 
 defineAll(sim);
 
+
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
-let level = 9;
+let level = 1;
 let cookie = Cookie.getCookie(cookieName);
 
 if (cookie) {
@@ -17,7 +19,7 @@ if (cookie) {
         let state = JSON.parse(cookie);
         //console.log('state', state)
 
-        //level = state.level;
+        level = state.level;
     }
     catch(e) {
         console.error(e)
@@ -26,42 +28,69 @@ if (cookie) {
 
 await sim.load(level);
 
+
+
+
+
+
 document.addEventListener('keydown', (event) => {
-  switch(event.code) {
-    case "ArrowLeft":	
-        MOVING_LEFT = true;
-        break;
-    case "ArrowRight": 
-        MOVING_RIGHT = true;
-        break;
-    case "Escape": 
-        sim.paused = !sim.paused;				
-        break;
-    case "Backquote":
-        if (sim.map) {
-            sim.debug = false;
-            sim.map = false;
-        }
-        else if (sim.debug) {
-            sim.map = true;
-        }
-        else {
-            sim.debug = true;
-            sim.map = false;
-        }
-  }
+    switch(event.code) {
+        case "ArrowLeft":	
+            MOVING_LEFT = true;
+            break;
+        case "ArrowRight": 
+            MOVING_RIGHT = true;
+            break;
+        case "Escape": 
+            sim.paused = !sim.paused;
+            if (sim.paused) {
+                $menu.classList.remove('hidden')
+            }
+            else {
+                $menu.classList.add('hidden')
+            }
+
+            break;
+        case "Backquote":
+            if (sim.map) {
+                sim.debug = false;
+                sim.map = false;
+            }
+            else if (sim.debug) {
+                sim.map = true;
+            }
+            else {
+                sim.debug = true;
+                sim.map = false;
+            }
+    }
 })
 
 document.addEventListener('keyup', (event) => {
-  switch(event.code) {
+switch(event.code) {
     case "ArrowLeft":	
-      MOVING_LEFT = false;
-      break;
+        MOVING_LEFT = false;
+        break;
     case "ArrowRight": 
-      MOVING_RIGHT = false;
-      break;
-  }
+        MOVING_RIGHT = false;
+        break;
+}
 })
+
+
+
+document.getElementById('menu-new').addEventListener('click', (e) => {
+    sim.clear();
+    sim.load(1);
+    sim.paused = false;
+    $menu.classList.add('hidden')
+    document.getElementById('menu-continue').classList.remove('inactive')
+});
+
+document.getElementById('menu-continue').addEventListener('click', (e) => {
+    sim.paused = false;
+    $menu.classList.add('hidden')
+});
 
 
 sim.player.exploded.addEventListener('change', () => {
@@ -123,4 +152,7 @@ let time = 0;
         sim.player.update()
     } 
     sim.render();
+
 }(window.performance.now()));
+
+

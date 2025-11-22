@@ -25,7 +25,7 @@ function Sim(canvasId) {
      const sim = {
         level: 1,
         offset: {x:500, y:250},
-        paused: false,
+        paused: true,
         debug: false,
         map: false,
         engine: Box2D,
