@@ -13,7 +13,7 @@ function Player(Box2D) {
         diedHere: null, // exploded position 
         maxY: Infinity, //set by level
         force: 400,//260,
-        explodeForce: 400,
+        explodeForce: 20,
         maxContacts: 12,
         applyForce(body, forceVec) {
             let iterator = body.GetContactList();
@@ -83,13 +83,19 @@ function Player(Box2D) {
             
         },
         randForce:function() {
-            // maybe use random angle so it always hits hard!
-            let f = this.explodeForce;
+
+            let a = Math.random() * Math.PI * 2 - Math.PI;
+
+            let x = this.explodeForce * Math.cos(a);
+            let y = this.explodeForce * Math.sin(a);
+            /*
             let x = Math.random()*f-f/2;
             let y = Math.random()*f-f/2;
+            */
             return new Box2D.b2Vec2(x,y)
         },
         explode:function() {
+            let pos = this.chasis.GetPosition()
             let world = this.chasis.GetWorld();
             
             if (this.exploded.value) {
@@ -99,13 +105,14 @@ function Player(Box2D) {
                 world.DestroyJoint(this.joints[i]);
             }
 
-            for(const body of [this.tire1, this.tire2, this.nuke, this.chasis]) {
+            //world.DestroyBody(this.chasis)
+            for(const body of [this.tire1, this.tire2, this.nuke]) {
                 body.ApplyLinearImpulse(this.randForce(), body.GetPosition(), true);
             }
 
-            let pos = this.chasis.GetPosition()
             this.diedHere = new Box2D.b2Vec2(pos.x, pos.y)
             this.exploded.value = true;      
+
 
         }
     }

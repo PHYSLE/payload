@@ -19,7 +19,10 @@ if (cookie) {
         let state = JSON.parse(cookie);
         //console.log('state', state)
 
-        level = state.level;
+        level = 9;// state.level;
+        if (level > 1) {
+            document.getElementById('menu-continue').classList.remove('inactive')
+        }
     }
     catch(e) {
         console.error(e)
@@ -27,10 +30,6 @@ if (cookie) {
 }
 
 await sim.load(level);
-
-
-
-
 
 
 document.addEventListener('keydown', (event) => {
@@ -88,8 +87,10 @@ document.getElementById('menu-new').addEventListener('click', (e) => {
 });
 
 document.getElementById('menu-continue').addEventListener('click', (e) => {
-    sim.paused = false;
-    $menu.classList.add('hidden')
+    if (!document.getElementById('menu-continue').classList.contains('inactive')) {
+        sim.paused = false;
+        $menu.classList.add('hidden')
+    }
 });
 
 
@@ -119,7 +120,6 @@ sim.player.finished.addEventListener('change', () => {
         }, 2000);
     }
 })
-
 
 
 // calculate no more than a 60th of a second during one world.Step() call 

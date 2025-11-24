@@ -29,6 +29,53 @@ sim.define({
 
 });
 
+
+sim.define({
+	name:"chasis1",
+	type:"active",
+	shape:"polygon",
+	mass:4,
+	friction:1,
+	elastic:0,
+	fixed:false,
+	width:85,
+	height:40,
+	verts:[27,-10, 43, 1, 38,  7, -42, 7, -42, 2,-33, -10],
+    layer:2
+
+});
+
+
+sim.define({
+	name:"chasis2",
+	type:"active",
+	shape:"polygon",
+	mass:4,
+	friction:1,
+	elastic:0,
+	fixed:false,
+	width:85,
+	height:40,
+	verts:[27,-10, 43, 1, 38,  7, -42, 7, -42, 2,-33, -10],
+    layer:2
+
+});
+
+sim.define({
+	name:"chasis3",
+	type:"active",
+	shape:"polygon",
+	mass:4,
+	friction:1,
+	elastic:0,
+	fixed:false,
+	width:85,
+	height:40,
+	verts:[27,-10, 43, 1, 38,  7, -42, 7, -42, 2,-33, -10],
+    layer:2
+
+});
+
 sim.define({
 	name:"nuke",
 	type:"active",

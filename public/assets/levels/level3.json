@@ -1,6 +1,7 @@
 {"background":"bg-sunrise1",
 "objects":
-[{"name":"block4b","x":-99,"y":300},
+[{"name":"floor2","x":-200,"y":500},
+{"name":"block4b","x":-99,"y":300},
 {"name":"blocksa","x":-25,"y":225},
 {"name":"floor2","x":0,"y":500},
 {"name":"block4b","x":0,"y":300},

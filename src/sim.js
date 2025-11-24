@@ -24,7 +24,7 @@ function Sim(canvasId) {
      }
      const sim = {
         level: 1,
-        offset: {x:500, y:250},
+        offset: {x:500, y:220},
         paused: true,
         debug: false,
         map: false,
@@ -137,7 +137,7 @@ function Sim(canvasId) {
                     this.join(body, model.properties.joint[0], model.properties.joint[1], anchor, 0,0, false);
                 }
         
-                let my = (y/this.scale)-(200/this.scale);
+                let my = (y/this.scale)-(250/this.scale);
                 if (this.player.maxY == Infinity || this.player.maxY < my) {
                     this.player.maxY = my;
                 }

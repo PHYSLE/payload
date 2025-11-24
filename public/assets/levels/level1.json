@@ -1,6 +1,7 @@
 {"background":"bg-night1",
 "objects":
-[{"name":"floor2","x":0,"y":500},
+[{"name":"floor2","x":-200,"y":500},
+{"name":"floor2","x":0,"y":500},
 {"name":"blocksb","x":25,"y":225},
 {"name":"blocksb","x":25,"y":175},
 {"name":"blocksb","x":25,"y":125},
@@ -28,6 +29,7 @@
 
 
 {"name":"player","x":400,"y":300},
+
 
 {"name":"wall1","x":500,"y":-108},
 {"name":"wall1","x":500,"y":92},
@@ -347,14 +349,17 @@
 {"name":"block4b","x":14309,"y":815},
 {"name":"block4b","x":14309,"y":915},
 {"name":"floor1","x":14608,"y":801},
-{"name":"block5b","x":14908,"y":717},
-{"name":"block4b","x":14908,"y":817},
-{"name":"block4b","x":14908,"y":917},
+{"name":"block5b","x":14708,"y":717},
+{"name":"block4b","x":14708,"y":817},
+{"name":"block4b","x":14708,"y":917},
+{"name":"floor2","x":14908,"y":817},
 {"name":"floor2","x":15108,"y":817},
+
 {"name":"depot","x":15109,"y":592},
 {"name":"floor2","x":15408,"y":817},
 {"name":"block4a","x":15284,"y":617},
 {"name":"block5a","x":15284,"y":517},
+
 {"name":"block4a","x":15384,"y":617},
 {"name":"block1a","x":15384,"y":517},
 {"name":"block4a","x":15484,"y":617},
