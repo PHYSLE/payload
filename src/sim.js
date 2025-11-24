@@ -173,15 +173,15 @@ function Sim(canvasId) {
                 this.player.joints = [];
                 this.player.nuke = this.put("nuke",x-20,y-32);
                 this.player.chasis = this.put("chasis",x,y);
-                this.player.tire1 = this.put("tire",x-28,y+15);
-                this.player.tire2 = this.put("tire",x+28,y+15);
-                //this.player.tire1 = this.put("tire",x-26,y+15);
-                //this.player.tire2 = this.put("tire",x+24,y+15);
+                this.player.tire1 = this.put("tire",x-26,y+26);
+                this.player.tire2 = this.put("tire",x+26,y+26);
+
+
 
                 //console.log(this.player.tire1)
 
                 this.player.joints.push(this.join(this.player.chasis,-26,26, this.player.tire1, 0, 0, false));
-                this.player.joints.push(this.join(this.player.chasis,24,26, this.player.tire2, 0, 0, false));
+                this.player.joints.push(this.join(this.player.chasis,26,26, this.player.tire2, 0, 0, false));
                 this.player.joints.push(this.join(this.player.chasis,-6,-20, this.player.nuke,12, 5, true));	
             }
             catch(error) {
@@ -271,6 +271,7 @@ function Sim(canvasId) {
             }
             else {
                 this.renderLayers(player);
+
             }    
             this.context.restore();
         },
@@ -338,6 +339,8 @@ function Sim(canvasId) {
 
     const debugDraw = makeDebugDraw(sim.context,sim.scale, Box2D);
     sim.world.SetDebugDraw(debugDraw);
+
+    sim.player.sim = sim; // weird
 
     return sim;
 }

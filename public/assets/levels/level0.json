@@ -1,0 +1,14 @@
+{"background":"bg-night1",
+"objects":
+[{"name":"block1a","x":-200,"y":700},
+{"name":"floor2","x":-200,"y":500},
+{"name":"floor2","x":0,"y":500},
+{"name":"player","x":0,"y":200},
+{"name":"blockxsa","x":0,"y":100},
+{"name":"floor2","x":200,"y":500},
+
+{"name":"chasis-3","x":270,"y":300},
+{"name":"chasis-2","x":300,"y":300},
+{"name":"chasis-1","x":330,"y":300},
+
+{"name":"floor2","x":400,"y":500}]}

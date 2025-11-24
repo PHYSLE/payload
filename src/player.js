@@ -2,18 +2,20 @@ import Bindable from './bindable.js'
 
 function Player(Box2D) {
     const player =  {
+        sim:null,
         chasis:null,
         nuke:null,
         tire1:null,
         tire2:null,
         joints:[],
+
         exploded: new Bindable(false),
         finished: new Bindable(false),
         timer: new Bindable(0),
         diedHere: null, // exploded position 
         maxY: Infinity, //set by level
         force: 400,//260,
-        explodeForce: 20,
+        explodeForce: 10,
         maxContacts: 12,
         applyForce(body, forceVec) {
             let iterator = body.GetContactList();
@@ -82,12 +84,12 @@ function Player(Box2D) {
             }
             
         },
-        randForce:function() {
+        randForce:function(f) {
 
             let a = Math.random() * Math.PI * 2 - Math.PI;
 
-            let x = this.explodeForce * Math.cos(a);
-            let y = this.explodeForce * Math.sin(a);
+            let x = f * Math.cos(a);
+            let y = f * Math.sin(a);
             /*
             let x = Math.random()*f-f/2;
             let y = Math.random()*f-f/2;
@@ -96,7 +98,8 @@ function Player(Box2D) {
         },
         explode:function() {
             let pos = this.chasis.GetPosition()
-            let world = this.chasis.GetWorld();
+            let world = this.sim.world;
+            this.diedHere = new Box2D.b2Vec2(pos.x, pos.y)
             
             if (this.exploded.value) {
                 return;
@@ -105,14 +108,26 @@ function Player(Box2D) {
                 world.DestroyJoint(this.joints[i]);
             }
 
-            //world.DestroyBody(this.chasis)
-            for(const body of [this.tire1, this.tire2, this.nuke]) {
-                body.ApplyLinearImpulse(this.randForce(), body.GetPosition(), true);
+            
+            const p1 = this.sim.put('chasis-3', this.sim.scale * pos.x-30, this.sim.scale * pos.y)
+            const p2 = this.sim.put('chasis-2', this.sim.scale * pos.x, this.sim.scale * pos.y)
+            const p3 = this.sim.put('chasis-1', this.sim.scale * pos.x+30, this.sim.scale * pos.y)
+            const index = this.sim.layers[2].indexOf(this.chasis);
+            
+            if (index > -1) { 
+                this.sim.layers[2].splice(index, 1); 
+            }
+            world.DestroyBody(this.chasis)
+
+
+            for(const body of [this.nuke, p1, p2, p3]) {
+                body.ApplyLinearImpulse(this.randForce(this.explodeForce), body.GetPosition(), true);
+            }
+            for(const body of [this.tire1, this.tire2]) {
+                body.ApplyLinearImpulse(this.randForce(this.explodeForce * 20), body.GetPosition(), true);
             }
 
-            this.diedHere = new Box2D.b2Vec2(pos.x, pos.y)
             this.exploded.value = true;      
-
 
         }
     }
