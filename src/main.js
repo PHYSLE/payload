@@ -2,6 +2,7 @@ import Sim from './sim.js'
 import Cookie from './cookie.js'
 import defineAll from './definitions.js'
 
+
 const cookieName = '_phy_pl';
 const sim = new Sim('canvas')
 const $menu = document.getElementById('menu');
@@ -152,6 +153,7 @@ let time = 0;
         sim.player.update()
     } 
     sim.render();
+
 
 }(window.performance.now()));
 

@@ -3,6 +3,7 @@ import Box2DFactory from 'box2d-wasm';
 import Model from './model.js';
 import Player from './player.js';
 import { makeDebugDraw } from './debugDraw.js';
+import Particle from './particle.js'
 
 const Box2D = await Box2DFactory({
    locateFile: (path, prefix) => {
@@ -43,6 +44,7 @@ function Sim(canvasId) {
             [], // foreground
         ],
         kinematics:[],
+        particles:[],
         player: new Player(Box2D),
         load:async function(level) {
             await fetch(`../assets/levels/level${level}.json`)
@@ -57,6 +59,10 @@ function Sim(canvasId) {
                     })
                 })
                 .catch(error => console.error('Error loading level ' + level, error))
+
+            
+            
+                this.particles.push(new Particle(800,200,255,100,0)) ////////////////////////// TEST TEST)
         },
         define : function(properties) {
             try {
@@ -253,6 +259,14 @@ function Sim(canvasId) {
 
                 }
             }
+
+        },
+        renderParticles: function(player) {
+            for (let p = 0; p < this.particles.length; p++) {
+                this.particles[p].update();
+                this.particles[p].render(this.context, {x: player.x * this.scale -this.offset.x , y: player.y * this.scale - this.offset.y})
+            }
+            this.particles = this.particles.filter(p => !p.remove)
         },
         render: function() {
             let player = null;
@@ -271,7 +285,7 @@ function Sim(canvasId) {
             }
             else {
                 this.renderLayers(player);
-
+                this.renderParticles(player);
             }    
             this.context.restore();
         },
