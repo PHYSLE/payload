@@ -23,11 +23,23 @@
 {"name":"blocksb","x":175,"y":225},
 {"name":"block2b","x":200,"y":300},
 {"name":"block6b","x":200,"y":150},
+{"name":"wall1","x":200,"y":80},
+{"name":"wall1","x":200,"y":280},
 {"name":"blocksb","x":225,"y":225},
 {"name":"floor2","x":300,"y":500},
 
-{"name":"player","x":400,"y":200},
 
+
+
+{"name":"player_","x":400,"y":200},
+{"name":"player","x":6560,"y":1150},
+
+{"name":"wall1","x":400,"y":80},
+{"name":"wall1","x":400,"y":280},
+
+
+{"name":"wall1","x":600,"y":80},
+{"name":"wall1","x":600,"y":280},
 {"name":"floor2","x":600,"y":500},
 {"name":"block5b","x":601,"y":149},
 {"name":"blocksb","x":626,"y":74},
@@ -42,12 +54,21 @@
 {"name":"block4b","x":701,"y":149},
 {"name":"block2b","x":701,"y":-101},
 
+{"name":"wall1","x":800,"y":280},
+{"name":"wall1","x":800,"y":480},
+{"name":"wall1","x":800,"y":680},
 {"name":"floor2","x":801,"y":44},
 {"name":"block4b","x":801,"y":149},
 {"name":"block4b","x":801,"y":-101},
 {"name":"floor5","x":900,"y":385},
 {"name":"block2b","x":901,"y":149},
 {"name":"block2b","x":901,"y":-101},
+
+
+{"name":"wall1","x":1000,"y":280},
+{"name":"wall1","x":1000,"y":480},
+{"name":"wall1","x":1000,"y":680},
+
 {"name":"block2b","x":1001,"y":149},
 {"name":"block4b","x":1001,"y":-101},
 
@@ -60,6 +81,8 @@
 {"name":"block3b","x":1101,"y":149},
 {"name":"block2b","x":1101,"y":-101},
 {"name":"blockxsb","x":1103,"y":290},
+
+{"name":"wall1","x":1200,"y":280},
 {"name":"block3b","x":1200,"y":633},
 {"name":"block2b","x":1200,"y":996},
 {"name":"block3b","x":1201,"y":149},
@@ -82,7 +105,7 @@
 {"name":"block4b","x":1500,"y":696},
 {"name":"block3b","x":1501,"y":793},
 {"name":"block3b","x":1501,"y":893},
-{"name":"blockxsb","x":1503,"y":333000},
+
 
 {"name":"block3b","x":1600,"y":696},
 {"name":"block2b","x":1600,"y":596},
@@ -116,20 +139,32 @@
 {"name":"block2b","x":2100,"y":896},
 {"name":"block2b","x":2100,"y":996},
 {"name":"block2b","x":2100,"y":1096},
-{"name":"blockxsb","x":2100,"y":732000},
+
 {"name":"block4b","x":2200,"y":249},
+{"name":"wall1","x":2100,"y":670},
+{"name":"wall1","x":2100,"y":870},
 
 
 {"name":"floor3","x":2225,"y":944},
 {"name":"block4b","x":2300,"y":249},
+{"name":"wall1","x":2300,"y":670},
+{"name":"wall1","x":2300,"y":870},
 
 {"name":"floor3","x":2375,"y":971},
 {"name":"blocksb","x":2375,"y":576},
+
+
+
+
 {"name":"floor2","x":2400,"y":430},
 
 {"name":"block1b","x":2400,"y":651},
 {"name":"blocksb","x":2425,"y":576},
 {"name":"blocksb","x":2475,"y":576},
+
+
+{"name":"wall1","x":2500,"y":670},
+{"name":"wall1","x":2500,"y":870},
 {"name":"block1b","x":2500,"y":651},
 {"name":"floor3","x":2525,"y":998},
 {"name":"blocksb","x":2525,"y":576},
@@ -149,6 +184,11 @@
 {"name":"block2b","x":2700,"y":701},
 
 
+{"name":"wall1","x":2700,"y":670},
+{"name":"wall1","x":2700,"y":870},
+{"name":"wall1","x":2700,"y":1070},
+
+
 {"name":"floor2","x":2798,"y":357},
 {"name":"block4b","x":2798,"y":501},
 
@@ -157,19 +197,37 @@
 {"name":"floor2","x":2850,"y":601},
 {"name":"block4b","x":2897,"y":501},
 
+{"name":"wall1","x":2900,"y":670},
+{"name":"wall1","x":2900,"y":870},
+{"name":"wall1","x":2900,"y":1070},
+
 {"name":"block4b","x":2997,"y":501},
 {"name":"block4b","x":3097,"y":501},
 {"name":"floor2","x":3098,"y":357},
+
+{"name":"wall1","x":3100,"y":670},
+{"name":"wall1","x":3100,"y":870},
+{"name":"wall1","x":3100,"y":1070},
+
 {"name":"floor2","x":3150,"y":601},
 {"name":"block4b","x":3197,"y":501},
 
 {"name":"block4b","x":3297,"y":501},
+
+{"name":"wall1","x":3300,"y":670},
+{"name":"wall1","x":3300,"y":870},
+{"name":"wall1","x":3300,"y":1070},
 {"name":"block4b","x":3397,"y":501},
+
 {"name":"floor2","x":3398,"y":357},
 {"name":"floor2","x":3450,"y":601},
 {"name":"block4b","x":3497,"y":501},
 
 {"name":"floor1","x":3348,"y":999},
+
+{"name":"wall1","x":3500,"y":670},
+{"name":"wall1","x":3500,"y":870},
+{"name":"wall1","x":3500,"y":1070},
 
 {"name":"block5b","x":3555,"y":910},
 {"name":"block4b","x":3555,"y":1010},
@@ -244,6 +302,11 @@
 {"name":"block3b","x":5898,"y":615},
 
 {"name":"blockxwa","x":6135,"y":1220},
+
+
+{"name":"wall1","x":6450,"y":1160},
+{"name":"wall1","x":6650,"y":1160},
+
 
 {"name":"block1b","x":6351,"y":1056},
 {"name":"block3b","x":6351,"y":956},

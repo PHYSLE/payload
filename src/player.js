@@ -87,7 +87,8 @@ function Player(Box2D) {
         },
         randForce:function(f) {
 
-            let a = Math.random() * Math.PI * 2 - Math.PI;
+            //let a = Math.random() * Math.PI * 2 - Math.PI;
+            let a = Math.random() * Math.PI - Math.PI;
 
             let x = f * Math.cos(a);
             let y = f * Math.sin(a);
@@ -114,7 +115,7 @@ function Player(Box2D) {
             const p2 = this.sim.put('chasis-2', this.sim.scale * pos.x, this.sim.scale * pos.y)
             const p3 = this.sim.put('chasis-1', this.sim.scale * pos.x+30, this.sim.scale * pos.y)
             for(let d = 0; d<8; d++) {
-                let debris = this.sim.put('debris', this.sim.scale * pos.x, this.sim.scale * pos.y)
+                let debris = this.sim.put('debris', this.sim.scale * pos.x, this.sim.scale * pos.y-20)
                 let g = Math.random() * 50 + 150
                 debris.UserData.color = `RGB(255,${g},20)`
                 debris.UserData.alpha = 1; 
@@ -127,9 +128,6 @@ function Player(Box2D) {
                 let s = Math.random() * 4/2
                 this.sim.particles.push(new Particle(this.sim.scale * pos.x-x, this.sim.scale * pos.y+20, .5, s))
             }
-
-            
-
 
             const index = this.sim.layers[2].indexOf(this.chasis);
             

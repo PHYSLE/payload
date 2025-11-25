@@ -20,7 +20,7 @@ if (cookie) {
         let state = JSON.parse(cookie);
         //console.log('state', state)
 
-        level = state.level;
+        //level = state.level;
         if (level > 1) {
             document.getElementById('menu-continue').classList.remove('inactive')
         }

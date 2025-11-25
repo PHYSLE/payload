@@ -34,17 +34,17 @@ sim.define({
 	name:"chasis-1",
 	type:"active",
 	shape:"polygon",
-	mass:1,
+	mass:2,
 	friction:1,
 	elastic:0,
 	fixed:false,
 	width:85,
 	height:40,
-	verts:[-3,-9, 
+	verts:[-3,-8, 
 		13, 3, 
-		8,  9, 
-		-13, -9, 
-		-13, 9],
+		8,  8, 
+		-13, -8, 
+		-13, 8],
     layer:2
 
 });
@@ -54,12 +54,12 @@ sim.define({
 	name:"chasis-2",
 	type:"active",
 	shape:"rectangle",
-	mass:1,
+	mass:2,
 	friction:1,
 	elastic:0,
 	fixed:false,
 	width:34,
-	height:18,
+	height:16,
 
     layer:2
 
@@ -69,16 +69,17 @@ sim.define({
 	name:"chasis-3",
 	type:"active",
 	shape:"polygon",
-	mass:1,
+	mass:2,
 	friction:1,
 	elastic:0,
 	fixed:false,
 	width:85,
 	height:40,
-	verts:[13,-9, 
-		12,  9, -13, 9, 
+	verts:[13,-8, 
+		12,  8, 
+		-13, 8, 
 		-13, 4,
-		-3, -9],
+		-3, -8],
     layer:2
 
 });
