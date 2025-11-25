@@ -20,7 +20,7 @@ if (cookie) {
         let state = JSON.parse(cookie);
         //console.log('state', state)
 
-        level = 9;// state.level;
+        level = state.level;
         if (level > 1) {
             document.getElementById('menu-continue').classList.remove('inactive')
         }
@@ -101,7 +101,7 @@ sim.player.exploded.addEventListener('change', () => {
             sim.clear();
             sim.load(sim.level);
 
-        }, 2000);
+        }, 3000);
     }
 })
 
@@ -118,7 +118,7 @@ sim.player.finished.addEventListener('change', () => {
             Cookie.setCookie(cookieName, JSON.stringify({level:  sim.level}))
             sim.load(sim.level);
 
-        }, 2000);
+        }, 1000);
     }
 })
 

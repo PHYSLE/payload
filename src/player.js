@@ -1,4 +1,5 @@
 import Bindable from './bindable.js'
+import Particle from './particle.js'
 
 function Player(Box2D) {
     const player =  {
@@ -15,7 +16,7 @@ function Player(Box2D) {
         diedHere: null, // exploded position 
         maxY: Infinity, //set by level
         force: 400,//260,
-        explodeForce: 10,
+        explodeForce: 8,
         maxContacts: 12,
         applyForce(body, forceVec) {
             let iterator = body.GetContactList();
@@ -112,6 +113,24 @@ function Player(Box2D) {
             const p1 = this.sim.put('chasis-3', this.sim.scale * pos.x-30, this.sim.scale * pos.y)
             const p2 = this.sim.put('chasis-2', this.sim.scale * pos.x, this.sim.scale * pos.y)
             const p3 = this.sim.put('chasis-1', this.sim.scale * pos.x+30, this.sim.scale * pos.y)
+            for(let d = 0; d<8; d++) {
+                let debris = this.sim.put('debris', this.sim.scale * pos.x, this.sim.scale * pos.y)
+                let g = Math.random() * 50 + 150
+                debris.UserData.color = `RGB(255,${g},20)`
+                debris.UserData.alpha = 1; 
+                debris.ApplyLinearImpulse(this.randForce(this.explodeForce/20), debris.GetPosition(), true);
+            }
+
+
+            for(let p = 0; p<8; p++) {
+                let x = Math.random() * 100 - 50;
+                let s = Math.random() * 4/2
+                this.sim.particles.push(new Particle(this.sim.scale * pos.x-x, this.sim.scale * pos.y+20, .5, s))
+            }
+
+            
+
+
             const index = this.sim.layers[2].indexOf(this.chasis);
             
             if (index > -1) { 

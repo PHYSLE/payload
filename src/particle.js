@@ -1,22 +1,24 @@
 const img = new Image()
 img.src = '../assets/images/particle.png'
 
-function Particle(x,y,r,g,b,alpha=1, scale=1) {
+function Particle(x,y,alpha=1, scale=1) {
     const p = {
         x:x,
         y:y,
-        r:r,
-        g:g,
-        b:b,
+        color:'white',
+  
         alpha:alpha,
         scale:scale,
         remove:false,
 
         update: function() {
-            this.alpha -= .005
-            this.scale += .02
-            this.y -= .5
-            if (alpha <= 0) {
+            if (this.alpha >= .01) {
+                this.alpha -= .004
+                this.scale += .02
+
+                this.y -= Math.random() * 2
+            }
+            else{
                 this.remove = true;
             }
         },

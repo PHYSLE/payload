@@ -60,9 +60,6 @@ function Sim(canvasId) {
                 })
                 .catch(error => console.error('Error loading level ' + level, error))
 
-            
-            
-                this.particles.push(new Particle(800,200,255,100,0)) ////////////////////////// TEST TEST)
         },
         define : function(properties) {
             try {
@@ -238,6 +235,10 @@ function Sim(canvasId) {
             this.context.drawImage(this.background, 0-player.x,0 )
             for(let z = 0, b = 0; z < 3; z++) {
                 for(b = 0; b < this.layers[z].length; b++) {
+                    if (this.layers[z][b].UserData.name == "debris") {
+                        this.renderDebris(this.layers[z][b], player)
+                        continue;
+                    }
                     const img = this.models[this.layers[z][b].UserData.name].image;
                     if (img.width) {
                         let p = this.layers[z][b].GetPosition();  
@@ -260,6 +261,23 @@ function Sim(canvasId) {
                 }
             }
 
+        },
+        renderDebris: function(body, player) {
+            let p = body.GetPosition();  
+            if (body.UserData.alpha > .1) {
+                body.UserData.alpha-=.0066
+                
+
+                this.context.setTransform(1, 0, 0, 1, p.x * this.scale - 5, p.y * this.scale - 5); 
+                this.context.translate(-(player.x * this.scale  -this.offset.x), -(player.y * this.scale - this.offset.y));
+                this.context.globalAlpha = body.UserData.alpha;
+                this.context.beginPath();
+                this.context.arc(p.x, p.y, 2, 0, 2 * Math.PI, false);
+                this.context.fillStyle = body.UserData.color;
+                this.context.fill();
+
+                this.context.setTransform(1,0,0,1,0,0); 
+            }
         },
         renderParticles: function(player) {
             for (let p = 0; p < this.particles.length; p++) {
@@ -339,6 +357,7 @@ function Sim(canvasId) {
                 // clear tracked kinematics and player references
                 this.kinematics = [];
                 this.layers=[[],[],[]];
+                this.particles=[];
                 this.player.chasis = null;
                 this.player.tire1 = null;
                 this.player.tire2 = null;

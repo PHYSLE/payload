@@ -83,6 +83,19 @@ sim.define({
 
 });
 
+
+sim.define({
+	name:"debris",
+	type:"active",
+	shape:"circle",
+	mass:.5, //4,
+	friction:.8,
+	elastic:0,
+	fixed:false,
+	radius:4,
+    layer:2
+});
+
 sim.define({
 	name:"nuke",
 	type:"active",
