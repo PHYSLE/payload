@@ -12,16 +12,20 @@ defineAll(sim);
 
 let MOVING_LEFT = false;
 let MOVING_RIGHT = false;
-let level = 1;
+
 let cookie = Cookie.getCookie(cookieName);
+let state = {
+    level: 1,
+    scores: {},
+}
+
 
 if (cookie) {
     try {
-        let state = JSON.parse(cookie);
-        //console.log('state', state)
+        state = JSON.parse(cookie);
+        console.log('state', state)
 
-        //level = state.level;
-        if (level > 1) {
+        if (state.level > 1) {
             document.getElementById('menu-continue').classList.remove('inactive')
         }
     }
@@ -30,7 +34,56 @@ if (cookie) {
     }
 }
 
-await sim.load(level);
+function renderScores() {
+    const $scores = document.getElementById('scores');
+    $scores.innerText = ''
+    for (let level=1; level<11; level++) {
+        const $tr = document.createElement('tr');
+        const $level = document.createElement('td');
+        $level.innerText = level;
+
+        const $time = document.createElement('td');
+        const $best = document.createElement('td');
+        if (state.scores['level' + level]) {
+            let t = state.scores['level' + level].time/1000;
+            let b = state.scores['level' + level].best/1000;
+            $time.innerText = (t <= 60 && t > 0) ? t.toFixed(3) : '-'
+            $best.innerText = (b <= 60 && b > 0) ? b.toFixed(3) : '-';
+        }
+        else {
+            $time.innerText = '-';
+            $best.innerText = '-';
+        }
+        $tr.append($level)
+        $tr.append($time)
+        $tr.append($best)
+
+        $scores.append($tr);
+    }
+}
+
+
+
+function setScore(level, time) {
+    if (!state.scores['level' + level]) {
+        state.scores['level' + level] = {time: time, best:time};
+    }
+    else {
+        state.scores['level' + level].time = time;
+        if (time < state.scores['level' + level].best) {
+            state.scores['level' + level].best = time
+        }
+    }
+}
+
+
+function resetScores() {
+    for (let level=1; level<11; level++) {
+        setScore(level, Infinity);
+    }
+}
+
+await sim.load(state.level);
 
 
 document.addEventListener('keydown', (event) => {
@@ -45,6 +98,8 @@ document.addEventListener('keydown', (event) => {
             sim.paused = !sim.paused;
             if (sim.paused) {
                 $menu.classList.remove('hidden')
+                document.getElementById('menu-scores').classList.add('hidden');
+                document.getElementById('menu-main').classList.remove('hidden');
             }
             else {
                 $menu.classList.add('hidden')
@@ -84,6 +139,7 @@ document.getElementById('menu-new').addEventListener('click', (e) => {
     sim.load(1);
     sim.paused = false;
     $menu.classList.add('hidden')
+    resetScores();
     document.getElementById('menu-continue').classList.remove('inactive')
 });
 
@@ -94,6 +150,13 @@ document.getElementById('menu-continue').addEventListener('click', (e) => {
     }
 });
 
+
+document.getElementById('menu-score').addEventListener('click', (e) => {
+    renderScores() 
+    document.getElementById('menu-scores').classList.remove('hidden');
+    document.getElementById('menu-main').classList.add('hidden');
+   
+});
 
 sim.player.exploded.addEventListener('change', () => {
     if (sim.player.exploded.value) {
@@ -107,17 +170,19 @@ sim.player.exploded.addEventListener('change', () => {
 
 sim.player.finished.addEventListener('change', () => {
     if (sim.player.finished.value) {
+        setScore(sim.level, sim.player.timer.value)
+        if (sim.level == 10) {
+            sim.level = 1
+        }
+        else {
+            sim.level++;
+        }
+        state.level = sim.level;
+        Cookie.setCookie(cookieName, JSON.stringify(state))
+
         setTimeout(() => {
             sim.clear();
-            if (sim.level == 10) {
-                sim.level = 1
-            }
-            else {
-                sim.level++;
-            }
-            Cookie.setCookie(cookieName, JSON.stringify({level:  sim.level}))
             sim.load(sim.level);
-
         }, 1000);
     }
 })
