@@ -1,6 +1,7 @@
 import Sim from './sim.js'
 import Cookie from './cookie.js'
 import defineAll from './definitions.js'
+import scoreboard from './scoreboard.js'
 
 
 const cookieName = '_phy_pl';
@@ -34,56 +35,24 @@ if (cookie) {
     }
 }
 
-function renderScores() {
-    const $scores = document.getElementById('scores');
-    $scores.innerText = ''
-    for (let level=1; level<11; level++) {
-        const $tr = document.createElement('tr');
-        const $level = document.createElement('td');
-        $level.innerText = level;
 
-        const $time = document.createElement('td');
-        const $best = document.createElement('td');
-        if (state.scores['level' + level]) {
-            let t = state.scores['level' + level].time/1000;
-            let b = state.scores['level' + level].best/1000;
-            $time.innerText = (t <= 60 && t > 0) ? t.toFixed(3) : '-'
-            $best.innerText = (b <= 60 && b > 0) ? b.toFixed(3) : '-';
-        }
-        else {
-            $time.innerText = '-';
-            $best.innerText = '-';
-        }
-        $tr.append($level)
-        $tr.append($time)
-        $tr.append($best)
-
-        $scores.append($tr);
-    }
-}
+await sim.load(10)//state.level);
 
 
 
-function setScore(level, time) {
-    if (!state.scores['level' + level]) {
-        state.scores['level' + level] = {time: time, best:time};
+function showMessage(on, text) {
+    const $message = document.getElementById('message');
+    if (on) {
+        $message.innerText = text ? text : 'PAYLOAD SECURED'
+        $message.classList.remove('hidden')
+        $message.classList.add('typewriter')
     }
     else {
-        state.scores['level' + level].time = time;
-        if (time < state.scores['level' + level].best) {
-            state.scores['level' + level].best = time
-        }
+        $message.classList.add('hidden')
+        $message.classList.remove('typewriter')
     }
 }
 
-
-function resetScores() {
-    for (let level=1; level<11; level++) {
-        setScore(level, Infinity);
-    }
-}
-
-await sim.load(state.level);
 
 
 document.addEventListener('keydown', (event) => {
@@ -139,7 +108,7 @@ document.getElementById('menu-new').addEventListener('click', (e) => {
     sim.load(1);
     sim.paused = false;
     $menu.classList.add('hidden')
-    resetScores();
+    scoreboard.resetScores(state);
     document.getElementById('menu-continue').classList.remove('inactive')
 });
 
@@ -152,7 +121,7 @@ document.getElementById('menu-continue').addEventListener('click', (e) => {
 
 
 document.getElementById('menu-score').addEventListener('click', (e) => {
-    renderScores() 
+    scoreboard.renderScores(state) 
     document.getElementById('menu-scores').classList.remove('hidden');
     document.getElementById('menu-main').classList.add('hidden');
    
@@ -170,20 +139,34 @@ sim.player.exploded.addEventListener('change', () => {
 
 sim.player.finished.addEventListener('change', () => {
     if (sim.player.finished.value) {
-        setScore(sim.level, sim.player.timer.value)
-        if (sim.level == 10) {
-            sim.level = 1
-        }
-        else {
-            sim.level++;
-        }
+        showMessage(true);
+
+        scoreboard.setScore(state, sim.level, sim.player.timer.value);
+        sim.level++;
         state.level = sim.level;
-        Cookie.setCookie(cookieName, JSON.stringify(state))
+        Cookie.setCookie(cookieName, JSON.stringify(state));
+        sim.player.stop();
+
 
         setTimeout(() => {
-            sim.clear();
-            sim.load(sim.level);
-        }, 1000);
+            // game over
+            if (sim.level > 10) {
+                showMessage(false);
+                scoreboard.renderScores(state) 
+                $menu.classList.remove('hidden')
+                document.getElementById('menu-scores').classList.remove('hidden');
+                document.getElementById('menu-main').classList.add('hidden');
+                setTimeout(() => {
+                    showMessage(true, 'GAME COMPLETE')
+                }, 2000)
+
+            }
+            else {
+                sim.clear();
+                sim.load(sim.level);
+                showMessage(false);
+            }
+        }, 2000);
     }
 })
 

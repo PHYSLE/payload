@@ -50,6 +50,11 @@ function Player(Box2D) {
             this.applyForce(this.tire1, forceVec)
             this.applyForce(this.tire2, forceVec)
         },
+        stop:function() {
+            this.tire1.SetLinearVelocity(new Box2D.b2Vec2(0, 0));
+            this.tire2.SetLinearVelocity(new Box2D.b2Vec2(0, 0));
+
+        },
         update:function() {
             if (this.exploded.value || this.finished.value) {
                 return;
