@@ -36,7 +36,7 @@ if (cookie) {
 }
 
 
-await sim.load(10)//state.level);
+await sim.load(state.level);
 
 
 
@@ -151,11 +151,13 @@ sim.player.finished.addEventListener('change', () => {
         setTimeout(() => {
             // game over
             if (sim.level > 10) {
+                sim.level = 1;
                 showMessage(false);
                 scoreboard.renderScores(state) 
                 $menu.classList.remove('hidden')
                 document.getElementById('menu-scores').classList.remove('hidden');
                 document.getElementById('menu-main').classList.add('hidden');
+                document.getElementById('menu-continue').classList.contains('inactive')
                 setTimeout(() => {
                     showMessage(true, 'GAME COMPLETE')
                 }, 2000)
