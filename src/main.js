@@ -43,7 +43,7 @@ await sim.load(10)//state.level);
 function showMessage(on, text) {
     const $message = document.getElementById('message');
     if (on) {
-        $message.innerText = text ? text : 'PAYLOAD SECURED'
+        $message.innerText = text ? text : 'PAYLOAD SECURE'
         $message.classList.remove('hidden')
         $message.classList.add('typewriter')
     }
