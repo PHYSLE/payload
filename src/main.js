@@ -5,9 +5,10 @@ import scoreboard from './scoreboard.js'
 
 
 const cookieName = '_phy_pl';
-const sim = new Sim('canvas')
 const $menu = document.getElementById('menu');
-const $timer = document.getElementById('timer')
+const $timer = document.getElementById('timer');
+const $canvas = document.getElementById('canvas');
+const sim = new Sim($canvas)
 
 defineAll(sim);
 
@@ -143,7 +144,31 @@ document.getElementById('menu-score').addEventListener('click', (e) => {
     scoreboard.renderScores(state) 
     document.getElementById('menu-scores').classList.remove('hidden');
     document.getElementById('menu-main').classList.add('hidden');
-   
+});
+
+$canvas.addEventListener('touchstart', function(e) {
+    console.log(e.touches, window.innerWidth);
+    if (e.touches.length > 0) {
+        if (e.touches[0].clientX < window.innerWidth/2) {
+            MOVING_LEFT = true;		
+        }
+        else {
+            MOVING_RIGHT = true;		
+        }
+    }
+});
+
+$canvas.addEventListener('touchend', function(e) {
+    MOVING_LEFT = false;		
+    MOVING_RIGHT = false;	
+    if (e.touches.length > 0) {
+        if (e.touches[0].clientX < window.innerWidth/2) {
+            MOVING_LEFT = true;		
+        }
+        else {
+            MOVING_RIGHT = true;		
+        }
+    }
 });
 
 sim.player.exploded.addEventListener('change', () => {

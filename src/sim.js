@@ -14,7 +14,7 @@ const Box2D = await Box2DFactory({
 })
 
 
-function Sim(canvasId) {
+function Sim(canvas) {
     if (import.meta.env.DEV) {
         console.log(Box2D)
     }
@@ -25,11 +25,6 @@ function Sim(canvasId) {
 
     const ZERO = new Box2D.b2Vec2(0, 0);
 
-    const $canvas = document.getElementById(canvasId)
-    if (!$canvas) {
-        console.error('canvasId ' + canvasId + ' did not return a canvas element')
-        return null;
-    }
     const sim = {
         level: 1,
         offset: {x:500, y:220},
@@ -38,8 +33,8 @@ function Sim(canvasId) {
         map: false,
         engine: Box2D,
         scale: 40,// pixelsPerMeter = 32?;
-        $canvas: $canvas,
-        context: $canvas.getContext("2d"),
+        $canvas: canvas,
+        context: canvas.getContext("2d"),
         background: new Image(),
         world: new Box2D.b2World(
            new Box2D.b2Vec2(0, 10) //12? // gravity
