@@ -3,27 +3,34 @@ import Box2DFactory from 'box2d-wasm';
 import Model from './model.js';
 import Player from './player.js';
 import { makeDebugDraw } from './debugDraw.js';
-import Particle from './particle.js'
 
+// need to allow top level await in vite for this
 const Box2D = await Box2DFactory({
-   locateFile: (path, prefix) => {
-     //console.log(prefix, path)
-     //for vite just use public/assets
-     return "assets/" + path;
-   }
+    locateFile: (path, prefix) => {
+        //console.log(prefix, path)
+        //for vite just use public/assets
+        return "assets/" + path;
+    }
 })
-
-console.log(Box2D)
-const ZERO = new Box2D.b2Vec2(0, 0);
 
 
 function Sim(canvasId) {
-     const $canvas = document.getElementById(canvasId)
-     if (!$canvas) {
+    if (import.meta.env.DEV) {
+        console.log(Box2D)
+    }
+    if (Box2D == null) {
+        console.error('Box2D is null in Sim')
+        return null;
+    }
+
+    const ZERO = new Box2D.b2Vec2(0, 0);
+
+    const $canvas = document.getElementById(canvasId)
+    if (!$canvas) {
         console.error('canvasId ' + canvasId + ' did not return a canvas element')
         return null;
-     }
-     const sim = {
+    }
+    const sim = {
         level: 1,
         offset: {x:500, y:220},
         paused: true,

@@ -25,8 +25,10 @@ let state = {
 if (cookie) {
     try {
         state = JSON.parse(cookie);
-        console.log('state', state)
 
+        if (import.meta.env.DEV) {
+            console.log('state', state)
+        }
         if (state.level > 1) {
             document.getElementById('menu-continue').classList.remove('inactive')
         }
