@@ -287,11 +287,11 @@ function Sim(canvasId) {
             this.particles = this.particles.filter(p => !p.remove)
         },
         render: function() {
-            let player = null;
+            let player = ZERO;
             if (this.player.exploded.value) {
                 player = this.player.diedHere;
             }
-            else {
+            else if (this.player.chasis) {
                 player = this.player.chasis.GetPosition()
             }
 

@@ -7,6 +7,7 @@ import scoreboard from './scoreboard.js'
 const cookieName = '_phy_pl';
 const sim = new Sim('canvas')
 const $menu = document.getElementById('menu');
+const $timer = document.getElementById('timer')
 
 defineAll(sim);
 
@@ -29,12 +30,14 @@ if (cookie) {
         if (state.level > 1) {
             document.getElementById('menu-continue').classList.remove('inactive')
         }
+        else {
+            scoreboard.resetScores(state);
+        }
     }
     catch(e) {
         console.error(e)
     }
 }
-
 
 await sim.load(state.level);
 
@@ -101,7 +104,21 @@ switch(event.code) {
 }
 })
 
+// click does not respond to clicks while being updated so use timer-overlay
+document.getElementById('timer-overlay').addEventListener('click', (e) => {
+    sim.paused = !sim.paused;
 
+    console.log(sim.paused)
+
+    if (sim.paused) {
+        $menu.classList.remove('hidden')
+        document.getElementById('menu-scores').classList.add('hidden');
+        document.getElementById('menu-main').classList.remove('hidden');
+    }
+    else {
+        $menu.classList.add('hidden')
+    }
+})
 
 document.getElementById('menu-new').addEventListener('click', (e) => {
     sim.clear();
@@ -152,9 +169,12 @@ sim.player.finished.addEventListener('change', () => {
             // game over
             if (sim.level > 10) {
                 sim.level = 1;
+                state.level = 1;
                 showMessage(false);
                 scoreboard.renderScores(state) 
                 $menu.classList.remove('hidden')
+
+                Cookie.setCookie(cookieName, JSON.stringify(state));
                 document.getElementById('menu-scores').classList.remove('hidden');
                 document.getElementById('menu-main').classList.add('hidden');
                 document.getElementById('menu-continue').classList.contains('inactive')
@@ -179,7 +199,6 @@ const step = (deltaMs) => {
      const clampedDeltaMs = Math.min(deltaMs, maxTimeStepMs);
      sim.world.Step(clampedDeltaMs/1000, 3, 2); };
 
-const $timer = document.getElementById('timer')
 
 let handle;
 let time = 0;
