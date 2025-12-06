@@ -49,12 +49,12 @@ function Sim(canvas) {
         particles:[],
         player: new Player(Box2D),
         load:async function(level) {
-            await fetch(`../assets/levels/level${level}.json`)
+            await fetch(`assets/levels/level${level}.json`)
                 .then((response) => response.json())
                 .then((json) => {
                     this.level = level;
                     if (json.background) {
-                        this.background.src = `../assets/images/${json.background}.jpg`;
+                        this.background.src = `assets/images/${json.background}.jpg`;
                     }
                     json.objects.map((obj) => {
                         this.put(obj.name, obj.x, obj.y);

@@ -1,5 +1,5 @@
 const img = new Image()
-img.src = '../assets/images/particle.png'
+img.src = 'assets/images/particle.png'
 
 function Particle(x,y,alpha=1, scale=1) {
     const p = {
